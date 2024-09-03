@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.healthplan.work.dao.NewsMapper">
+
+	<!-- 뉴스 조회 -->
+	<select id="listNews" resultType="com.healthplan.work.vo.NewsEntity">
+		select * from point
+	</select>
+
+</mapper>
