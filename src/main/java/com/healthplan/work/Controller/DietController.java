@@ -2,26 +2,24 @@ package com.healthplan.work.Controller;
 
 
 import com.healthplan.work.dao.DietMapper;
+import com.healthplan.work.vo.DietEntity;
 import com.healthplan.work.vo.NewsEntity;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/community")
+@RequestMapping("/diet")
 public class DietController {
 
     // 로거 삽입
-    private static final Logger logger = LoggerFactory.getLogger(DietController.class);
+    private final Logger logger = LoggerFactory.getLogger(DietController.class);
 
     @Autowired
     DietMapper diet;
@@ -29,9 +27,10 @@ public class DietController {
 
     // test
   //  @RequestMapping(value = "/get", method = RequestMethod.GET)
-    @GetMapping
+    @GetMapping(value ="/test")
     @ResponseBody
     public String getReminder(){
+        logger.info("/***************************************8 왜 안도니 ㅠㅠ");
         return "my reminder";
     }
 
@@ -41,7 +40,7 @@ public class DietController {
 
         Map<String, Object> rtnObj = new HashMap<>();
 
-        List<NewsEntity> newsList = diet.list();
+        List<DietEntity> newsList = diet.list();
         logger.info("news->" + newsList.toString());
 
         rtnObj.put("news_list", newsList);
