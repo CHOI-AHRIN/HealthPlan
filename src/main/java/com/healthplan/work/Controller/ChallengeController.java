@@ -22,16 +22,16 @@ public class ChallengeController {
 	@Autowired
 	private NewsMapper newsMapper;
 	
-	@RequestMapping("/api/news")
-	@ResponseBody
-	public Map<String, Object> news() throws Exception {
-		Map<String, Object> rtnObj = new HashMap<>();
-
-		List<NewsEntity> newsList = newsMapper.listNews();
-		logger.info("news-> " + newsList.toString());
-
-		rtnObj.put("news_list", newsList);
-		return rtnObj;
-	}
+//	@RequestMapping("/api/news")
+//	@ResponseBody
+//	public Map<String, Object> news() throws Exception {
+//		Map<String, Object> rtnObj = new HashMap<>();
+//
+//		List<NewsEntity> newsList = newsMapper.listNews();
+//		logger.info("news-> " + newsList.toString());
+//
+//		rtnObj.put("news_list", newsList);
+//		return rtnObj;
+//	}
 
 }
