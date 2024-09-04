@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.healthplan.mapper.DietMapper">
+<mapper namespace="com.healthplan.work.dao.DietMapper">
 
-    <select id="list" resultMap="list">
-        select * from community order by cno desc;
+    <select id="list" resultType="com.healthplan.work.vo.DietEntity">
+        select * from community order by cno desc
     </select>
 
 </mapper>
