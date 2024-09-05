@@ -65,16 +65,16 @@ public class DietController {
          return new HashMap<>(readObj);
     }
 
-    @GetMapping({"/read", "/modify"})
-    public void read(long cno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model ){
-        // requestDTO에 담아서 페이지를 돌아갈때 값들을 들고 이동함!!
-
-        logger.info("cno: " + cno);
-
-        DietDTO dto = diet.readPage(cno);
-
-        model.addAttribute("dto", dto);
-
-    }
+//    @GetMapping({"/read", "/modify"})
+//    public void read(long cno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model ){
+//        // requestDTO에 담아서 페이지를 돌아갈때 값들을 들고 이동함!!
+//
+//        logger.info("cno: " + cno);
+//
+//        DietDTO dto = diet.readPage(cno);
+//
+//        model.addAttribute("dto", dto);
+//
+//    }
 
 }
