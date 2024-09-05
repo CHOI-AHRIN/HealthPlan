@@ -9,6 +9,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @Builder
 @Data
+
 public class PageMaker {
     private int totalCount;
     private int startPage;
