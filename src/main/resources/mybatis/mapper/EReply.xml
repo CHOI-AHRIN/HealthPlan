@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--어라...-->
+<mapper namespace="com.healthplan.work.mapper.EReply">
+
+   <select id="list" resultType="com.healthplan.work.vo.EReplyEntity">
+      select
+      *
+      from
+      creply
+      where cno =
+      #{cno}
+      order by rregdate desc
+   </select>
+
+  <insert id="create" parameterType="map" >
+    <selectKey keyProperty="rno" resultType="int" order="AFTER">
+            SELECT crno_seq.CURRVAL FROM dual
+        </selectKey>
+        insert into creply (rno, cno,  mno, uuid, rcomment, rregdate)
+        values (crno_seq.NEXTVAL, #{cno}, #{mno}, #{uuid}, #{rcomment}, SYSDATE)
+    </insert>
+
+   <update id="update">
+      update creply set rcomment = #{rcomment},
+      rregdate = SYSDATE
+      where rno = #{rno}
+   </update>
+
+   <delete id="delete">
+      delete from creply where rno =#{rno}
+   </delete>
+
+      
+    <select id="listPage" parameterType="map" resultType="com.healthplan.work.vo.EReplyEntity">
+select * from
+(
+select rno, mno, rcomment, rregdate, uuid,
+row_number() over(order by rno) as rnum
+from creply
+where cno = #{cno}
+)
+where rnum between #{cri.pageStart}  and #{cri.pageEnd}
+
+    </select>
+
+
+      <select id="getCno" resultType="int">
+      select cno from creply where cno = #{cno}
+   </select>
+   
+<!-- 탈퇴한 자의 댓글 삭제 -->
+<delete id="ndelete">
+  DELETE FROM creply
+  WHERE mno IN (
+    SELECT mno FROM member WHERE uuid = #{uuid}
+  )
+</delete>
+
+</mapper>
+
