@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.healthplan.work.dao.ExerciseMapper">
+<mapper namespace="com.healthplan.work.mapper.Exercise">
 
-    <select id="listExercise" resultType="com.healthplan.work.vo.ExerciseEntity">
-        select * from community where ctype='d' order by cno desc
-    </select>
-
-
-    <!--T_T
+    <!--T_T-->
    <select id="listAll"
       resultType="com.healthplan.work.vo.ExerciseEntity">
       SELECT
@@ -26,7 +21,7 @@
    </select>
 
    <insert id="create" parameterType="com.healthplan.work.vo.ExerciseEntity">
-   &lt;!&ndash; (아린)coutns, replycnt 수정 &ndash;&gt;
+   <!-- (아린)coutns, replycnt 수정 -->
       insert into COMMUNITY(
       CNO
       , MNO
@@ -64,7 +59,7 @@
    </select>
    
    
-  &lt;!&ndash;     수정
+  <!--     수정
    <select id="listCriteria"
       resultType="com.healthplan.domain.CommunityVO"> 
  <![CDATA[ 
@@ -76,7 +71,7 @@
  ORDER BY CNO DESC, BDATE DESC 
   
  ]]>
-   </select>   &ndash;&gt;
+   </select>   -->
     
 
     <select id="listSearchCount" parameterType="com.healthplan.work.vo.SearchCriteria"  resultType="int">
@@ -201,14 +196,14 @@ JOIN
 
    
    
-   &lt;!&ndash; 수정 &ndash;&gt;
+   <!-- 수정 -->
     
-    &lt;!&ndash; 댓글 수 + &ndash;&gt;
+    <!-- 댓글 수 + -->
    <update id="updateReplyCnt">
    UPDATE COMMUNITY SET REPLYCNT = REPLYCNT + 1 WHERE CNO = #{cno}
    </update>
    
-     &lt;!&ndash; 댓글 수 - &ndash;&gt;
+     <!-- 댓글 수 - -->
    <update id="updateReplyCntm">
    UPDATE COMMUNITY SET REPLYCNT = REPLYCNT - 1 WHERE CNO = #{cno}
    </update>
@@ -243,7 +238,7 @@ select filename from cattached where cno = #{cno} order by ano
 
    <insert id="replaceAttach">
       insert into cattached(ano, filename, cno) values (ano_seq.NEXTVAL, #{fileName}, #{cno})
-   </insert>-->
+   </insert>
    
 
 </mapper>
