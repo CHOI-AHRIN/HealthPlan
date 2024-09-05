@@ -1,18 +1,21 @@
 package com.healthplan.work.Controller;
 
 
-import com.healthplan.work.dao.DietMapper;
-import com.healthplan.work.dto.DietDTO;
-import com.healthplan.work.service.DietSerive;
+
+import com.healthplan.work.service.DietService;
 import com.healthplan.work.vo.DietEntity;
 import com.healthplan.work.vo.NewsEntity;
+import com.healthplan.work.vo.PageMaker;
+import com.healthplan.work.vo.SearchCriteria;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.stereotype.Controller;
+
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.function.ServerRequest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,11 +31,11 @@ public class DietController {
     private final Logger logger = LoggerFactory.getLogger(DietController.class);
 
     @Autowired
-    DietSerive diet;
+    DietService diet;
 
     // 리스트 페이지
     @RequestMapping (value="/list", method = RequestMethod.GET)
-    public @ResponseBody Map<String, Object> news() {
+    public @ResponseBody Map<String, Object> news(@ModelAttribute("cri")SearchCriteria cri, Model model) {
 
         Map<String, Object> rtnObj = new HashMap<>();
 
@@ -41,40 +44,35 @@ public class DietController {
         logger.info("dietList->" + dietList.toString());
 
         rtnObj.put("dietList", dietList);
+
+
+/*
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCri(cri);
+        logger.info("/*******************페이지 메이커에 셋크리~" + cri.toString());
+
+        pageMaker.setTotalCount(diet.listSearchCount(cri));
+        logger.info("/*******************페이지 메이커에 셋토탈카운트~" + cri.toString());
+        model.addAttribute("pageMaker", pageMaker);
+*/
+
+
         return rtnObj;
     }
 
-//
-//    // 페이지 읽기 - get
-//    @RequestMapping(value = "/readPage", method = RequestMethod.GET)
-//    public void read(@RequestParam("cno") int cno) throws Exception {
-//
-//        diet.readList(cno);
-//    }
 
-    // 페이지 읽기 - get
-    @GetMapping (value = "/readPage/{cno}")
-    public @ResponseBody HashMap<String, Object> read(@RequestParam("cno") int cno) throws Exception {
+    // 게시글 읽기 - get, JSON 형식으로 반환
+    @GetMapping("read/{cno}")
+    public @ResponseBody Map<String, Object> getDietRead(@PathVariable Integer cno) {
 
-         Map<String, Object> readObj = new HashMap<>();
+        Map<String, Object> dietRead = new HashMap<>();
+        logger.info("/****************** 게시글 보여줘"+dietRead);
 
-         List<DietEntity> read = diet.readPage(cno);
-         logger.info("/******************* 게시글 읽기 가보자고!->" + readObj.toString());
+        List<DietEntity> dietList = diet.readPage(cno);
+        dietRead.put("dietList", dietList);
 
-         readObj.put("read", read);
-         return new HashMap<>(readObj);
+        return dietRead;
     }
 
-//    @GetMapping({"/read", "/modify"})
-//    public void read(long cno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model ){
-//        // requestDTO에 담아서 페이지를 돌아갈때 값들을 들고 이동함!!
-//
-//        logger.info("cno: " + cno);
-//
-//        DietDTO dto = diet.readPage(cno);
-//
-//        model.addAttribute("dto", dto);
-//
-//    }
 
 }
