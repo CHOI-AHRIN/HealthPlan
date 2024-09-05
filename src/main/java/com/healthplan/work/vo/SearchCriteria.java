@@ -9,7 +9,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @Data
 @Builder
-@Component
 public class SearchCriteria extends Criteria{
     private String searchType=null;
     private String keyword=null;
