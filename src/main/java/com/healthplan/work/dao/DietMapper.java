@@ -9,6 +9,8 @@ import java.util.List;
 @Mapper
 public interface DietMapper {
 
-        public List<DietEntity> list();
+        public List<DietEntity> listDiet();
+
+        public List<DietEntity> readPage(int cno);
 
 }

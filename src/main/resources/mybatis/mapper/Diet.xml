@@ -3,8 +3,12 @@
 
 <mapper namespace="com.healthplan.work.dao.DietMapper">
 
-    <select id="list" resultType="com.healthplan.work.vo.DietEntity">
+    <select id="listDiet" resultType="com.healthplan.work.vo.DietEntity">
         select * from community order by cno desc
+    </select>
+
+    <select id="readPage" resultType="com.healthplan.work.vo.DietEntity">
+        select * from community where cno = {cno}
     </select>
 
 </mapper>
