@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.healthplan.work.mapper.Exercise">
+
+    <!--T_T-->
+   <select id="listAll"
+      resultType="com.healthplan.work.vo.ExerciseEntity">
+      SELECT
+      CNO
+      , MNO
+      , CTYPE
+      , TITLE
+      , CONTENTS
+      , BDATE
+      , COUNTS
+      FROM
+      COMMUNITY  
+      where ctype='E'
+      ORDER BY BDATE DESC
+   </select>
+
+   <insert id="create" parameterType="com.healthplan.work.vo.ExerciseEntity">
+   <!-- (아린)coutns, replycnt 수정 -->
+      insert into COMMUNITY(
+      CNO
+      , MNO
+      , CTYPE
+      , TITLE
+      , CONTENTS
+      , BDATE
+      , COUNTS
+      , REPLYCNT
+      ) values (
+       cno_seq.NEXTVAL
+      ,#{mno}
+      , 'E'
+      , #{title}
+      , #{contents}
+      , SYSDATE
+      ,'0'
+      , '0'
+      )
+   </insert>
+
+   <select id="read" resultType="com.healthplan.work.vo.ExerciseEntity">
+      SELECT
+      c.CNO
+      , m.uuid
+      , c.TITLE
+      , c.CONTENTS
+      , c.BDATE
+      , c.COUNTS
+      , c.REPLYCNT
+      FROM COMMUNITY c
+      JOIN MEMBER m
+      ON c.mno = m.mno      
+      WHERE c.CNO = #{cno}
+   </select>
+   
+   
+  <!--     수정
+   <select id="listCriteria"
+      resultType="com.healthplan.domain.CommunityVO"> 
+ <![CDATA[ 
+ SELECT  
+   CNO, MNO, TITLE, CONTENTS, BDATE,COUNTS, REPLYCNT 
+ FROM  
+   COMMUNITY  
+ WHERE CNO > 0  
+ ORDER BY CNO DESC, BDATE DESC 
+  
+ ]]>
+   </select>   -->
+    
+
+    <select id="listSearchCount" parameterType="com.healthplan.work.vo.SearchCriteria"  resultType="int">
+<![CDATA[
+    select count(c.cno)
+    from community c
+    join member m on c.mno = m.mno
+    where c.ctype = 'E'
+]]>
+    <if test="searchType != null and searchType != ''">
+        <if test="searchType != 'total'">
+            AND ${searchType} LIKE '%' || #{keyword} || '%'
+        </if>
+        <if test="searchType == 'total'">
+            AND (
+                c.title LIKE '%' || #{keyword} || '%' 
+                OR m.uuid LIKE '%' || #{keyword} || '%' 
+                OR c.contents LIKE '%' || #{keyword} || '%'
+            )
+        </if>
+    </if>
+<![CDATA[
+    order by c.cno desc
+]]>
+   </select>
+
+
+   <update id="update">
+      UPDATE COMMUNITY 
+      SET 
+           TITLE = #{title}
+         , CONTENTS = #{contents}
+      WHERE CNO = #{cno}
+   </update>
+   
+   <delete id="delete" >
+      DELETE FROM COMMUNITY WHERE CNO = #{cno}
+   </delete>
+
+   <select id="listPage"
+      resultType="com.healthplan.work.vo.ExerciseEntity">
+    <![CDATA[ 
+       SELECT  
+         CNO
+         , TITLE
+         , CONTENTS
+        , MNO
+         , BDATE
+         , COUNTS  
+         , row_number() over(order by cno) as rnum
+       FROM  
+          COMMUNITY  
+       where cno  = #{cno} and ctype='E'
+ )
+ where rnum between #{cri.pageStart} and #{cri.PageEnd}
+    ]]>
+   </select>
+
+
+
+   <select id="countPaging" resultType="Integer"> 
+ <![CDATA[ 
+ SELECT  
+   COUNT(CNO)  
+ FROM  
+   COMMUNITY  
+ WHERE  
+   CNO > 0  
+ ]]>
+   </select>
+
+
+   <sql id="search">
+      <if test="searchType != null and searchType != ''">
+         <if test="searchType == 'total'">
+            AND (
+               TITLE LIKE '%'||#{keyword}||'%'
+             OR CONTENTS LIKE '%'||#{keyword}||'%'
+             OR MNO LIKE '%'||#{keyword}||'%'
+            )
+         </if>
+         <if test="searchType != 'total'">
+            AND ${searchType} LIKE '%'||#{keyword}||'%'
+         </if>
+      </if>
+   </sql>
+   
+
+
+   <select id="listSearch" parameterType="com.healthplan.work.vo.SearchCriteria"
+      resultType="com.healthplan.work.vo.ExerciseEntity">
+           select * from
+ (       SELECT 
+    c.cno, 
+    m.uuid, 
+    c.title, 
+    c.contents, 
+    c.bdate, 
+    c.counts, 
+    c.replycnt,
+ row_number() over(order by c.cno desc) as rnum
+FROM 
+    community c
+JOIN 
+    member m 
+    ON c.mno = m.mno
+      where ctype='E'
+<if test="searchType != null and searchType != ''">
+            <if test="searchType != 'total'">
+                AND ${searchType} LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="searchType == 'total'">
+                AND (c.title LIKE '%' || #{keyword} || '%' 
+                or m.mno LIKE '%' || #{keyword} || '%' 
+                or c.contents LIKE '%' || #{keyword} || '%')
+            </if>
+        </if>
+ )
+ where rnum between #{pageStart} and #{pageEnd}
+
+   </select>
+
+   
+   
+   <!-- 수정 -->
+    
+    <!-- 댓글 수 + -->
+   <update id="updateReplyCnt">
+   UPDATE COMMUNITY SET REPLYCNT = REPLYCNT + 1 WHERE CNO = #{cno}
+   </update>
+   
+     <!-- 댓글 수 - -->
+   <update id="updateReplyCntm">
+   UPDATE COMMUNITY SET REPLYCNT = REPLYCNT - 1 WHERE CNO = #{cno}
+   </update>
+
+
+
+   <update id="updateViewCnt"> 
+      UPDATE COMMUNITY SET COUNTS = COUNTS +1 WHERE CNO = #{CNO}
+   </update>  
+
+
+
+<insert id="addAttach" parameterType="map">
+      INSERT INTO cattached (ano, filename, cno)
+        VALUES (ano_seq.NEXTVAL, #{filename}, #{last_insert_id} )
+</insert> 
+
+   <select id="currval" resultType="int">
+      SELECT cno_seq.currval from dual
+   </select>
+
+
+
+<select id="getAttach" resultType="string">
+select filename from cattached where cno = #{cno} order by ano
+</select> 
+
+
+   <delete id="deleteAttach">
+      DELETE FROM UPLOAD WHERE CNO = #{CNO}
+   </delete>
+
+   <insert id="replaceAttach">
+      insert into cattached(ano, filename, cno) values (ano_seq.NEXTVAL, #{fileName}, #{cno})
+   </insert>
+   
+
+</mapper>
