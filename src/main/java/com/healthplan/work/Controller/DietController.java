@@ -2,6 +2,7 @@ package com.healthplan.work.Controller;
 
 
 
+import com.healthplan.work.dto.DietDTO;
 import com.healthplan.work.service.DietService;
 import com.healthplan.work.vo.DietEntity;
 import com.healthplan.work.vo.NewsEntity;
@@ -11,11 +12,13 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.function.ServerRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.List;
@@ -74,5 +77,31 @@ public class DietController {
         return dietRead;
     }
 
+    // 게시글 작성
+    @GetMapping("register")
+    public void registerGet() throws Exception {
+        logger.info ("/*************************************************** 작성 페이지 돈다잉");
+    }
 
+/*    @PostMapping("register")
+    public void registerPost(DietDTO dto, RedirectAttributes redirectAttributes) throws Exception {
+        logger.info("/********************* dto 좀 보자" + dto);
+        
+        // 새로 추가된 게시글 번호
+        diet.register(dto);
+
+
+    }*/
+
+    @PostMapping("/register")
+    public ResponseEntity<String> registerDiet(@RequestBody DietDTO dto) {
+
+        int result = diet.register(dto); // 쿼리 실행 결과가 반환됨
+
+        if (result > 0) {
+            return new ResponseEntity<>("Diet post registered successfully!", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Failed to register post.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

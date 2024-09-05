@@ -15,4 +15,27 @@
         SELECT * from community where cno = #{cno}
     </select>
 
+    <!--게시글 작성-->
+    <insert id="register" parameterType="com.healthplan.work.dto.DietDTO">
+        INSERT INTO COMMUNITY (
+        CNO,
+        mno,
+        CTYPE,
+        TITLE,
+        CONTENTS,
+        BDATE,
+        COUNTS,
+        replycnt
+        ) VALUES (
+        cno_seq.NEXTVAL,
+        '#{mno}',
+        'd',
+        '#{title}',
+        '#{contents}',
+        SYSDATE,
+        '0',
+        '0'
+        )
+    </insert>
+
 </mapper>

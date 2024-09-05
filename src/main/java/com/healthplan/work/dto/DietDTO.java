@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Builder
 @NoArgsConstructor
@@ -17,11 +18,17 @@ import java.time.LocalDateTime;
 
 public class DietDTO {
 
-    private Long cno;
+    private Integer cno;
+    private String mno;
+    private String ctype;
     private String title;
     private String contents;
+    private Date bdate;
+    private Integer counts;
+    private Integer replycnt;
+
     private String uuid;
-    private Long mno;
-    private LocalDateTime bdate;
+
+    private String[] files;
 
 }
