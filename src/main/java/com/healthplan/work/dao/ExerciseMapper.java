@@ -5,9 +5,13 @@ import java.util.List;
 import com.healthplan.work.vo.ExerciseEntity;
 import com.healthplan.work.vo.Criteria;
 import com.healthplan.work.vo.SearchCriteria;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface ExerciseMapper {
 
+  public List<ExerciseEntity> readPage(int cno);
+/*
   public void create(ExerciseEntity community) throws Exception;
 
   public ExerciseEntity read(Integer cno) throws Exception;
@@ -40,15 +44,15 @@ public interface ExerciseMapper {
   public void updateReplyCntm(Integer cno) throws Exception;
 
   public void updateViewCnt(Integer cno)throws Exception;
- /* // 첨부파일
+ *//* // 첨부파일
   public void addAttach(Map<String, String> map)throws Exception;
   
   public List<String> getAttach(Integer cno)throws Exception;  
    
   public void deleteAttach(Integer cno)throws Exception;
   
-  public void replaceAttach(@Param("fileName") String fileName, @Param("cno") Integer cno)throws Exception;*/
+  public void replaceAttach(@Param("fileName") String fileName, @Param("cno") Integer cno)throws Exception;*//*
   
-  public int currval() throws Exception;
+  public int currval() throws Exception;*/
   
 }

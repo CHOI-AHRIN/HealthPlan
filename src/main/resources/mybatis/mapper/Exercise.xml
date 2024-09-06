@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.healthplan.work.mapper.Exercise">
+<mapper namespace="com.healthplan.work.dao.ExerciseMapper">
 
     <!--T_T-->
    <select id="listAll"
       resultType="com.healthplan.work.vo.ExerciseEntity">
       SELECT
-      CNO
-      , MNO
-      , CTYPE
-      , TITLE
-      , CONTENTS
-      , BDATE
-      , COUNTS
+      *
       FROM
       COMMUNITY  
       where ctype='E'
-      ORDER BY BDATE DESC
+      ORDER BY cno DESC
    </select>
 
    <insert id="create" parameterType="com.healthplan.work.vo.ExerciseEntity">
@@ -45,17 +39,9 @@
 
    <select id="read" resultType="com.healthplan.work.vo.ExerciseEntity">
       SELECT
-      c.CNO
-      , m.uuid
-      , c.TITLE
-      , c.CONTENTS
-      , c.BDATE
-      , c.COUNTS
-      , c.REPLYCNT
-      FROM COMMUNITY c
-      JOIN MEMBER m
-      ON c.mno = m.mno      
-      WHERE c.CNO = #{cno}
+     *
+      FROM COMMUNITY
+      WHERE CNO = #{cno}
    </select>
    
    
@@ -74,7 +60,7 @@
    </select>   -->
     
 
-    <select id="listSearchCount" parameterType="com.healthplan.work.vo.SearchCriteria"  resultType="int">
+  <!--  <select id="listSearchCount" parameterType="com.healthplan.work.vo.SearchCriteria"  resultType="int">
 <![CDATA[
     select count(c.cno)
     from community c
@@ -196,14 +182,14 @@ JOIN
 
    
    
-   <!-- 수정 -->
+   &lt;!&ndash; 수정 &ndash;&gt;
     
-    <!-- 댓글 수 + -->
+    &lt;!&ndash; 댓글 수 + &ndash;&gt;
    <update id="updateReplyCnt">
    UPDATE COMMUNITY SET REPLYCNT = REPLYCNT + 1 WHERE CNO = #{cno}
    </update>
    
-     <!-- 댓글 수 - -->
+     &lt;!&ndash; 댓글 수 - &ndash;&gt;
    <update id="updateReplyCntm">
    UPDATE COMMUNITY SET REPLYCNT = REPLYCNT - 1 WHERE CNO = #{cno}
    </update>
@@ -238,7 +224,7 @@ select filename from cattached where cno = #{cno} order by ano
 
    <insert id="replaceAttach">
       insert into cattached(ano, filename, cno) values (ano_seq.NEXTVAL, #{fileName}, #{cno})
-   </insert>
+   </insert>-->
    
 
 </mapper>
