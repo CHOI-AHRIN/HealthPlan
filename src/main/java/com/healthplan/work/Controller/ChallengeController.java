@@ -1,6 +1,8 @@
 package com.healthplan.work.Controller;
 
+import com.healthplan.work.service.BReplyService;
 import com.healthplan.work.service.ChallengeService;
+import com.healthplan.work.vo.BReplyEntity;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -24,8 +27,8 @@ public class ChallengeController {
     @Autowired
     private ChallengeService challengeService;
 
-/*    @Autowired
-    private BReplyService replyService; */
+    @Autowired
+    private BReplyService replyService;
 
     @RequestMapping(value = "/challengelist1", method = RequestMethod.GET)
     public String challengeList(Model model) throws Exception {
@@ -37,7 +40,7 @@ public class ChallengeController {
         model.addAttribute("list", list);
 
         // 전체 댓글 목록 가져오기
-        List<BReplyEntity> comments = replyService.listReplies();  // 전체 댓글 가져오기
+        List<BReplyEntity> comments = replyService.listReplies();
         model.addAttribute("comment", comments);
         logger.info("// /comments"+comments);
         return "challenge1/challengelist1";
