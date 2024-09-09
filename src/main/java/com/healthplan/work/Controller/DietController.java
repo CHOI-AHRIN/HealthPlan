@@ -8,6 +8,7 @@ import com.healthplan.work.vo.DietEntity;
 import com.healthplan.work.vo.NewsEntity;
 import com.healthplan.work.vo.PageMaker;
 import com.healthplan.work.vo.SearchCriteria;
+import lombok.SneakyThrows;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -36,9 +37,16 @@ public class DietController {
     @Autowired
     DietService diet;
 
+    /* 무조건 데이터를 반환하고, JSON 형태로 맞춰준다
+     반환되는 json 형태를 리액트에 넣어서 사용해준다
+     
+     
+    */
+    
+    
     // 리스트 페이지
-    @RequestMapping (value="/list", method = RequestMethod.GET)
-    public @ResponseBody Map<String, Object> news(@ModelAttribute("cri")SearchCriteria cri, Model model) {
+    @RequestMapping (value="/list")
+    public @ResponseBody Map<String, Object> news(@ModelAttribute("cri")SearchCriteria cri, Model model) throws Exception {
 
         Map<String, Object> rtnObj = new HashMap<>();
 
@@ -49,7 +57,6 @@ public class DietController {
         rtnObj.put("dietList", dietList);
 
 
-/*
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCri(cri);
         logger.info("/*******************페이지 메이커에 셋크리~" + cri.toString());
@@ -57,7 +64,6 @@ public class DietController {
         pageMaker.setTotalCount(diet.listSearchCount(cri));
         logger.info("/*******************페이지 메이커에 셋토탈카운트~" + cri.toString());
         model.addAttribute("pageMaker", pageMaker);
-*/
 
 
         return rtnObj;
@@ -65,20 +71,21 @@ public class DietController {
 
 
     // 게시글 읽기 - get, JSON 형식으로 반환
+    @SneakyThrows // 명시적 예외처리
     @GetMapping("read/{cno}")
     public @ResponseBody Map<String, Object> getDietRead(@PathVariable Integer cno) {
 
         Map<String, Object> dietRead = new HashMap<>();
         logger.info("/****************** 게시글 보여줘"+dietRead);
 
-        List<DietEntity> dietList = diet.readPage(cno);
-        dietRead.put("dietList", dietList);
+        List<DietEntity> dietRead2 = diet.readPage(cno);
+        dietRead.put("dietRead", dietRead2);
 
         return dietRead;
     }
 
     // 게시글 작성
-    @GetMapping("register")
+    @GetMapping("/register")
     public void registerGet() throws Exception {
         logger.info ("/*************************************************** 작성 페이지 돈다잉");
     }
@@ -93,8 +100,9 @@ public class DietController {
 
     }*/
 
+    // 게시글 작성 POST
     @PostMapping("/register")
-    public ResponseEntity<String> registerDiet(@RequestBody DietDTO dto) {
+    public ResponseEntity<String> registerDiet(@RequestBody DietDTO dto) throws Exception {
 
         int result = diet.register(dto); // 쿼리 실행 결과가 반환됨
 
@@ -103,5 +111,51 @@ public class DietController {
         } else {
             return new ResponseEntity<>("Failed to register post.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+
+    // 게시글 수정
+    @RequestMapping(value = "/modifyPage", method = RequestMethod.GET)
+    public void modifyPagingGET(int cno, @ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
+
+        model.addAttribute("CommunityVO", diet.readPage(cno));
+    }
+
+    @RequestMapping(value = "/modifyPage", method = RequestMethod.POST)
+    public String modifyPagingPOST(DietEntity dietentity, SearchCriteria cri, RedirectAttributes rttr) throws Exception {
+
+        logger.info(cri.toString());
+        diet.modify(dietentity);
+
+        rttr.addAttribute("page", cri.getPage());
+        rttr.addAttribute("perPageNum", cri.getPerPageNum());
+        rttr.addAttribute("searchType", cri.getSearchType());
+        rttr.addAttribute("keyword", cri.getKeyword());
+
+        rttr.addFlashAttribute("msg", "SUCCESS");
+
+        logger.info(rttr.toString());
+
+        return "msg";
+
+        // return "redirect:/community/listAll2";
+    }
+
+
+    // 게시글 삭제
+    @RequestMapping(value = "/removePage", method = RequestMethod.POST)
+    public String remove(@RequestParam("cno") int cno, SearchCriteria cri, RedirectAttributes rttr) throws Exception {
+
+        diet.remove(cno);
+
+        rttr.addAttribute("page", cri.getPage());
+        rttr.addAttribute("perPageNum", cri.getPerPageNum());
+        rttr.addAttribute("searchType", cri.getSearchType());
+        rttr.addAttribute("keyword", cri.getKeyword());
+
+        rttr.addFlashAttribute("msg", "SUCCESS");
+
+        return "msg";
+
     }
 }

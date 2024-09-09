@@ -1,5 +1,6 @@
 package com.healthplan.work.vo;
 
+ import lombok.AccessLevel;
  import lombok.Builder;
  import lombok.Data;
  import lombok.Getter;
@@ -7,8 +8,9 @@ package com.healthplan.work.vo;
  import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-@Builder
+
 @Data
+
 
 public class PageMaker {
     private int totalCount;
