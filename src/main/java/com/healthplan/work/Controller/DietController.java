@@ -40,18 +40,18 @@ public class DietController {
     /* 무조건 데이터를 반환하고, JSON 형태로 맞춰준다
      반환되는 json 형태를 리액트에 넣어서 사용해준다
      
+     model은 생성된 데이터를 view로 전달할 때 사용하는 객체다
      
     */
     
     
     // 리스트 페이지
     @RequestMapping (value="/list")
-    public @ResponseBody Map<String, Object> news(@ModelAttribute("cri")SearchCriteria cri, Model model) throws Exception {
+    public @ResponseBody Map<String, Object> news(@ModelAttribute("cri")SearchCriteria cri) throws Exception {
 
         Map<String, Object> rtnObj = new HashMap<>();
 
-        // 메소드명 입력하기
-        List<DietEntity> dietList = diet.selectList();
+       List<DietEntity> dietList = diet.selectList();
         logger.info("dietList->" + dietList.toString());
 
         rtnObj.put("dietList", dietList);
@@ -63,8 +63,9 @@ public class DietController {
 
         pageMaker.setTotalCount(diet.listSearchCount(cri));
         logger.info("/*******************페이지 메이커에 셋토탈카운트~" + cri.toString());
-        model.addAttribute("pageMaker", pageMaker);
+       //  model.addAttribute("pageMaker", pageMaker);
 
+        rtnObj.put("pageMaker", pageMaker);
 
         return rtnObj;
     }
@@ -90,20 +91,12 @@ public class DietController {
         logger.info ("/*************************************************** 작성 페이지 돈다잉");
     }
 
-/*    @PostMapping("register")
-    public void registerPost(DietDTO dto, RedirectAttributes redirectAttributes) throws Exception {
-        logger.info("/********************* dto 좀 보자" + dto);
-        
-        // 새로 추가된 게시글 번호
-        diet.register(dto);
-
-
-    }*/
 
     // 게시글 작성 POST
     @PostMapping("/register")
     public ResponseEntity<String> registerDiet(@RequestBody DietDTO dto) throws Exception {
 
+        logger.info("/*********************************** 어쨌거나 저쨌거나 접근은 했습니다!");
         int result = diet.register(dto); // 쿼리 실행 결과가 반환됨
 
         if (result > 0) {
@@ -111,51 +104,67 @@ public class DietController {
         } else {
             return new ResponseEntity<>("Failed to register post.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
     }
 
 
     // 게시글 수정
-    @RequestMapping(value = "/modifyPage", method = RequestMethod.GET)
-    public void modifyPagingGET(int cno, @ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
+    @RequestMapping(value = "/modifyPage/{cno}", method = RequestMethod.GET)
+    public @ResponseBody Map<String, Object>  modifyPagingGET(int cno, @ModelAttribute("cri") SearchCriteria cri, Model model) throws Exception {
 
-        model.addAttribute("CommunityVO", diet.readPage(cno));
+        Map <String, Object> modifyObj = new HashMap<>();
+
+        modifyObj.put("modify", diet.readPage(cno));
+        // modifyObj.put("criteria", cri);
+
+       // model.addAttribute("modify", diet.readPage(cno));
+
+        return modifyObj;
+
     }
 
     @RequestMapping(value = "/modifyPage", method = RequestMethod.POST)
-    public String modifyPagingPOST(DietEntity dietentity, SearchCriteria cri, RedirectAttributes rttr) throws Exception {
+    public @ResponseBody Map<String, Object>  modifyPagingPOST(DietEntity dietentity, SearchCriteria cri, RedirectAttributes rttr) throws Exception {
+
+        Map<String, Object> modifyPost = new HashMap<>();
 
         logger.info(cri.toString());
+
         diet.modify(dietentity);
 
-        rttr.addAttribute("page", cri.getPage());
-        rttr.addAttribute("perPageNum", cri.getPerPageNum());
-        rttr.addAttribute("searchType", cri.getSearchType());
-        rttr.addAttribute("keyword", cri.getKeyword());
+        modifyPost.put("page", cri.getPage());
+        modifyPost.put("perPageNum", cri.getPerPageNum());
+        modifyPost.put("searchType", cri.getSearchType());
+        modifyPost.put("keyword", cri.getKeyword());
 
-        rttr.addFlashAttribute("msg", "SUCCESS");
+        //rttr.addFlashAttribute("msg", "SUCCESS");
+
+        // 수정 성공 메시지를 직접 응답 데이터에 포함
+        modifyPost.put("message", "SUCCESS");
 
         logger.info(rttr.toString());
 
-        return "msg";
-
-        // return "redirect:/community/listAll2";
+        return modifyPost;
     }
 
 
     // 게시글 삭제
     @RequestMapping(value = "/removePage", method = RequestMethod.POST)
-    public String remove(@RequestParam("cno") int cno, SearchCriteria cri, RedirectAttributes rttr) throws Exception {
+    public  @ResponseBody Map<String, Object>   remove(@RequestParam("cno") int cno, SearchCriteria cri, RedirectAttributes rttr) throws Exception {
+
+        Map<String, Object> removePost = new HashMap<>();
 
         diet.remove(cno);
 
-        rttr.addAttribute("page", cri.getPage());
-        rttr.addAttribute("perPageNum", cri.getPerPageNum());
-        rttr.addAttribute("searchType", cri.getSearchType());
-        rttr.addAttribute("keyword", cri.getKeyword());
 
-        rttr.addFlashAttribute("msg", "SUCCESS");
+        removePost.put("page", cri.getPage());
+        removePost.put("perPageNum", cri.getPerPageNum());
+        removePost.put("searchType", cri.getSearchType());
+        removePost.put("keyword", cri.getKeyword());
 
-        return "msg";
+        removePost.put("msg", "SUCCESS");
+
+        return removePost;
 
     }
 }

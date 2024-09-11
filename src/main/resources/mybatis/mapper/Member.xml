@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.healthplan.work.dao.MemberMapper">
+
+
+<select id="login" resultType="com.healthplan.work.vo.MemberEntity">
+
+    select * from member where uuid =
+    #{uuid} and upw = #{upw}
+
+</select>
+
+<update id="keepLogin">
+update member set sessionKey = #{sessionId},
+sessionLimit = #{next} where
+uuid = #{uuid}
+</update>
+
+
+<select id="checkUserWithSessionKey"
+        resultType="com.healthplan.work.vo.MemberEntity">
+select * from member where sessionKey = #{value} and
+sessionLimit > SYSDATE
+</select>
+
+        <!-- 회원가입 -->
+<insert id="create">
+insert into member(mno, uuid, upw, phone, name, mtype, email, regdate)
+values (mno_seq.NEXTVAL, #{uuid}, #{upw}, #{phone}, #{name}, #{mtype},
+#{email}, SYSDATE)
+</insert>
+
+        <!-- 아이디 중복 체크 -->
+<select id="uuidcheck" resultType="int">
+select count(*) from member
+where uuid = #{uuid}
+</select>
+
+        <!-- 회원 탈퇴 시 비밀번호 체크 -->
+        <!-- 조건으로 uuid랑 upw를 걸어서 조건에 맞는 결과가 몇개인지 카운트 하는 쿼리 -->
+<select id="upwcheck" resultType="int">
+select count(*) from member
+where uuid=#{uuid}
+and upw=#{upw}
+</select>
+
+        <!-- 현재 회원번호 조회  -->
+<select id="currval"  resultType="int">
+SELECT mno_seq.currval from dual
+</select>
+
+        <!-- 초기 포인트 입력  -->
+<insert id = "setpoint" >
+insert into point (pno, mno, pcount, psource, pdate)
+values (pno_seq.NEXTVAL, #{pmno}, '0', '회원가입', sysdate)
+</insert>
+
+        <!-- 회원정보 페이지 -->
+<select id="profile"  parameterType="String" resultType="com.healthplan.work.vo.MemberEntity">
+<!-- 	select * from member where uuid = #{uuid} -->
+SELECT
+m.mno,
+m.email,
+m.mtype,
+m.name,
+m.phone,
+m.regdate,
+m.upw,
+m.uuid,
+m.sstype,
+p.pcount
+FROM
+member m
+JOIN
+point p
+ON
+m.mno = p.mno
+WHERE
+m.uuid = #{uuid}
+
+</select>
+
+        <!-- 회원정보 수정 -->
+<update id="profileModify" parameterType="com.healthplan.work.vo.MemberEntity" >
+update member set upw=#{upw}, phone=#{phone}, email=#{email} where
+uuid=#{uuid}
+</update>
+
+        <!-- 	회원정보 삭제 -->
+<delete id = "delete">
+DELETE FROM MEMBER WHERE uuid = #{uuid}
+</delete>
+
+</mapper>
