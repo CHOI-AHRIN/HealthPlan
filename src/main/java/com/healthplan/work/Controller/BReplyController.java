@@ -1,15 +1,15 @@
 package com.healthplan.work.Controller;
 
-import com.healthplan.work.vo.BReplyEntity;
-/*import com.healthplan.domain.Criteria;*/
-/*import com.healthplan.domain.PageMaker;*/
 import com.healthplan.work.service.BReplyService;
+import com.healthplan.work.vo.BReplyEntity;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.util.List;
 import java.util.UUID;
@@ -21,8 +21,10 @@ public class BReplyController {
     @Autowired
     private BReplyService service;
     
-/*    @Resource(name = "uploadPath")
-    private String uploadPath;*/
+/*
+    @Resource(name = "uploadPath")
+    private String uploadPath;
+*/
 
     // 댓글 등록
     @RequestMapping(value = "/replyregister", method = RequestMethod.POST)

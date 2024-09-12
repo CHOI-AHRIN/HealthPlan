@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.healthplan.mapper.BReplyMapper">
+
+
+<!-- 댓글 추가 -->
+    <!-- 댓글 추가 -->
+    <insert id="addReply" parameterType="com.healthplan.domain.BReplyVO">
+        INSERT INTO BREPLY (bno, mno, rComment, rRegdate, status)
+        VALUES (#{bno}, #{mno}, #{rComment, jdbcType=VARCHAR}, SYSDATE, #{status, jdbcType=VARCHAR})
+    </insert>
+
+    <!-- 첨부 파일 삽입 -->
+    <insert id="insertAttachedFile" parameterType="map">
+        INSERT INTO BATTACHED (bno, fileName)
+        VALUES (#{bno}, #{fileName})
+    </insert>
+
+
+
+    <!-- 모든 댓글을 가져오는 쿼리 -->
+    <select id="listReplies" resultType="com.healthplan.domain.BReplyVO">
+        SELECT 
+            r.rno, 
+            r.mno, 
+            r.bno, 
+            r.rComment, 
+            <!-- r.rRegdate, --> 
+            TO_CHAR(r.rRegdate, 'YYYY-MM-DD') AS rRegdate,
+            r.status,
+            b.chno, 
+            a.aNo, 
+            a.fileName
+        FROM 
+            BREPLY r
+        LEFT JOIN 
+            BOARD b ON r.bno = b.bno
+        LEFT JOIN 
+            BATTACHED a ON r.bno = a.bno
+        ORDER BY 
+            r.rno
+    </select>
+
+    <!-- 댓글 수정 -->
+    <update id="updateReply" parameterType="com.healthplan.domain.BReplyVO">
+        UPDATE BREPLY 
+        SET rComment = #{rComment}, status = #{status}
+        WHERE rno = #{rno}
+    </update>
+
+   <!-- 댓글 삭제 -->
+    <delete id="deleteReply" parameterType="int">
+        DELETE FROM BREPLY WHERE rno = #{rno}
+    </delete>
+
+<!--      페이지네이션을 위한 댓글 목록 조회
+  <select id="listRepliesPage" parameterType="map" resultType="com.healthplan.domain.BReplyVO">
+    SELECT * FROM (
+        SELECT ROWNUM AS rnum, r.rno, r.mno, r.bno, r.rComment, r.rRegdate, r.status, 
+            b.chno, a.aNo, a.fileName 
+        FROM (
+            SELECT r.rno, r.mno, r.bno, r.rComment, r.rRegdate, r.status 
+            FROM BREPLY r
+            ORDER BY r.rno DESC
+        ) r 
+        LEFT JOIN BOARD b ON r.bno = b.bno
+        LEFT JOIN BATTACHED a ON r.rno = a.rno
+        WHERE ROWNUM <= #{page} * #{perPageNum}
+    )
+    WHERE rnum > (#{page} - 1) * #{perPageNum}
+</select> -->
+
+
+
+
+
+
+<select id="countTotalReplies" resultType="int">
+    SELECT COUNT(*) FROM BREPLY
+</select>
+
+
+<select id="listAll" resultType="com.healthplan.domain.BReplyVO">
+    SELECT 
+        r.rno, 
+        r.bno, 
+        b.chno,
+        r.mno, 
+        r.rComment, 
+        a.aNo,
+        a.fileName, 
+        r.rRegdate, 
+        r.status
+    FROM 
+        BREPLY r
+    LEFT JOIN 
+        BATTACHED a ON r.bno = a.bno
+    LEFT JOIN
+        BOARD b ON r.bno = b.bno
+    ORDER BY 
+        r.rno DESC
+</select>
+
+<select id="listRecentReplies" parameterType="map" resultType="com.healthplan.domain.BReplyVO">
+    SELECT r.rno, r.bno, r.chno, r.mno, r.rComment, a.aNo, a.fileName, r.rRegdate, r.status
+    FROM BREPLY r
+    LEFT JOIN BATTACHED a ON r.bno = a.bno
+    ORDER BY r.rno DESC
+    FETCH FIRST #{limit} ROWS ONLY
+</select>
+
+<insert id="insertReply" parameterType="com.healthplan.domain.BReplyVO">
+    INSERT INTO BREPLY (bno, rComment, rRegdate, fileName)
+    VALUES (#{bno}, #{rComment}, sysdate, #{fileName})
+</insert>
+
+<insert id="insertFile" parameterType="com.healthplan.domain.BAttachedVO">
+    INSERT INTO BATTACHED (bno, fileName, uploadPath)
+    VALUES (#{bno}, #{fileName}, #{uploadPath})
+</insert>
+
+
+
+
+</mapper>
+
