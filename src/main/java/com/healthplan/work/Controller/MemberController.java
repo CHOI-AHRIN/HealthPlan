@@ -1,19 +1,26 @@
 package com.healthplan.work.Controller;
 
-import ch.qos.logback.core.model.Model;
+import com.healthplan.work.dao.MemberMapper;
 import com.healthplan.work.dto.LoginDTO;
-import com.healthplan.work.service.DietService;
 import com.healthplan.work.service.MemberService;
+import com.healthplan.work.util.JwtUtils;
 import com.healthplan.work.vo.MemberEntity;
+
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
@@ -22,6 +29,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+
 
 
 @Controller
@@ -33,8 +42,242 @@ public class MemberController {
     @Autowired
     MemberService service;
 
+    @Autowired
+    MemberMapper mapper;
+
+
+    private JwtUtils jwtUtils = new JwtUtils();
+    private PasswordEncoder passwordEncoder;
 
     private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+
+    public MemberController(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    // 회원리스트
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public List<MemberEntity> selectList(Model model) throws Exception {
+        logger.info("//****************************** /member/list");
+
+        List<MemberEntity> list = mapper.selectMemberList();
+
+        logger.info("// list.toString()=" + list.toString());
+
+        return list;
+    }
+
+    // mNo로 회원정보 조회
+/*    @RequestMapping(value = "/readMno", method = RequestMethod.POST)
+    public MemberEntity selectMNo(@RequestBody MemberEntity mem) throws Exception {
+        logger.info("read post ...........");
+        logger.info(mem.toString());
+
+        return mapper.selectMno(mem.getMno());
+    }*/
+
+    /// 회원가입
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String insertMemPOST(@RequestBody MemberEntity mem) throws Exception {
+
+        logger.info("/*********************** 회원가입!! regist post ...........");
+        logger.info(mem.toString());
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(mem.getUpw());
+
+        System.out.println("해시된 비밀번호:" + hashedPassword);
+
+        mem.setUpw(hashedPassword);
+
+        mapper.insertMem(mem);
+        mapper.currval(); // 현재 회원번호 조회
+        mapper.setpoint(mem.getMno()); // 기본 포인트 등록!
+
+        return "success";
+    }
+
+    // 로그인
+    @RequestMapping(value = "/loginPost", method = RequestMethod.POST)
+    public ResponseEntity<?> loginPOST(@RequestBody LoginDTO dto) throws Exception {
+
+        logger.info("// /loginPost");
+        logger.info(dto.toString());
+        final String token = jwtUtils.generateToken(dto.getUuid());
+        System.out.println("/*** encordingStr=" + token);
+
+        String decordedStr = jwtUtils.getUuidFromToken(token);
+        System.out.println("/*** decordingStr=" + decordedStr);
+
+        boolean memId = jwtUtils.validateToken(token, dto.getUuid());
+        System.out.println("email=" + memId);
+
+        String storedHashedPassword = mapper.getHashedPasswordByUuid(dto.getUuid());
+
+        logger.info("Stored Hashed Password: " + storedHashedPassword);
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        boolean isPasswordMatch = passwordEncoder.matches(dto.getUpw(), storedHashedPassword);
+
+        logger.info("비밀번호 일치 여부: " + isPasswordMatch);
+
+        if (isPasswordMatch) {
+            dto.setUpw(storedHashedPassword);
+            logger.info("/*** dto.toString()=" + dto.toString());
+            MemberEntity loggedInMember = mapper.login(dto);
+
+            // 토큰을 응답 헤더에 포함시켜 클라이언트로 전송
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set("Authorization", "Bearer " + token);
+
+            return new ResponseEntity<>(loggedInMember, responseHeaders, HttpStatus.OK);
+        } else { // 불일치 시 오류 응답 반환
+            return new ResponseEntity<>("로그인 실패 메시지", HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    // 쿠키 관리
+    @RequestMapping(value = "/loginCookie", method = RequestMethod.POST)
+    public MemberEntity loginCookie(@RequestBody LoginDTO dto) throws Exception {
+
+        logger.info("/*************** /loginCookie 시작...");
+        logger.info("/*************** dto 뭐 받았니"+dto.toString());
+        final String token = jwtUtils.generateToken(dto.getUuid());
+        System.out.println("/*************** encordingStr=" + token);
+
+        String decordedStr = jwtUtils.getUuidFromToken(token);
+        System.out.println("/********************* decordingStr=" + decordedStr);
+
+        boolean uuid = jwtUtils.validateToken(token, dto.getUuid());
+        System.out.println("/********************* uuid=" + uuid);
+
+        String storedHashedPassword = mapper.getHashedPasswordByUuid(dto.getUuid());
+
+        logger.info("Stored Hashed Password: " + storedHashedPassword);
+
+        boolean isPasswordMatch = false;
+        if (storedHashedPassword != null && dto.getUpw() != null) {
+            isPasswordMatch = storedHashedPassword.equals(dto.getUpw());
+        } else {
+            return null;
+        }
+
+        logger.info("비밀번호 일치 여부: " + isPasswordMatch);
+
+        if (isPasswordMatch) {
+            // dto.setPw(storedHashedPassword);
+            logger.info("/*** dto.toString()=" + dto.toString());
+            return mapper.login(dto);
+        } else {
+            return null;
+        }
+    }
+
+    // 로그아웃
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session)
+            throws Exception {
+
+        Object obj = session.getAttribute("login");
+
+        if (obj != null) {
+            MemberEntity mem = (MemberEntity) obj;
+
+            session.removeAttribute("login");
+            session.invalidate();
+
+            Cookie loginCookie = WebUtils.getCookie(request, "loginCookie");
+
+            if (loginCookie != null) {
+                loginCookie.setPath("/");
+                loginCookie.setMaxAge(0);
+                response.addCookie(loginCookie);
+                mapper.keepLogin(mem.getUuid(), session.getId(), new Date());
+            }
+        }
+        return "success";
+    }
+
+    //아이디 중복체크
+    @RequestMapping(value = "/uuidCk", method = RequestMethod.POST)
+    public MemberEntity eamilCk(@RequestBody MemberEntity mem) throws Exception {
+        logger.info("/******************** uuidCk post ...........");
+        logger.info(mem.toString());
+
+        return mapper.uuidCk(mem.getUuid());
+    }
+
+/*
+    // 이메일로 mid 체크
+    @RequestMapping(value = "/midCk", method = RequestMethod.POST)
+    public MemberEntity midCk(@RequestBody MemberEntity mem) throws Exception {
+        logger.info("midCk post ...........");
+        logger.info(mem.toString());
+
+        return mapper.midCk(mem.getMemId());
+
+    }
+*/
+
+/*
+    // 닉네임 중복체크
+    @RequestMapping(value = "/nameCk", method = RequestMethod.POST)
+    public MemberEntity ninameCk(@RequestBody MemberEntity mem) throws Exception {
+        logger.info("ninameCk post ...........");
+        logger.info(mem.toString());
+
+        return mapper.ninameCk(mem.getName());
+    }
+*/
+
+    // 마이페이지 회원정보 조회
+    @RequestMapping(value = "/read", method = RequestMethod.POST)
+    public MemberEntity selectMemId(@RequestBody MemberEntity mem) throws Exception {
+
+        // model.addAttribute("mem", membermapper.readMember(email));
+        logger.info("조회할 이메일 : " + mem.getUuid());
+
+        return mapper.selectUuid(mem.getUuid());
+    }
+
+    // 마이페이지 회원정보 수정
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    public String updatePOST(@RequestBody MemberEntity mem, RedirectAttributes rttr) throws Exception {
+
+        logger.info(mem.toString());
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(mem.getUpw());
+
+        System.out.println("해시된 비밀번호:" + hashedPassword);
+
+        mem.setUpw(hashedPassword);
+
+        mapper.update(mem);
+
+        rttr.addAttribute("name", mem.getName());
+        rttr.addFlashAttribute("msg", "SUCCESS");
+
+        logger.info(rttr.toString());
+
+        return "SUCCESS";
+
+    }
+
+    // 회원탈퇴
+    @RequestMapping(value = "/remove", method = RequestMethod.POST)
+    public String delete(@RequestBody MemberEntity mem) throws Exception {
+
+        logger.info("delete post ...........");
+        logger.info(mem.toString());
+
+       mapper.delete(mem.getUuid());
+
+        return "succ";
+    }
+
+
+
+/*
 
     // 9/11 String 타입에서 void로 타입 변환
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -74,6 +317,14 @@ public class MemberController {
 
         // 세션에 로그인한 사용자의 uuid 저장
         session.setAttribute("loginMno", memEnt.getMno()); // // 9/11 vo를 memEnt로 변경
+        // 리스트에서 첫 번째 MemberEntity 객체를 추출
+        if (!memEnt.isEmpty()) {
+            MemberEntity member = memEnt.get(0);
+            session.setAttribute("loginMno", member.getMno());
+            session.setAttribute("loginUuid", member.getUuid());
+        } else {
+            // 로그인 실패 처리
+        }
 
         // 쿠키 사용
         // view에서 remember me 체크하면 ture, 아니면 false
@@ -238,7 +489,9 @@ public class MemberController {
     // 회원 탈퇴 페이지
     @RequestMapping(value="/deletePage", method=RequestMethod.GET)
     public String deletePage(
-            /* @ModelAttribute("uuid") String uuid, */ HttpSession session, RedirectAttributes rttr, Model model) throws Exception{
+            */
+/* @ModelAttribute("uuid") String uuid, *//*
+ HttpSession session, RedirectAttributes rttr, Model model) throws Exception{
 
         String uuid = (String) session.getAttribute("loginUuid");
         if (uuid == null) {
@@ -297,6 +550,7 @@ public class MemberController {
 
         return result;
     }
+*/
 
 
 }
