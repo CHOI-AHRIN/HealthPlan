@@ -49,6 +49,7 @@ public class BReplyController {
                 throw new IllegalArgumentException("mno 값이 null입니다.");
             }
 
+/*
             String savedFileName = null;
             if (file != null && !file.isEmpty()) {
                 savedFileName = uploadFile(file.getOriginalFilename(), file.getBytes());
@@ -60,6 +61,7 @@ public class BReplyController {
             vo.setrComment(rComment);
             vo.setFileName(savedFileName != null ? savedFileName.substring(0, Math.min(savedFileName.length(), 50)) : null);
             vo.setMno(mno);
+*/
 
             service.addReply(vo); // 댓글 등록
             entity = new ResponseEntity<>("SUCCESS", HttpStatus.OK);
@@ -70,14 +72,14 @@ public class BReplyController {
         return entity;
     }
 
-    // 파일 업로드 처리
+/*    // 파일 업로드 처리
     private String uploadFile(String originalName, byte[] fileData) throws Exception {
         UUID uid = UUID.randomUUID();
         String savedName = uid.toString() + "_" + originalName;
         File target = new File(uploadPath, savedName);
         FileCopyUtils.copy(fileData, target);
         return savedName;
-    }
+    }*/
 
 //-----------------------------------------------------------------------------------------------------
 

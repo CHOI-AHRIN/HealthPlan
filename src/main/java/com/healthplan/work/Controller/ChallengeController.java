@@ -29,7 +29,7 @@ public class ChallengeController {
     @Autowired
     private BReplyService replyService;
 
-    @RequestMapping(value = "/challengelist1", method = RequestMethod.GET)
+    @RequestMapping(value = "/challengelist", method = RequestMethod.GET)
     public String challengeList(Model model) throws Exception {
         logger.info("// /challenge/list");
 
@@ -42,12 +42,12 @@ public class ChallengeController {
         List<BReplyEntity> comments = replyService.listReplies();
         model.addAttribute("comment", comments);
         logger.info("// /comments"+comments);
-        return "challenge1/challengelist1";
+        return "challenge/challengelist";
     }
 
     @RequestMapping(value = "/challengeReg", method = RequestMethod.GET)
     public String showChallengeReg() {
-        return "challenge1/challengeReg";
+        return "challenge/challengeReg";
     }
 
     @RequestMapping(value = "/challengeReg", method = RequestMethod.POST)
@@ -60,7 +60,7 @@ public class ChallengeController {
 
         if (contents == null || difs == null) {
             logger.error("Contents or difs are null");
-            return "redirect:/challenge1/challengeReg"; // 에러 시 등록 페이지로 다시 리다이렉트
+            return "redirect:/challenge/challengeReg"; // 에러 시 등록 페이지로 다시 리다이렉트
         }
 
         logger.info("/*** Contents: " + Arrays.toString(contents));
@@ -81,19 +81,19 @@ public class ChallengeController {
         }
 
         rttr.addFlashAttribute("msg", "SUCCESS"); // 메시지 (성공) 설정
-        return "redirect:/challenge1/challengetodayAll"; // 챌린지 목록 페이지로 리다이렉트
+        return "redirect:/challenge/challengetodayAll"; // 챌린지 목록 페이지로 리다이렉트
     }
 
     @RequestMapping(value = "/challengetodayAll", method = RequestMethod.GET)
     public String challengetodayAll(com.healthplan.work.vo.ChallengeEntity ch, Model model) throws Exception {
         logger.info("show all list......................");
         model.addAttribute("list", challengeService.selectChallengeList(ch));
-        return "challenge1/challengetodayAll";
+        return "challenge/challengetodayAll";
     }
 
       @RequestMapping(value = "/challengelistAll", method = RequestMethod.GET)
       public String challengelistAll(com.healthplan.work.vo.ChallengeEntity ch, Model model) {
-      model.addAttribute("list", ch); return "challenge1/challengelistAll"; }
+      model.addAttribute("list", ch); return "challenge/challengelistAll"; }
 
 
     @RequestMapping(value = "/challengelistAll", method = RequestMethod.GET)
@@ -107,7 +107,7 @@ public class ChallengeController {
             // 에러 페이지로 리다이렉트
             return "error";
         }
-        return "challenge1/challengelistAll";
+        return "challenge/challengelistAll";
     }
 
 

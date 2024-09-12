@@ -1,25 +1,17 @@
-package com.healthplan.work.dto;
-
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.time.LocalDateTime;
-
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 
 
 public class ChallengeDTO {
-
-    private Long cno;
-    private String title;
-    private String contents;
-    private String uuid;
-    private Long mno;
-    private LocalDateTime bdate;
-
+    private Long id;
+    private String name;
+    private String description;
+    private int difficulty;
 }
