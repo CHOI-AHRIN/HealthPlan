@@ -25,13 +25,13 @@ public interface MemberMapper {
     // 포인트 등록
     public void setpoint(Integer mno) throws Exception;
 
-    // 로그인
+    // 로그인 > 비밀번호 일치 여부 확인
     public String getHashedPasswordByUuid(String uuid) throws Exception;
 
-    // 로그인: 아이디랑 비밀번호 확인 작업
+    // 로그인
     public MemberEntity login(LoginDTO dto) throws Exception;
 
-    // 로그인 유지
+    // 세션이 있다면 로그인 유지
     public void keepLogin(String uuid, String id, Date sessionLimit) throws Exception;
 
     // 아이디 중복체크

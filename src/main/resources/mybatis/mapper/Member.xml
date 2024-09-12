@@ -18,6 +18,97 @@
         where mno = #{mno}
     </select>
 
+    <!-- 회원가입 -->
+    <insert id="insertMem">
+        insert into member
+        (mno, uuid, upw, phone, name, mtype, email, regdate)
+        values
+        (mno_seq.NEXTVAL, #{uuid}, #{upw}, #{phone}, #{name}, #{mtype},
+        #{email}, SYSDATE)
+    </insert>
+
+    <!-- 현재 회원번호 조회  -->
+    <select id="currval"  resultType="int">
+        SELECT mno_seq.currval from dual
+    </select>
+
+    <!-- 초기 포인트 입력  -->
+    <insert id = "setpoint" >
+        insert
+        into point (pno, mno, pcount, psource, pdate)
+        values (pno_seq.NEXTVAL, #{pmno}, '0', '회원가입', sysdate)
+    </insert>
+
+    <!-- 로그인 > 비밀번호 일치여부 확인-->
+    <select id="getHashedPasswordByEmail" resultType="java.lang.String">
+        select upw
+        from member
+        where uuid = #{uuid}
+    </select>
+
+    <!-- 로그인 -->
+    <select id="login" resultType="com.healthplan.work.vo.MemberEntity" parameterType="map">
+        select *
+        from member
+        where
+        uuid = #{uuid}
+        and upw = #{upw}
+    </select>
+
+    <!-- 쿠키가 있다면 로그인 유지 -->
+    <update id="keepLogin">
+        update member
+        set sessionKey = #{sessionId},
+        sessionLimit = #{next}
+        where uuid = #{uuid}
+    </update>
+
+    <!-- 아이디 중복 체크 -->
+    <select id="uuidCk" resultType="com.healthplan.work.vo.MemberEntity">
+        select mno, name
+        from member
+        where uuid = #{uuid}
+    </select>
+
+    <!-- 마이페이지 회원 조회 -->
+    <select id="selectUuid" resultType="com.healthplan.work.vo.MemberEntity">
+        SELECT
+        m.mno,
+        m.email,
+        m.mtype,
+        m.name,
+        m.phone,
+        m.regdate,
+        m.upw,
+        m.uuid,
+        m.sstype,
+        p.pcount
+        FROM
+        member m
+        JOIN
+        point p
+        ON
+        m.mno = p.mno
+        WHERE
+        m.uuid = #{uuid}
+    </select>
+
+    <!-- 마이페이지 회원정보수정 -->
+    <update id="update" parameterType="com.healthplan.work.vo.MemberEntity" >
+        update member
+        set
+        upw=#{upw},
+        phone=#{phone},
+        email=#{email}
+        where
+        uuid=#{uuid}
+    </update>
+
+    <!-- 회원탈퇴 -->
+    <delete id="delete">
+        delete from member
+        where uuid = #{uuid}
+    </delete>
 
 
 </mapper>
