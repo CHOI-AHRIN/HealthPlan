@@ -1,6 +1,8 @@
 package com.healthplan.work.vo;
+
 import java.util.Date;
 import java.util.List;
+
 
 public class BReplyEntity {
 	private int rno;        // 댓글 번호

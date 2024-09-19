@@ -15,7 +15,7 @@ public class BReplyService {
 
     // 새로운 댓글 추가
     public void addReply(BReplyEntity vo) throws Exception {}
-    public void addReply(BReplyEntity vo, String fileName) throws Exception {}
+    /*public void addReply(BReplyEntity vo, String fileName) throws Exception {}*/
     public List<BReplyEntity> listRepliesWithAttachments(Integer bno) throws Exception{
         return null;
     }

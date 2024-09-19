@@ -2,17 +2,13 @@ package com.healthplan.work.Controller;
 
 import com.healthplan.work.service.BReplyService;
 import com.healthplan.work.vo.BReplyEntity;
-import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/replies")
@@ -20,6 +16,7 @@ public class BReplyController {
 
     @Autowired
     private BReplyService service;
+
     
 /*
     @Resource(name = "uploadPath")
@@ -32,7 +29,7 @@ public class BReplyController {
             @RequestParam(value = "bno", required = true) Integer bno,
             @RequestParam(value = "rComment", required = true) String rComment,
             @RequestParam(value = "fileName", required = false) MultipartFile file,
-            @RequestParam(value = "mno", required = true) Integer mno) {
+            @RequestParam(value = "mno", required = true) Integer mno, int rno) {
         
         System.out.println("/*** /replies/replyregister 실행...");
         System.out.println("Received bno: " + bno);
@@ -63,14 +60,14 @@ public class BReplyController {
             vo.setMno(mno);
 */
 
-            service.addReply(vo); // 댓글 등록
+ /*           service.addReply(); // 댓글 등록
             entity = new ResponseEntity<>("SUCCESS", HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             entity = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return entity;
-    }
+    }*/
 
 /*    // 파일 업로드 처리
     private String uploadFile(String originalName, byte[] fileData) throws Exception {

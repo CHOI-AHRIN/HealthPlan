@@ -1,5 +1,6 @@
 package com.healthplan.work.service;
 
+import com.healthplan.work.dao.ChallengeMapper;
 import com.healthplan.work.vo.ChallengeEntity;
 import org.springframework.stereotype.Service;
 
@@ -7,11 +8,11 @@ import java.util.List;
 
 @Service
 public class ChallengeService {
-    public void createChallengeReg(ChallengeEntity ch) throws Exception {
+    public void ChallengeReg(ChallengeEntity ch) throws Exception {
     }
 
     public List<ChallengeEntity> selectChallengeList() throws Exception {
-        return null;
+        return ChallengeMapper.selectSubscribeList(); //이것두 수정해야돼 ㅠㅠ
     }
 
     public List<ChallengeEntity> selectChallengeList(ChallengeEntity ch) throws Exception {
