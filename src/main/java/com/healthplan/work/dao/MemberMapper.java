@@ -17,7 +17,7 @@ public interface MemberMapper {
     public MemberEntity selectMno(int mno) throws Exception;
 
     // 회원가입
-    public String insertMem(MemberEntity member) throws Exception;
+    public void insertMem(MemberEntity member) throws Exception;
 
     // 현재 mno 조회
     public int currval() throws Exception;

@@ -40,7 +40,7 @@
     </insert>
 
     <!-- 로그인 > 비밀번호 일치여부 확인-->
-    <select id="getHashedPasswordByEmail" resultType="java.lang.String">
+    <select id="getHashedPasswordByUuid" resultType="java.lang.String">
         select upw
         from member
         where uuid = #{uuid}
