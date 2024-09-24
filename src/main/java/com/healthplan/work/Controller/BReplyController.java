@@ -15,7 +15,7 @@ public class BReplyController {
     @Autowired
     private BReplyService bReplyService;
 
-    // 특정 게시글의 댓글 목록 조회 (작성자 닉네임 포함)
+    // 댓글 목록 조회
     @GetMapping("/post/{bno}")
     public List<Map<String, Object>> getRepliesByBno(@PathVariable("bno") int bno) throws Exception {
         return bReplyService.getRepliesByBno(bno);

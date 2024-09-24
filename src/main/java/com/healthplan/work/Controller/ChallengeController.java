@@ -5,14 +5,13 @@ import com.healthplan.work.vo.ChallengeEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/challenge")
 public class ChallengeController {
 
@@ -40,11 +39,17 @@ public class ChallengeController {
 
     // 챌린지 글 등록
     @PostMapping("/challengeinsert")
-    public String insert(ChallengeEntity challengeEntity) throws Exception {
+    public String insert(@RequestBody ChallengeEntity challengeEntity) throws Exception {
+        logger.info("ChallengeEntity: mno=" + challengeEntity.getMno() +
+                ", title=" + challengeEntity.getTitle() +
+                ", bcontents=" + challengeEntity.getBcontents());
+        logger.info("Received ChallengeEntity: " + challengeEntity.toString());
+
         challengeService.challengeInsert(challengeEntity);
         logger.info("challengeInsert -> " + challengeEntity.toString());
 
-        return "redirect:/challenge/challengelist";
+        return "success";
+    //return "redirect:/challenge/challengelist";
     }
 
     // 챌린지 상세 조회 및 수정 페이지 이동
@@ -60,11 +65,12 @@ public class ChallengeController {
 
     // 챌린지 글 수정
     @PutMapping("/challengeupdate")
-    public String update(ChallengeEntity challengeEntity) throws Exception {
+    public String update(@RequestBody ChallengeEntity challengeEntity) throws Exception {
         challengeService.challengeUpdate(challengeEntity);
         logger.info("challengeUpdate -> " + challengeEntity.toString());
 
-        return "redirect:/challenge/challengelist";
+        return "success";
+        //return "redirect:/challenge/challengelist";
     }
 
     // 챌린지 글 삭제

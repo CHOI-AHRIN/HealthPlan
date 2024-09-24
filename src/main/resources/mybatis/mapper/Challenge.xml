@@ -25,7 +25,14 @@
             SELECT BOARD_SEQ.NEXTVAL AS bno FROM DUAL
         </selectKey>
         INSERT INTO BOARD (bno, mno, title, bcontents, wdate, bcounts)
-        VALUES (#{bno}, #{mno}, #{title}, #{bcontents}, SYSDATE, 0)
+        VALUES (
+        #{bno, jdbcType=INTEGER},
+        #{mno, jdbcType=INTEGER},
+        #{title, jdbcType=VARCHAR},
+        #{bcontents, jdbcType=VARCHAR},
+        SYSDATE,
+        0
+        )
     </insert>
 
     <!-- 챌린지 수정 -->
