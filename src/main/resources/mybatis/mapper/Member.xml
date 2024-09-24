@@ -64,8 +64,8 @@
     </update>
 
     <!-- 아이디 중복 체크 -->
-    <select id="uuidCk" resultType="com.healthplan.work.vo.MemberEntity">
-        select mno, name
+    <select id="uuidCk" resultType="int">
+        select count(*)
         from member
         where uuid = #{uuid}
     </select>

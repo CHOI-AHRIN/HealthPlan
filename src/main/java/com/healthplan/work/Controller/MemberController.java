@@ -19,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.WebUtils;
@@ -168,10 +167,14 @@ public class MemberController {
 
             // 토큰이 유효한지 확인
             if (jwtUtils.validateToken(token, uuid)) {
+                logger.info("/*************** token의 id 보여줘  " + uuid);
+
                 return ResponseEntity.ok(Map.of("uuid", uuid));  // 유효하면 uuid를 반환
+
             } else {
                 return new ResponseEntity<>("유효하지 않은 토큰입니다.", HttpStatus.UNAUTHORIZED);
             }
+
         } catch (Exception e) {
             return new ResponseEntity<>("서버 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -204,32 +207,39 @@ public class MemberController {
     }
 
     //아이디 중복체크
-//    @CrossOrigin(origins = "http://localhost:3000") // 허용할 도메인을 설정
-//    @RequestMapping(value = "/uuidCk", method = RequestMethod.POST)
-//    public MemberEntity uuidCk(@RequestBody MemberEntity mem) throws Exception {
-//
-//        logger.info("/******************** uuidCk post ..........."+mem);
-//        logger.info(mem.toString());
-//
-//        return mapper.uuidCk(mem.getUuid());
-//    }
-    @PostMapping("/member/uuidCk")
-    public ResponseEntity<MemberEntity> uuidCk(@RequestBody MemberEntity mem) throws Exception {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Access-Control-Allow-Origin", "http://localhost:3000");  // 허용할 도메인 설정
+    @PostMapping("/uuidCk")
+    // @RequestMapping(value = "/uuidCk", method = RequestMethod.POST)
+    public int uuidCk(@RequestBody String uuid) throws Exception {
 
-        MemberEntity result = mapper.uuidCk(mem.getUuid());
-        return ResponseEntity.ok().headers(headers).body(result);
+        logger.info("/******************** 포스트 돌겠습니다 !!! uuidCk post ..........."+ uuid);
+        logger.info(uuid.toString());
+
+        int result = mapper.uuidCk(uuid);
+
+        return result;
     }
+
 
     // 마이페이지 회원정보 조회
     @RequestMapping(value = "/read", method = RequestMethod.POST)
-    public MemberEntity selectMemId(@RequestBody MemberEntity mem) throws Exception {
+    public ResponseEntity<MemberEntity> selectMemId(@RequestBody Map<String, String> requestData) throws Exception {
 
-        // model.addAttribute("mem", membermapper.readMember(email));
-        logger.info("조회할 아이디 : " + mem.getUuid());
+        // Map에서 "uuid" 값 추출
+        String uuid = requestData.get("uuid");
+        // 로그로 uuid 확인
+        logger.info("조회할 아이디 : " + uuid);
 
-        return mapper.selectUuid(mem.getUuid());
+        MemberEntity memberInfo = mapper.selectUuid(uuid);
+
+        logger.info("/************************** 일단 마이페이지 정보 보여줘" + memberInfo);
+
+        if (memberInfo != null) {
+            logger.info("/************************** 성공한 마이페이지 정보 보여줘" + memberInfo);
+            return ResponseEntity.ok(memberInfo);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        // return mapper.selectUuid(mem.getUuid());
     }
 
     // 마이페이지 회원정보 수정

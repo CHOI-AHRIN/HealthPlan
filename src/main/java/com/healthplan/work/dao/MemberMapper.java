@@ -2,11 +2,9 @@ package com.healthplan.work.dao;
 
 import com.healthplan.work.dto.LoginDTO;
 import com.healthplan.work.vo.MemberEntity;
-import org.springframework.ui.Model;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public interface MemberMapper {
 
@@ -35,7 +33,7 @@ public interface MemberMapper {
     public void keepLogin(String uuid, String id, Date sessionLimit) throws Exception;
 
     // 아이디 중복체크
-    public MemberEntity uuidCk(String uuid) throws Exception;
+    public int uuidCk(String uuid) throws Exception;
 
     // 마이페이지 회원조회
     public MemberEntity selectUuid(String uuid) throws Exception;
