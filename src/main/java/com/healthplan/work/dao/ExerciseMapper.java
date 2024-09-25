@@ -5,7 +5,6 @@ import java.util.List;
 import com.healthplan.work.vo.DietEntity;
 import com.healthplan.work.vo.ExerciseEntity;
 import com.healthplan.work.vo.Criteria;
-import com.healthplan.work.vo.SearchCriteria;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

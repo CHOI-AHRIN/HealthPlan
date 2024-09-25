@@ -1,16 +1,7 @@
 package com.healthplan.work.vo;
 
+public class SearchCriteria extends Criteria {
 
-import lombok.Builder;
-import lombok.Data;
-import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
-
-@Data
-@Builder
-
-public class SearchCriteria extends Criteria{
     private String searchType=null;
     private String keyword=null;
 
@@ -26,6 +17,7 @@ public class SearchCriteria extends Criteria{
     public void setKeyword(String keyword) {
         this.keyword = keyword;
     }
+
     @Override
     public String toString() {
         return super.toString() + " SearchCriteria "

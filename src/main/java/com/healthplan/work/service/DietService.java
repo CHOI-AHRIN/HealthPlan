@@ -1,12 +1,9 @@
 package com.healthplan.work.service;
 
-import com.healthplan.work.dao.DietMapper;
 import com.healthplan.work.dto.DietDTO;
 import com.healthplan.work.vo.DietEntity;
 import com.healthplan.work.vo.SearchCriteria;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

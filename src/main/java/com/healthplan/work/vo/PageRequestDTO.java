@@ -1,9 +1,24 @@
 package com.healthplan.work.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-public class PageMaker {
+@Data
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
+public class PageRequestDTO {
+
+    @Builder.Default
+    private int page = 1;
+
+    @Builder.Default
+    private int size = 5;
 
     private int totalCount;
     private int startPage;
@@ -11,8 +26,7 @@ public class PageMaker {
     private boolean prev;
     private boolean next;
 
-    // 한 페이지에 보여줄 페이지 갯수
-    private int displayPageNum = 5;
+    private int displayPageNum = 4;
 
     private Criteria cri;
 

@@ -1,3 +1,4 @@
+/*
 package com.healthplan.work.Controller;
 
 
@@ -37,12 +38,14 @@ public class DietController {
     @Autowired
     DietService diet;
 
-    /* 무조건 데이터를 반환하고, JSON 형태로 맞춰준다
+    */
+/* 무조건 데이터를 반환하고, JSON 형태로 맞춰준다
      반환되는 json 형태를 리액트에 넣어서 사용해준다
      
      model은 생성된 데이터를 view로 전달할 때 사용하는 객체다
      
-    */
+    *//*
+
     
     
     // 리스트 페이지
@@ -168,3 +171,4 @@ public class DietController {
 
     }
 }
+*/

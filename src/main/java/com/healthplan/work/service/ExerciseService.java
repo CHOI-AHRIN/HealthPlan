@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.healthplan.work.dao.ExerciseMapper;
 import com.healthplan.work.vo.ExerciseEntity;
-import com.healthplan.work.vo.SearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
