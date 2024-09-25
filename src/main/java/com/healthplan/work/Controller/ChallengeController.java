@@ -70,7 +70,7 @@ public class ChallengeController {
         logger.info("challengeUpdate -> " + challengeEntity.toString());
 
         return "success";
-        //return "redirect:/challenge/challengelist";
+        // return "redirect:/challenge/challengelist";
     }
 
     // 챌린지 글 삭제
@@ -79,6 +79,7 @@ public class ChallengeController {
         challengeService.challengeDelete(bno);
         logger.info("challengeDelete -> " + bno);
 
-        return "redirect:/challenge/challengelist";
+        return "success";
+        // return "redirect:/challenge/challengelist";
     }
 }

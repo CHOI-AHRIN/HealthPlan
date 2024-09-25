@@ -28,11 +28,13 @@ public class BReplyController {
         return bReplyEntity;
     }
 
+
     // 댓글 상세 조회
     @GetMapping("/{rno}")
     public BReplyEntity read(@PathVariable("rno") int rno) throws Exception {
         BReplyEntity reply = bReplyService.getReply(rno);
-        return reply;
+        return "success";
+        // return reply;
     }
 
     // 댓글 수정
