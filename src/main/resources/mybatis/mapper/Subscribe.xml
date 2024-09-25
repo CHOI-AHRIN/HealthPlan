@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.healthplan.work.dao.SubscribeMapper">
+
+	<!-- 전문가구독 list -->
+	<select id="selectSubscribeList" resultType="com.healthplan.work.vo.SubscribeVO">
+
+		SELECT
+			  ROWNUM AS RNUM
+			, SNO
+			, MNO
+			, UUID
+			, STYPE
+			, TITLE
+			, CONTENTS
+			, TO_CHAR(WDATE, 'YYYY-MM-DD') AS WDATE
+			, COUNTS
+			, FILEID
+			, REPLYCNT
+			, (SELECT FILENAME FROM SATTACHED WHERE IMGTYPE = 'M' AND SNO = S.SNO) AS TITLEIMG
+			, SPOINT
+		FROM  SUBSCRIBE S
+		WHERE 1=1
+		AND STYPE = 'T'
+
+
+
+		ORDER BY SNO DESC
+
+	</select>
+
+	<!-- 구독 조회 -->
+	<select id="selectSubscribeRead" resultType="com.healthplan.work.vo.SubscribeVO">
+
+		SELECT
+			  SNO
+			, MNO
+			, UUID
+			, STYPE
+			, TITLE
+			, CONTENTS
+			, WDATE
+			, COUNTS
+			, FILEID
+			, REPLYCNT
+			, SPOINT
+		FROM  SUBSCRIBE
+		WHERE SNO = #{sno}
+
+	</select>
+
+
+	<!-- 구독 등록 -->
+	<insert id="insertSubscribe">
+
+		INSERT INTO SUBSCRIBE(
+			  SNO
+			, MNO
+			, UUID
+			, STYPE
+			, TITLE
+			, CONTENTS
+			, SPOINT
+			, WDATE
+		) VALUES (
+			  SNO_SEQ.NEXTVAL
+			, #{mno}
+			, #{uuid}
+			, 'T'
+			, #{title}
+			, #{contents}
+			, #{spoint}
+			, SYSDATE
+		)
+
+	</insert>
+
+
+	<!-- 강의 등록 -->
+	<insert id="insertSubscribeLession" parameterType="com.healthplan.work.vo.SubscribeVO">
+
+		INSERT INTO SUBSCRIBE(
+			  SNO
+			, MNO
+			, UUID
+			, STYPE
+			, TITLE
+			, CONTENTS
+			, SPOINT
+			, WDATE
+			) VALUES (
+			SNO_SEQ.NEXTVAL
+			, #{mno}
+			, #{uuid}
+			, 'L'
+			, #{title}
+			, #{contents}
+			, #{spoint}
+			, SYSDATE
+		)
+
+		<selectKey keyProperty="sno" resultType="int" order="AFTER">
+			SELECT SNO_SEQ.CURRVAL FROM DUAL
+		</selectKey>
+
+	</insert>
+
+	<!-- 구독 수정 -->
+	<update id="updateSubscribe">
+
+		UPDATE SUBSCRIBE
+		SET
+			  TITLE		= #{title}
+			, CONTENTS	= #{contents}
+			, SPOINT	= #{spoint}
+		WHERE SNO 		= #{sno}
+
+	</update>
+
+	<!-- 강의 수정 -->
+	<update id="updateSubscribeLession">
+
+		UPDATE SUBSCRIBE
+		SET
+			  TITLE		= #{title}
+			, CONTENTS	= #{contents}
+			, SPOINT	= #{spoint}
+		WHERE SNO 		= #{sno}
+
+	</update>
+
+	<!-- 구독 삭제 -->
+	<delete id="deleteSubscribe">
+
+		DELETE FROM SUBSCRIBE WHERE SNO = #{sno}
+
+	</delete>
+
+
+	<!-- 강의 삭제 -->
+	<delete id="deleteSubscribeLession">
+
+		DELETE FROM SUBSCRIBE WHERE SNO = #{sno}
+
+	</delete>
+
+
+	<!-- 강의 list -->
+	<select id="selectSubscribeLessionList" resultType="com.healthplan.work.vo.SubscribeVO">
+
+		SELECT *
+		FROM
+		(
+			SELECT
+			  ROWNUM AS RNUM
+			, SNO
+			, MNO
+			, UUID
+			, STYPE
+			, TITLE
+			, CONTENTS
+			, TO_CHAR(WDATE, 'YYYY-MM-DD') AS WDATE
+			, COUNTS
+			, FILEID
+			, REPLYCNT
+			, (SELECT FILENAME FROM SATTACHED WHERE IMGTYPE = 'M' AND SNO = S.SNO) AS TITLEIMG
+			, SPOINT
+			FROM  SUBSCRIBE S
+			WHERE 1=1
+			AND STYPE = 'L'
+
+			<include refid="search"></include>
+
+			ORDER BY SNO DESC
+		)
+		WHERE RNUM BETWEEN #{pageStart} AND #{pageEnd}
+		ORDER BY RNUM
+
+	</select>
+
+	<!-- 강의 list count -->
+	<select id="selectSubscribeLessionCount" resultType="int">
+
+		SELECT
+			  COUNT(*)
+		FROM  SUBSCRIBE
+		WHERE 1=1
+		AND STYPE = 'L'
+
+		<include refid="search"></include>
+
+	</select>
+
+	<!-- 통합 list Search -->
+	<sql id="search">
+		<if test="searchType != null and searchType != ''">
+			<if test="searchType == 'total'">
+				AND (
+				TITLE LIKE '%'||#{keyword}||'%'
+				OR CONTENTS LIKE '%'||#{keyword}||'%'
+				OR UUID LIKE '%'||#{keyword}||'%'
+				)
+			</if>
+			<if test="searchType != 'total'">
+				AND ${searchType} LIKE '%'||#{keyword}||'%'
+			</if>
+		</if>
+	</sql>
+
+</mapper>
