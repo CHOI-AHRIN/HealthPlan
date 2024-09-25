@@ -2,11 +2,26 @@ package com.healthplan.work.service;
 
 import java.util.List;
 
+import com.healthplan.work.dao.ExerciseMapper;
 import com.healthplan.work.vo.ExerciseEntity;
 import com.healthplan.work.vo.SearchCriteria;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public interface ExerciseService {
+@Service
+public class ExerciseService {
 
+    @Autowired
+    ExerciseMapper exercisemapper;
+
+
+   public List<ExerciseEntity> selectList(){
+       return exercisemapper.listExercise();
+   };
+
+
+
+/*
   public void regist(ExerciseEntity community) throws Exception;
 
   public ExerciseEntity read(Integer cno) throws Exception;
@@ -26,6 +41,6 @@ public interface ExerciseService {
   public int listSearchCount(SearchCriteria cri) throws Exception;
   
   public List<String> getAttach(Integer bno)throws Exception;
-  
+  */
 
 }
