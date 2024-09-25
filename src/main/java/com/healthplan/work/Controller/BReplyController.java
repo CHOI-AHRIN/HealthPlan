@@ -33,8 +33,7 @@ public class BReplyController {
     @GetMapping("/{rno}")
     public BReplyEntity read(@PathVariable("rno") int rno) throws Exception {
         BReplyEntity reply = bReplyService.getReply(rno);
-        return "success";
-        // return reply;
+        return reply;
     }
 
     // 댓글 수정
