@@ -35,6 +35,9 @@ public interface MemberMapper {
     // 아이디 중복체크
     public int uuidCk(String uuid) throws Exception;
 
+    // 이메일 중복체크
+    public int emailCk(String email) throws Exception;
+
     // 마이페이지 회원조회
     public MemberEntity selectUuid(String uuid) throws Exception;
 
@@ -43,6 +46,9 @@ public interface MemberMapper {
 
     // 회원탈퇴
     public MemberEntity delete(String uuid) throws Exception;
+
+    // 이름 조회
+    MemberEntity selectName(String uuid) throws Exception;
 
 /*
     public MemberEntity login(LoginDTO dto) throws Exception;

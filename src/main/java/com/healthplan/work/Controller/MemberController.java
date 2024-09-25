@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
 import java.util.Date;
@@ -78,7 +79,7 @@ public class MemberController {
     /// 회원가입
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String insertMemPOST(@RequestBody MemberEntity mem) throws Exception {
+    public ResponseEntity<String> insertMemPOST(@RequestBody MemberEntity mem) throws Exception {
 
         logger.info("/*********************** 회원가입!! regist post ...........");
         logger.info(mem.toString());
@@ -95,8 +96,10 @@ public class MemberController {
 
         mapper.setpoint(pmno); // 기본 포인트 등록!
 
-        return "success";
+        //return "success";
+        return ResponseEntity.ok("success");
     }
+
 
     // 로그인
     @RequestMapping(value = "/loginPost", method = RequestMethod.POST)
@@ -208,15 +211,60 @@ public class MemberController {
 
     //아이디 중복체크
     @PostMapping("/uuidCk")
-    // @RequestMapping(value = "/uuidCk", method = RequestMethod.POST)
-    public int uuidCk(@RequestBody String uuid) throws Exception {
+    public int uuidCk(@RequestBody Map<String, String> requestData) throws Exception {
 
-        logger.info("/******************** 포스트 돌겠습니다 !!! uuidCk post ..........."+ uuid);
-        logger.info(uuid.toString());
+        logger.info("1. /******************** 포스트 돌겠습니다 !!! uuidCk post ...........");
+
+        // Map에서 "uuid" 값 추출
+        String uuid = requestData.get("uuid");
+
+        // 로그로 uuid 확인
+        logger.info("2. 조회할 아이디 : " + uuid);
+
+        // logger.info("/******************** 포스트 돌겠습니다 !!! uuidCk post ..........."+ uuid);
+        logger.info("3. "+uuid.toString());
 
         int result = mapper.uuidCk(uuid);
 
+        logger.info("4. result 값 확인: "+result);
+
         return result;
+
+    }
+
+
+    // 이메일 중복체크
+    @RequestMapping(value = "/emailCk", method = RequestMethod.POST)
+    public int emailCk(@RequestBody String email) throws Exception {
+        logger.info("/******************** 포스트 돌겠습니다 !! emailCk post ...........");
+        logger.info(email.toString());
+
+        int result = mapper.emailCk(email);
+
+        return result;
+    }
+
+
+
+    // 이름 조회
+    @RequestMapping(value = "/readName", method = RequestMethod.POST)
+    public ResponseEntity<MemberEntity> selectName(@RequestBody Map<String, String> requestData) throws Exception {
+
+        // Map에서 "uuid" 값 추출
+        String uuid = requestData.get("uuid");
+        // 로그로 uuid 확인
+        logger.info("조회할 아이디 : " + uuid);
+
+        MemberEntity memberInfo = mapper.selectName(uuid);
+
+        logger.info("/************************** 일단 이름 정보 보여줘" + memberInfo);
+
+        if (memberInfo != null) {
+            logger.info("/************************** 성공한 이름 정보 보여줘" + memberInfo);
+            return ResponseEntity.ok(memberInfo);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 
@@ -243,27 +291,27 @@ public class MemberController {
     }
 
     // 마이페이지 회원정보 수정
-//    @RequestMapping(value = "/modify", method = RequestMethod.POST)
-//    public String updatePOST(@RequestBody MemberEntity mem, RedirectAttributes rttr) throws Exception {
-//
-//        logger.info(mem.toString());
-//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//        String hashedPassword = passwordEncoder.encode(mem.getUpw());
-//
-//        System.out.println("해시된 비밀번호:" + hashedPassword);
-//
-//        mem.setUpw(hashedPassword);
-//
-//        mapper.update(mem);
-//
-//        rttr.addAttribute("name", mem.getName());
-//        rttr.addFlashAttribute("msg", "SUCCESS");
-//
-//        logger.info(rttr.toString());
-//
-//        return "SUCCESS";
-//
-//    }
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    public String updatePOST(@RequestBody MemberEntity mem, RedirectAttributes rttr) throws Exception {
+
+        logger.info(mem.toString());
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(mem.getUpw());
+
+        System.out.println("해시된 비밀번호:" + hashedPassword);
+
+        mem.setUpw(hashedPassword);
+
+        mapper.update(mem);
+
+        rttr.addAttribute("name", mem.getName());
+        rttr.addFlashAttribute("msg", "SUCCESS");
+
+        logger.info(rttr.toString());
+
+        return "SUCCESS";
+
+    }
 
     // 회원탈퇴
     @RequestMapping(value = "/remove", method = RequestMethod.POST)

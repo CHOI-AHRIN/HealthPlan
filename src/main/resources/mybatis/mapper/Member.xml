@@ -70,6 +70,13 @@
         where uuid = #{uuid}
     </select>
 
+    <!-- 이메일 중복 체크 -->
+    <select id="emailCk" resultType="int">
+        select count(*)
+        from member
+        where email = #{email}
+    </select>
+
     <!-- 마이페이지 회원 조회 -->
     <select id="selectUuid" resultType="com.healthplan.work.vo.MemberEntity">
         SELECT
@@ -91,6 +98,15 @@
         m.mno = p.mno
         WHERE
         m.uuid = #{uuid}
+    </select>
+
+    <!-- 이름조회 -->
+    <select id="selectName" resultType="com.healthplan.work.vo.MemberEntity">
+        SELECT name
+        FROM
+        member
+        WHERE
+        uuid = #{uuid}
     </select>
 
     <!-- 마이페이지 회원정보수정 -->
