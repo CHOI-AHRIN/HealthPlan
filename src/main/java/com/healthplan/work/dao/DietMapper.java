@@ -1,3 +1,4 @@
+/*
 package com.healthplan.work.dao;
 
 import com.healthplan.work.dto.DietDTO;
@@ -23,4 +24,4 @@ public interface DietMapper {
         // 등록
         public int register(DietDTO dto);
 
-}
+}*/

@@ -40,6 +40,7 @@ public class ChallengeController {
     // 챌린지 글 등록
     @PostMapping("/challengeinsert")
     public String insert(@RequestBody ChallengeEntity challengeEntity) throws Exception {
+        logger.info("챌린지 인서트 포스트 돈다");
         logger.info("ChallengeEntity: mno=" + challengeEntity.getMno() +
                 ", title=" + challengeEntity.getTitle() +
                 ", bcontents=" + challengeEntity.getBcontents());
@@ -48,8 +49,8 @@ public class ChallengeController {
         challengeService.challengeInsert(challengeEntity);
         logger.info("challengeInsert -> " + challengeEntity.toString());
 
-        return "success";
-    //return "redirect:/challenge/challengelist";
+        // return "success";
+       return "redirect:/challenge/challengelist";
     }
 
     // 챌린지 상세 조회 및 수정 페이지 이동
