@@ -2,6 +2,7 @@ package com.healthplan.work.service;
 
 import com.healthplan.work.dao.ChallengeMapper;
 import com.healthplan.work.vo.ChallengeEntity;
+import com.healthplan.work.vo.SearchCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +14,12 @@ public class ChallengeService {
     @Autowired
     private ChallengeMapper challengeMapper;
 
-    public List<ChallengeEntity> selectChallengeList() throws Exception {
-        return challengeMapper.selectChallengeList();
+    public List<ChallengeEntity> selectChallengeList(SearchCriteria cri) throws Exception {
+        return challengeMapper.selectChallengeList(cri);
+    }
+
+    public int selectChallengeCount(SearchCriteria cri) throws Exception {
+        return challengeMapper.selectChallengeCount(cri);
     }
 
     public ChallengeEntity selectChallengeRead(int bno) throws Exception {

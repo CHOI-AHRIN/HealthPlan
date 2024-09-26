@@ -2,6 +2,9 @@ package com.healthplan.work.Controller;
 
 import com.healthplan.work.service.ChallengeService;
 import com.healthplan.work.vo.ChallengeEntity;
+import com.healthplan.work.vo.PageMaker;
+import com.healthplan.work.vo.SearchCriteria;
+import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@Log4j2
 @RequestMapping("/challenge")
 public class ChallengeController {
 
@@ -26,60 +30,77 @@ public class ChallengeController {
     }
 
     // 챌린지 목록 표시
-    @GetMapping("/challengelist")
-    public Map<String, Object> list() throws Exception {
+    @GetMapping("/challengeList")
+    public Map<String, Object> clist(SearchCriteria cri) throws Exception {
         Map<String, Object> result = new HashMap<>();
 
-        List<ChallengeEntity> list = challengeService.selectChallengeList();
-        logger.info("challengeList -> " + list.toString());
+        //전체검색 onchange x
+        if ("".equals(cri.getSearchType())) {
+            cri.setSearchType("total");
+        }
 
-        result.put("clist", list);
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCri(cri);
+        pageMaker.setTotalCount(challengeService.selectChallengeCount(cri));
+
+        List<ChallengeEntity> clist = challengeService.selectChallengeList(cri);
+        result.put("clist", clist);
+        result.put("pageMaker", pageMaker);
+
+        log.info("cri	-> " + cri);
+        log.info("ChallengeList result-> " + result.toString());
         return result;
+
     }
 
     // 챌린지 글 등록
     @PostMapping("/challengeinsert")
-    public String insert(@RequestBody ChallengeEntity challengeEntity) throws Exception {
-        logger.info("ChallengeEntity: mno=" + challengeEntity.getMno() +
+    public String challengeInsert(@RequestBody ChallengeEntity challengeEntity) throws Exception {
+
+        log.info("ChallengeEntity: mno=" + challengeEntity.getMno() +
                 ", title=" + challengeEntity.getTitle() +
                 ", bcontents=" + challengeEntity.getBcontents());
-        logger.info("Received ChallengeEntity: " + challengeEntity.toString());
+        log.info("Received ChallengeEntity: " + challengeEntity.toString());
 
+        log.info("challengeInsert -> " + challengeEntity);
         challengeService.challengeInsert(challengeEntity);
-        logger.info("challengeInsert -> " + challengeEntity.toString());
 
         return "success";
-    //return "redirect:/challenge/challengelist";
+        //return "redirect:/challenge/challengeList";
     }
 
     // 챌린지 상세 조회 및 수정 페이지 이동
-    @GetMapping({"/challengeread/{bno}", "/challengemodify/{bno}"})
-    public Map<String, Object> read(@PathVariable("bno") int bno) throws Exception {
-        Map<String, Object> result = new HashMap<>();
+    @GetMapping({"/challengeRead/{bno}", "/challengeModify/{bno}"})
+    public ChallengeEntity challengeRead(@PathVariable("bno") int bno) throws Exception {
+        // Map<String, Object> result = new HashMap<>();
         ChallengeEntity vo = challengeService.selectChallengeRead(bno);
-        logger.info("challengeRead -> " + vo.toString());
 
-        result.put("vo", vo);
-        return result;
+        log.info("bno -> " + bno);
+        log.info("subscribeLessionRead result -> " + vo.toString());
+
+        // result.put("vo", vo);
+        return vo;
     }
 
     // 챌린지 글 수정
     @PutMapping("/challengeupdate")
-    public String update(@RequestBody ChallengeEntity challengeEntity) throws Exception {
+    public String challengeupdate(@RequestBody ChallengeEntity challengeEntity) throws Exception {
         challengeService.challengeUpdate(challengeEntity);
-        logger.info("challengeUpdate -> " + challengeEntity.toString());
-
+        log.info("challengeUpdate -> " + challengeEntity.toString());
         return "success";
-        // return "redirect:/challenge/challengelist";
+        //return "redirect:/challenge/challengeList";
     }
+
+
 
     // 챌린지 글 삭제
     @DeleteMapping("/challengedelete/{bno}")
-    public String delete(@PathVariable("bno") int bno) throws Exception {
+    public String challengedelete(@PathVariable("bno") int bno) throws Exception {
+
+        log.info("challengeDelete -> " + bno);
         challengeService.challengeDelete(bno);
-        logger.info("challengeDelete -> " + bno);
 
         return "success";
-        // return "redirect:/challenge/challengelist";
+        //return "redirect:/challenge/challengeList";
     }
 }
