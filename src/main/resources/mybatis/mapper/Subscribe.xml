@@ -7,19 +7,19 @@
 	<select id="selectSubscribeList" resultType="com.healthplan.work.vo.SubscribeVO">
 
 		SELECT
-			  ROWNUM AS RNUM
-			, SNO
-			, MNO
-			, UUID
-			, STYPE
-			, TITLE
-			, CONTENTS
-			, TO_CHAR(WDATE, 'YYYY-MM-DD') AS WDATE
-			, COUNTS
-			, FILEID
-			, REPLYCNT
-			, (SELECT FILENAME FROM SATTACHED WHERE IMGTYPE = 'M' AND SNO = S.SNO) AS TITLEIMG
-			, SPOINT
+		ROWNUM AS RNUM
+		, SNO
+		, MNO
+		, UUID
+		, STYPE
+		, TITLE
+		, CONTENTS
+		, TO_CHAR(WDATE, 'YYYY-MM-DD') AS WDATE
+		, COUNTS
+		, FILEID
+		, REPLYCNT
+		, (SELECT FILENAME FROM SATTACHED WHERE IMGTYPE = 'M' AND SNO = S.SNO) AS TITLEIMG
+		, SPOINT
 		FROM  SUBSCRIBE S
 		WHERE 1=1
 		AND STYPE = 'T'
@@ -34,17 +34,17 @@
 	<select id="selectSubscribeRead" resultType="com.healthplan.work.vo.SubscribeVO">
 
 		SELECT
-			  SNO
-			, MNO
-			, UUID
-			, STYPE
-			, TITLE
-			, CONTENTS
-			, WDATE
-			, COUNTS
-			, FILEID
-			, REPLYCNT
-			, SPOINT
+		SNO
+		, MNO
+		, UUID
+		, STYPE
+		, TITLE
+		, CONTENTS
+		, WDATE
+		, COUNTS
+		, FILEID
+		, REPLYCNT
+		, SPOINT
 		FROM  SUBSCRIBE
 		WHERE SNO = #{sno}
 
@@ -55,23 +55,23 @@
 	<insert id="insertSubscribe">
 
 		INSERT INTO SUBSCRIBE(
-			  SNO
-			, MNO
-			, UUID
-			, STYPE
-			, TITLE
-			, CONTENTS
-			, SPOINT
-			, WDATE
+		SNO
+		, MNO
+		, UUID
+		, STYPE
+		, TITLE
+		, CONTENTS
+		, SPOINT
+		, WDATE
 		) VALUES (
-			  SNO_SEQ.NEXTVAL
-			, #{mno}
-			, #{uuid}
-			, 'T'
-			, #{title}
-			, #{contents}
-			, #{spoint}
-			, SYSDATE
+		SNO_SEQ.NEXTVAL
+		, #{mno}
+		, #{uuid}
+		, 'T'
+		, #{title}
+		, #{contents}
+		, #{spoint}
+		, SYSDATE
 		)
 
 	</insert>
@@ -81,23 +81,23 @@
 	<insert id="insertSubscribeLession" parameterType="com.healthplan.work.vo.SubscribeVO">
 
 		INSERT INTO SUBSCRIBE(
-			  SNO
-			, MNO
-			, UUID
-			, STYPE
-			, TITLE
-			, CONTENTS
-			, SPOINT
-			, WDATE
-			) VALUES (
-			SNO_SEQ.NEXTVAL
-			, #{mno}
-			, #{uuid}
-			, 'L'
-			, #{title}
-			, #{contents}
-			, #{spoint}
-			, SYSDATE
+		SNO
+		, MNO
+		, UUID
+		, STYPE
+		, TITLE
+		, CONTENTS
+		, SPOINT
+		, WDATE
+		) VALUES (
+		SNO_SEQ.NEXTVAL
+		, #{mno}
+		, #{uuid}
+		, 'L'
+		, #{title}
+		, #{contents}
+		, #{spoint}
+		, SYSDATE
 		)
 
 		<selectKey keyProperty="sno" resultType="int" order="AFTER">
@@ -111,9 +111,9 @@
 
 		UPDATE SUBSCRIBE
 		SET
-			  TITLE		= #{title}
-			, CONTENTS	= #{contents}
-			, SPOINT	= #{spoint}
+		TITLE		= #{title}
+		, CONTENTS	= #{contents}
+		, SPOINT	= #{spoint}
 		WHERE SNO 		= #{sno}
 
 	</update>
@@ -123,9 +123,9 @@
 
 		UPDATE SUBSCRIBE
 		SET
-			  TITLE		= #{title}
-			, CONTENTS	= #{contents}
-			, SPOINT	= #{spoint}
+		TITLE		= #{title}
+		, CONTENTS	= #{contents}
+		, SPOINT	= #{spoint}
 		WHERE SNO 		= #{sno}
 
 	</update>
@@ -152,27 +152,27 @@
 		SELECT *
 		FROM
 		(
-			SELECT
-			  ROWNUM AS RNUM
-			, SNO
-			, MNO
-			, UUID
-			, STYPE
-			, TITLE
-			, CONTENTS
-			, TO_CHAR(WDATE, 'YYYY-MM-DD') AS WDATE
-			, COUNTS
-			, FILEID
-			, REPLYCNT
-			, (SELECT FILENAME FROM SATTACHED WHERE IMGTYPE = 'M' AND SNO = S.SNO) AS TITLEIMG
-			, SPOINT
-			FROM  SUBSCRIBE S
-			WHERE 1=1
-			AND STYPE = 'L'
+		SELECT
+		ROWNUM AS RNUM
+		, SNO
+		, MNO
+		, UUID
+		, STYPE
+		, TITLE
+		, CONTENTS
+		, TO_CHAR(WDATE, 'YYYY-MM-DD') AS WDATE
+		, COUNTS
+		, FILEID
+		, REPLYCNT
+		, (SELECT FILENAME FROM SATTACHED WHERE IMGTYPE = 'M' AND SNO = S.SNO) AS TITLEIMG
+		, SPOINT
+		FROM  SUBSCRIBE S
+		WHERE 1=1
+		AND STYPE = 'L'
 
-			<include refid="search"></include>
+		<include refid="search"></include>
 
-			ORDER BY SNO DESC
+		ORDER BY SNO DESC
 		)
 		WHERE RNUM BETWEEN #{pageStart} AND #{pageEnd}
 		ORDER BY RNUM
@@ -183,7 +183,7 @@
 	<select id="selectSubscribeLessionCount" resultType="int">
 
 		SELECT
-			  COUNT(*)
+		COUNT(*)
 		FROM  SUBSCRIBE
 		WHERE 1=1
 		AND STYPE = 'L'
@@ -191,6 +191,38 @@
 		<include refid="search"></include>
 
 	</select>
+
+	<!-- 강의 조회수 -->
+	<update id="updateSubscribeLessionCount">
+
+		UPDATE SUBSCRIBE
+		SET
+		COUNTS = COUNTS + 1
+		WHERE SNO = #{sno}
+
+	</update>
+
+	<!-- 댓글수 더하기 -->
+	<update id="updateReplyCnt">
+
+		UPDATE SUBSCRIBE
+		SET
+		REPLYCNT = (SELECT MAX(REPLYCNT) + 1 FROM SUBSCRIBE WHERE SNO = #{sno})
+		WHERE SNO 	 = #{sno}
+
+	</update>
+
+
+	<!-- 댓글수 빼기 -->
+	<update id="updateReplyCntSubtraction">
+
+		UPDATE SUBSCRIBE
+		SET
+		REPLYCNT = (SELECT MAX(REPLYCNT) - 1 FROM SUBSCRIBE WHERE SNO = #{sno})
+		WHERE SNO 	 = #{sno}
+
+	</update>
+
 
 	<!-- 통합 list Search -->
 	<sql id="search">
