@@ -5,10 +5,12 @@ import com.healthplan.work.vo.SearchCriteria;
 import com.healthplan.work.vo.SubscribeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
 @Service
+@Log4j2
 public class SubscribeService {
 
     @Autowired
@@ -19,6 +21,7 @@ public class SubscribeService {
     }
 
     public SubscribeVO selectSubscribeRead(int sno) throws Exception {
+        subscribeMapper.updateSubscribeLessionCount(sno);
         return subscribeMapper.selectSubscribeRead(sno);
     }
 
@@ -39,6 +42,7 @@ public class SubscribeService {
     }
 
     public int selectSubscribeLessionCount(SearchCriteria cri) throws Exception {
+        log.info("조회수 증가: sno = " + cri);
         return subscribeMapper.selectSubscribeLessionCount(cri);
     }
 

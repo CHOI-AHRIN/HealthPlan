@@ -67,14 +67,61 @@ public class MemberController {
         return list;
     }
 
-    // mNo로 회원정보 조회
-    @RequestMapping(value = "/readMno", method = RequestMethod.POST)
-    public MemberEntity selectMNo(@RequestBody MemberEntity mem) throws Exception {
+/*    // mNo로 회원정보 조회
+    @RequestMapping(value = "/getUuidByMno", method = RequestMethod.POST)
+    public String getUuidByMno (@RequestBody MemberEntity mem) throws Exception {
+
         logger.info("read post ...........");
         logger.info(mem.toString());
 
-        return mapper.selectMno(mem.getMno());
+        String num =mapper.selectMno(mem);
+
+        return num;
+    }*/
+
+    @RequestMapping(value = "/getUuidByMno", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, String>> getUuidByMno(@RequestBody MemberEntity mem) throws Exception {
+        logger.info("회원정보 조회 요청 - mno: " + mem.getMno());
+
+        // mno로 uuid 조회
+        String uuid = mapper.selectUuidByMno(mem.getMno());
+        logger.info("/******************************* uuid 조회 당한 회원번호 보여줘 : " + uuid);
+
+        if (uuid != null) {
+            // 응답 데이터를 JSON 형식으로 반환
+            Map<String, String> result = new HashMap<>();
+            result.put("uuid", uuid);
+
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } else {
+            // 해당 mno에 대한 uuid가 없을 경우
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
+
+
+
+    // 회원번호 조회
+    @RequestMapping(value = "/readMno", method = RequestMethod.POST)
+    public ResponseEntity<MemberEntity> selectMno(@RequestBody Map<String, String> requestData) throws Exception {
+
+        // Map에서 "uuid" 값 추출
+        String uuid = requestData.get("uuid");
+        // 로그로 uuid 확인
+        logger.info("조회할 아이디 : " + uuid);
+
+        MemberEntity memberInfo = mapper.selectMno(uuid);
+
+        logger.info("/************************** 일단 회원번호 정보 보여줘" + memberInfo);
+
+        if (memberInfo != null) {
+            logger.info("/************************** 성공한 회원번호 정보 보여줘" + memberInfo);
+            return ResponseEntity.ok(memberInfo);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     /// 회원가입
 

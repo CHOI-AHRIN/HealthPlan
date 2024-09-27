@@ -14,6 +14,8 @@ public interface MemberMapper {
     // 회원 번호로 정보 조회
     public MemberEntity selectMno(int mno) throws Exception;
 
+    public String selectUuidByMno(Integer mno) throws Exception;
+
     // 회원가입
     public void insertMem(MemberEntity member) throws Exception;
 
@@ -48,7 +50,10 @@ public interface MemberMapper {
     public MemberEntity delete(String uuid) throws Exception;
 
     // 이름 조회
-    MemberEntity selectName(String uuid) throws Exception;
+    public MemberEntity selectName(String uuid) throws Exception;
+
+    // 회원번호 조회
+    public MemberEntity selectMno(String uuid) throws Exception;
 
 /*
     public MemberEntity login(LoginDTO dto) throws Exception;
