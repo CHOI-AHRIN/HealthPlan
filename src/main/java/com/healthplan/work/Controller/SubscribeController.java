@@ -25,17 +25,6 @@ public class SubscribeController {
     private SubscribeService subscribeService;
 
     /*****************************************************************************************************************
-     * Index string.
-     *
-     * @return the string
-     */
-    @GetMapping("/")
-    public String index() {
-        return "redirect:/subscribe/subscribeList";
-    }
-
-
-    /*****************************************************************************************************************
      * subscribeList : 전문가구독 list
      *
      * @return the map

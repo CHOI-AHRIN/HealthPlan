@@ -11,11 +11,18 @@
         ORDER BY mno DESC
     </select>
 
-    <!-- mno로 회원정보 조회 -->
+<!--    &lt;!&ndash; mno로 회원정보 조회 &ndash;&gt;
     <select id ="selectMno" resultType ="com.healthplan.work.vo.MemberEntity">
         select *
         from MEMBER
         where mno = #{mno}
+    </select>-->
+
+    <!--회원번호로 아이디 조회 (댓글)-->
+    <select id="selectUuidByMno" resultType="java.lang.String" parameterType="int">
+        SELECT uuid
+        FROM member
+        WHERE mno = #{mno}
     </select>
 
     <!-- 회원가입 -->
@@ -103,6 +110,15 @@
     <!-- 이름조회 -->
     <select id="selectName" resultType="com.healthplan.work.vo.MemberEntity">
         SELECT name
+        FROM
+        member
+        WHERE
+        uuid = #{uuid}
+    </select>
+
+    <!-- 회원번호 조회 -->
+    <select id="selectMno" resultType="com.healthplan.work.vo.MemberEntity">
+        SELECT mno
         FROM
         member
         WHERE
