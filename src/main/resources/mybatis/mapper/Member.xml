@@ -25,6 +25,18 @@
         WHERE mno = #{mno}
     </select>
 
+
+    <!--회원번호로 아이디 조회 (리스트)-->
+    <select id="getUuidByMno" resultType="map" >
+        SELECT uuid
+        FROM member
+        WHERE mno IN
+        <foreach collection="mnos" item="mno" open="(" separator="," close=")">
+            #{mno}
+        </foreach>
+    </select>
+
+
     <!-- 회원가입 -->
     <insert id="insertMem">
         insert into member

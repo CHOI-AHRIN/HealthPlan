@@ -21,7 +21,8 @@
     </sql>
 
     <!-- 챌린지 목록 조회 -->
-    <select id="selectChallengeList" parameterType="com.healthplan.work.vo.SearchCriteria" resultType="com.healthplan.work.vo.ChallengeEntity">
+    <select id="selectChallengeList" parameterType="com.healthplan.work.vo.SearchCriteria"
+            resultType="com.healthplan.work.vo.ChallengeEntity">
         SELECT *
         FROM (
         SELECT
@@ -34,7 +35,7 @@
         b.bcounts
         FROM BOARD b
         WHERE 1=1
-        <include refid="search" />
+        <include refid="search"/>
         ORDER BY b.bno DESC
         )
         WHERE RNUM BETWEEN #{pageStart} AND #{pageEnd}
@@ -46,7 +47,7 @@
         SELECT COUNT(*)
         FROM BOARD b
         WHERE 1=1
-        <include refid="search" />
+        <include refid="search"/>
     </select>
 
     <!-- 챌린지 상세 조회 -->
@@ -63,7 +64,7 @@
     </select>
 
     <!-- 챌린지 등록 -->
-    <insert id="insertChallenge" >
+    <insert id="insertChallenge">
         INSERT INTO BOARD (
         bno,
         mno,
@@ -98,5 +99,15 @@
     <delete id="deleteChallenge" parameterType="int">
         DELETE FROM BOARD WHERE bno = #{bno}
     </delete>
+
+    <!--  조회수 -->
+    <update id="updateChallengeCount">
+
+        UPDATE BOARD
+        SET
+        BCOUNTS = BCOUNTS + 1
+        WHERE BNO = #{bno}
+
+    </update>
 
 </mapper>
