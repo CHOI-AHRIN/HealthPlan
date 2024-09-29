@@ -32,6 +32,8 @@ public class ChallengeController {
     // 챌린지 목록 표시
     @GetMapping("/challengeList")
     public Map<String, Object> clist(SearchCriteria cri) throws Exception {
+
+        logger.info("/******************************* 챌린지 리스트 돈다 ");
         Map<String, Object> result = new HashMap<>();
 
         //전체검색 onchange x
@@ -49,13 +51,14 @@ public class ChallengeController {
 
         log.info("cri	-> " + cri);
         log.info("ChallengeList result-> " + result.toString());
+
         return result;
 
     }
 
     // 챌린지 글 등록
     @PostMapping("/challengeinsert")
-    public String challengeInsert(@RequestBody ChallengeEntity challengeEntity) throws Exception {
+    public String challengeInsert(ChallengeEntity challengeEntity) throws Exception {
 
         log.info("ChallengeEntity: mno=" + challengeEntity.getMno() +
                 ", title=" + challengeEntity.getTitle() +

@@ -129,6 +129,7 @@ public class SubscribeController {
 
         log.info("cri	-> " + cri);
         log.info("subscribeLessionList result-> " + result.toString());
+
         return result;
     }
 

@@ -63,7 +63,7 @@
     </select>
 
     <!-- 챌린지 등록 -->
-    <insert id="insertChallenge" parameterType="com.healthplan.work.vo.ChallengeEntity">
+    <insert id="insertChallenge" >
         INSERT INTO BOARD (
         bno,
         mno,
