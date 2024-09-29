@@ -87,7 +87,7 @@ public class ChallengeController {
 
     // 챌린지 글 수정
     @PutMapping("/challengeupdate")
-    public String challengeupdate(@RequestBody ChallengeEntity challengeEntity) throws Exception {
+    public String challengeupdate(ChallengeEntity challengeEntity) throws Exception {
         challengeService.challengeUpdate(challengeEntity);
         log.info("challengeUpdate -> " + challengeEntity.toString());
         return "success";
