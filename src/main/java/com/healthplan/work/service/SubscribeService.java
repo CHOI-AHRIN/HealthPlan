@@ -42,7 +42,6 @@ public class SubscribeService {
     }
 
     public int selectSubscribeLessionCount(SearchCriteria cri) throws Exception {
-        log.info("조회수 증가: sno = " + cri);
         return subscribeMapper.selectSubscribeLessionCount(cri);
     }
 

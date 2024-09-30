@@ -5,6 +5,7 @@ import com.healthplan.work.vo.MemberEntity;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface MemberMapper {
 
@@ -14,7 +15,11 @@ public interface MemberMapper {
     // 회원 번호로 정보 조회
     public MemberEntity selectMno(int mno) throws Exception;
 
+    // 회원 번호로 아이디 조회
     public String selectUuidByMno(Integer mno) throws Exception;
+
+    // 회원 번호로 아이디 조회(리스트에서 일괄)
+    public Map<Integer, String> getUuidsByMnos(List<Integer> mnos) throws Exception;
 
     // 회원가입
     public void insertMem(MemberEntity member) throws Exception;

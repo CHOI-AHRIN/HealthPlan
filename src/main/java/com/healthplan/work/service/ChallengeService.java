@@ -23,6 +23,7 @@ public class ChallengeService {
     }
 
     public ChallengeEntity selectChallengeRead(int bno) throws Exception {
+        challengeMapper.updateChallengeCount(bno);
         return challengeMapper.selectChallengeRead(bno);
     }
 
