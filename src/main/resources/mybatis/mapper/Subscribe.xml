@@ -172,10 +172,10 @@
 
 		<include refid="search"></include>
 
-		ORDER BY SNO DESC
+		ORDER BY SNO 
 		)
 		WHERE RNUM BETWEEN #{pageStart} AND #{pageEnd}
-		ORDER BY RNUM
+		ORDER BY RNUM DESC
 
 	</select>
 

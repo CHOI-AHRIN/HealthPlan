@@ -36,10 +36,10 @@
         FROM BOARD b
         WHERE 1=1
         <include refid="search"/>
-        ORDER BY b.bno DESC
+        ORDER BY b.bno
         )
         WHERE RNUM BETWEEN #{pageStart} AND #{pageEnd}
-        ORDER BY RNUM
+        ORDER BY RNUM DESC
     </select>
 
     <!-- 챌린지 총 개수 조회 -->
