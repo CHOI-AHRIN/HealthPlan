@@ -1,6 +1,7 @@
 package com.healthplan.work.Controller;
 
 import com.healthplan.work.service.SubscribeService;
+import com.healthplan.work.vo.ImageDTO;
 import com.healthplan.work.vo.PageMaker;
 import com.healthplan.work.vo.SearchCriteria;
 import com.healthplan.work.vo.SubscribeVO;
@@ -50,7 +51,7 @@ public class SubscribeController {
      * @throws Exception the exception
      */
     @PostMapping("/subscribeInsert")
-    public String insert(SubscribeVO subscribeVO) throws Exception {
+    public String insert(@RequestBody SubscribeVO subscribeVO) throws Exception {
         subscribeService.subscribeInsert(subscribeVO);
         log.info("subscribeInsert -> " + subscribeVO.toString());
 
@@ -130,7 +131,6 @@ public class SubscribeController {
 
         log.info("cri	-> " + cri);
         log.info("subscribeLessionList result-> " + result.toString());
-
         return result;
     }
 
@@ -143,7 +143,7 @@ public class SubscribeController {
      * @throws Exception the exception
      */
     @PostMapping("/subscribeLessionInsert")
-    public String lessionInsert(SubscribeVO subscribeVO) throws Exception {
+    public String lessionInsert(@RequestBody SubscribeVO subscribeVO) throws Exception {
         log.info("subscribeInsert -> " + subscribeVO);
         subscribeService.subscribeLessionInsert(subscribeVO);
 
@@ -160,13 +160,16 @@ public class SubscribeController {
      */
     @GetMapping("/subscribeLessionRead/{sno}")
     public SubscribeVO lessionRead(@PathVariable("sno") int sno) throws Exception {
-        SubscribeVO vo = subscribeService.selectSubscribeRead(sno);
+        SubscribeVO vo = subscribeService.selectSubscrLessionibeRead(sno);
 
         log.info("sno -> " + sno);
         log.info("subscribeLessionRead result -> " + vo.toString());
 
         //이미지 정보 가져오기
-        //List<SubscribeVO> imageDTOList = getImageDTOList(bNo);
+        List<ImageDTO> imageDTOList = subscribeService.selectImageList(sno);
+        log.info("imageDTOList -> " + imageDTOList.toString());
+
+        vo.setImageDTOList(imageDTOList);
         return vo;
     }
 
@@ -179,9 +182,9 @@ public class SubscribeController {
      * @throws Exception the exception
      */
     @PutMapping("/subscribeLessionUpdate")
-    public String lessionUpdate(SubscribeVO subscribeVO) throws Exception {
+    public String lessionUpdate(@RequestBody SubscribeVO subscribeVO) throws Exception {
 
-        log.info("subscribeVO -> " + subscribeVO);
+        log.info("lessionUpdate subscribeVO -> " + subscribeVO);
         subscribeService.selectSubscribeUpdate(subscribeVO);
 
         return "success";
