@@ -180,6 +180,7 @@ public class SubscribeController {
      */
     @PutMapping("/subscribeLessionUpdate")
     public String lessionUpdate(SubscribeVO subscribeVO) throws Exception {
+
         log.info("subscribeVO -> " + subscribeVO);
         subscribeService.selectSubscribeUpdate(subscribeVO);
 
