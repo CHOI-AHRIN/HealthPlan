@@ -11,12 +11,12 @@
         ORDER BY mno DESC
     </select>
 
-<!--    &lt;!&ndash; mno로 회원정보 조회 &ndash;&gt;
-    <select id ="selectMno" resultType ="com.healthplan.work.vo.MemberEntity">
-        select *
-        from MEMBER
-        where mno = #{mno}
-    </select>-->
+    <!--    &lt;!&ndash; mno로 회원정보 조회 &ndash;&gt;
+        <select id ="selectMno" resultType ="com.healthplan.work.vo.MemberEntity">
+            select *
+            from MEMBER
+            where mno = #{mno}
+        </select>-->
 
     <!--회원번호로 아이디 조회 (댓글)-->
     <select id="selectUuidByMno" resultType="java.lang.String" parameterType="int">
@@ -40,10 +40,10 @@
     <!-- 회원가입 -->
     <insert id="insertMem">
         insert into member
-        (mno, uuid, upw, phone, name, mtype, email, regdate)
+        (mno, uuid, upw, phone, name, mtype, email, regdate, sstype)
         values
         (mno_seq.NEXTVAL, #{uuid}, #{upw}, #{phone}, #{name}, #{mtype},
-        #{email}, SYSDATE)
+        #{email}, SYSDATE, 'N')
     </insert>
 
     <!-- 현재 회원번호 조회  -->
