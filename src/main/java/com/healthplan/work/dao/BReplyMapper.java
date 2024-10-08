@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface BReplyMapper {
 
-    // 댓글 목록 조회
+    // 댓글 조회
     List<BReplyEntity> listReply(int bno) throws Exception;
 
     // 댓글 등록
