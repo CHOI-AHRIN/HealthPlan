@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: hp-app-prod
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: hp-app-prod
@@ -15,7 +15,13 @@ spec:
     spec:
       containers:
         - name: hp-app-prod
-          image: 192.168.1.10:8443/hp-app-prod  # 여기에서 React 프로젝트의 이미지로 변경
-          #command: ["sh", "-c", "cd /099 && npm install && npm start"]
+          image: 192.168.1.10:8443/hp-app-prod:latest
           ports:
-            - containerPort: 80
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:oracle:thin:@192.168.1.102:31521:xe
+            - name: SPRING_DATASOURCE_USERNAME
+              value: HEALTH
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: HEALTH
