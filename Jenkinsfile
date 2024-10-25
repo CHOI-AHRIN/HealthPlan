@@ -9,8 +9,8 @@ pipeline {
     stage('docker build and push') {
       steps {
         sh '''
-        docker build --no-cache -t 192.168.1.10:8443/hpf-app-prod .
-        docker push 192.168.1.10:8443/hpf-app-prod
+        docker build --no-cache -t 192.168.1.10:8443/hp-app-prod .
+        docker push 192.168.1.10:8443/hp-app-prod
         '''
       }
     }
