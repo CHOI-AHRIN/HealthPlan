@@ -1,0 +1,21 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hp-app-prod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hp-app-prod
+  template:
+    metadata:
+      labels:
+        app: hp-app-prod
+    spec:
+      containers:
+        - name: hp-app-prod
+          image: 192.168.1.10:8443/hp-app-prod  # 여기에서 React 프로젝트의 이미지로 변경
+          #command: ["sh", "-c", "cd /099 && npm install && npm start"]
+          ports:
+            - containerPort: 80
