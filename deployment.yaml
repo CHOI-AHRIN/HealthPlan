@@ -2,19 +2,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hp-app-prod
+  name: hp-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: hp-app-prod
+      app: hp-app
   template:
     metadata:
       labels:
-        app: hp-app-prod
+        app: hp-app
     spec:
       containers:
-        - name: hp-app-prod
+        - name: hp-app
           image: 192.168.1.10:8443/hp-app-prod:latest
           ports:
             - containerPort: 8080
