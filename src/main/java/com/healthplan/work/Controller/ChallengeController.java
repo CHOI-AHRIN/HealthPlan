@@ -16,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @Log4j2
-@RequestMapping("/challenge")
+@RequestMapping("/api/challenge")
 public class ChallengeController {
 
     private static final Logger logger = LoggerFactory.getLogger(ChallengeController.class);
