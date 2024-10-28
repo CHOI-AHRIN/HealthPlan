@@ -17,7 +17,7 @@ import java.util.List;
  */
 @RestController
 @Log4j2
-@RequestMapping("/sreplies")
+@RequestMapping("/api/sreplies")
 public class SReplyController {
 
     @Autowired

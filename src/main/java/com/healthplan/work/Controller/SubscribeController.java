@@ -20,7 +20,7 @@ import java.util.Map;
  */
 @RestController
 @Log4j2
-@RequestMapping("/subscribe")
+@RequestMapping("/api/subscribe")
 public class SubscribeController {
 
     @Autowired
