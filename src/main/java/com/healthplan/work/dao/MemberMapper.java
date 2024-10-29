@@ -2,6 +2,7 @@ package com.healthplan.work.dao;
 
 import com.healthplan.work.dto.LoginDTO;
 import com.healthplan.work.vo.MemberEntity;
+import com.healthplan.work.vo.SearchCriteria;
 
 import java.util.Date;
 import java.util.List;
@@ -19,7 +20,7 @@ public interface MemberMapper {
     public String selectUuidByMno(Integer mno) throws Exception;
 
     // 회원 번호로 아이디 조회(리스트에서 일괄)
-    public Map<Integer, String> getUuidsByMnos(List<Integer> mnos) throws Exception;
+    public Map<Integer, String> getUuidsByMnos(SearchCriteria cri) throws Exception;
 
     // 회원가입
     public void insertMem(MemberEntity member) throws Exception;

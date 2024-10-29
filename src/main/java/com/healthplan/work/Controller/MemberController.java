@@ -100,11 +100,11 @@ public class MemberController {
     }
 
 
-    @PostMapping("/getUuidsByMnos")
+/*     @PostMapping("/getUuidsByMnos")
     public Map<Integer, String> getUuidsByMnos(@RequestBody List<Integer> mnos) throws Exception {
         return mapper.getUuidsByMnos(mnos);
     }
-
+ */
 
 
     // 회원번호 조회

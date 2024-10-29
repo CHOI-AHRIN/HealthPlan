@@ -27,7 +27,7 @@
 
 
     <!--회원번호로 아이디 조회 (리스트)-->
-    <select id="getUuidByMno" resultType="map" >
+    <select id="getUuidByMnos" resultType="map" >
         SELECT uuid
         FROM member
         WHERE mno IN

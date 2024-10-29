@@ -32,8 +32,10 @@
         b.title,
         b.bcontents,
         TO_CHAR(b.wdate, 'YYYY-MM-DD') AS wdate,
-        b.bcounts
+        b.bcounts,
+        m.uuid
         FROM BOARD b
+        LEFT JOIN MEMBER m ON b.mno = m.mno
         WHERE 1=1
         <include refid="search"/>
         ORDER BY b.bno

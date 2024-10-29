@@ -1,7 +1,9 @@
 package com.healthplan.work.Controller;
 
+import com.healthplan.work.dao.MemberMapper;
 import com.healthplan.work.service.ChallengeService;
 import com.healthplan.work.vo.ChallengeEntity;
+import com.healthplan.work.vo.MemberEntity;
 import com.healthplan.work.vo.PageMaker;
 import com.healthplan.work.vo.SearchCriteria;
 import lombok.extern.log4j.Log4j2;
@@ -24,6 +26,9 @@ public class ChallengeController {
     @Autowired
     private ChallengeService challengeService;
 
+    @Autowired
+    private MemberMapper mapper;
+
     @GetMapping("/")
     public String index() {
         return "redirect:/challenge/challengelist";
@@ -31,9 +36,9 @@ public class ChallengeController {
 
     // 챌린지 목록 표시
     @GetMapping("/challengeList")
-    public Map<String, Object> clist(SearchCriteria cri) throws Exception {
+    public Map<String, Object> clist(SearchCriteria cri, MemberEntity mem) throws Exception {
 
-        logger.info("/******************************* 챌린지 리스트 돈다 ");
+        logger.info("1. /******************************* 챌린지 리스트 돈다 ");
         Map<String, Object> result = new HashMap<>();
 
         //전체검색 onchange x
@@ -46,11 +51,12 @@ public class ChallengeController {
         pageMaker.setTotalCount(challengeService.selectChallengeCount(cri));
 
         List<ChallengeEntity> clist = challengeService.selectChallengeList(cri);
+
         result.put("clist", clist);
         result.put("pageMaker", pageMaker);
 
-        log.info("cri	-> " + cri);
-        log.info("ChallengeList result-> " + result.toString());
+        log.info("2. cri	-> " + cri);
+        log.info("3. ChallengeList result-> " + result.toString());
 
         return result;
 
