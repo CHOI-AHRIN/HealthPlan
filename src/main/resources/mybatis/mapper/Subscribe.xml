@@ -49,6 +49,7 @@
 			, CONTENTS
 			, SPOINT
 			, WDATE
+			, COUNTS
 		) VALUES (
 			  SNO_SEQ.NEXTVAL
 			, #{mno}
@@ -58,6 +59,7 @@
 			, #{contents}
 			, #{spoint}
 			, SYSDATE
+			, 0
 		)
 
 	</insert>
@@ -75,6 +77,7 @@
 			, CONTENTS
 			, SPOINT
 			, WDATE
+			, COUNTS
 			) VALUES (
 			  SNO_SEQ.NEXTVAL
 			, #{mno}
@@ -84,6 +87,7 @@
 			, #{contents}
 			, #{spoint}
 			, SYSDATE
+			, 0
 		)
 
 		<selectKey keyProperty="sno" resultType="int" order="AFTER">

@@ -12,11 +12,13 @@
         , SNO
         , RCOMMENT
         , RREGDATE
+        , UREGDATE
         ) VALUES (
         RNO_SEQ.NEXTVAL
         , #{mno}
         , #{sno}
         , #{rcomment}
+        , SYSDATE
         , SYSDATE
         )
 

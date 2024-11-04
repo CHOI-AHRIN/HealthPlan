@@ -1,10 +1,14 @@
 package com.healthplan.work.service;
 
+import com.healthplan.work.Controller.ChallengeController;
 import com.healthplan.work.dao.SubscribeMapper;
 import com.healthplan.work.vo.ImageDTO;
 import com.healthplan.work.vo.SearchCriteria;
 import com.healthplan.work.vo.SubscribeVO;
 import lombok.extern.log4j.Log4j2;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +26,8 @@ public class SubscribeService {
 
     @Autowired
     private SubscribeMapper subscribeMapper;
+
+    private static final Logger logger = LoggerFactory.getLogger(SubscribeService.class);
 
     /**
      * Select subscribe list list.
@@ -43,6 +49,7 @@ public class SubscribeService {
      */
     public SubscribeVO selectSubscrLessionibeRead(int sno) throws Exception {
         subscribeMapper.updateSubscribeLessionCount(sno);
+        logger.info("52 Line: SubscribeSerive Lession Count ====> " + sno);
         return subscribeMapper.selectSubscribeLessionRead(sno);
     }
 
@@ -60,9 +67,9 @@ public class SubscribeService {
         if (imageDTOList != null && !imageDTOList.isEmpty()) {
             for (ImageDTO imageDTO : imageDTOList) {
                 String imgName = imageDTO.getThumbnailURL();
-                String imgURL  = imageDTO.getImageURL();
-                String uuid    = imageDTO.getUuid();
-                String path    = imageDTO.getPath();
+                String imgURL = imageDTO.getImageURL();
+                String uuid = imageDTO.getUuid();
+                String path = imageDTO.getPath();
                 String imgType = imageDTO.getImgType();
 
                 subscribeMapper.addAttach(imgName, imgURL, uuid, path, imgType);
@@ -126,11 +133,11 @@ public class SubscribeService {
 
         if (imageDTOList != null && !imageDTOList.isEmpty()) {
             for (ImageDTO imageDTO : imageDTOList) {
-//                String orgName = imageDTO.getImgName();
+                // String orgName = imageDTO.getImgName();
                 String imgName = imageDTO.getThumbnailURL();
-                String imgURL  = imageDTO.getImageURL();
-                String uuid    = imageDTO.getUuid();
-                String path    = imageDTO.getPath();
+                String imgURL = imageDTO.getImageURL();
+                String uuid = imageDTO.getUuid();
+                String path = imageDTO.getPath();
                 String imgType = imageDTO.getImgType();
 
                 // mapper에 fileName, uuid, path 등을 활용한 로직 추가
@@ -138,25 +145,26 @@ public class SubscribeService {
             }
         }
 
-//        Spring legacy case
-//        List<ImageDTO> imageList = vo.getImageDTOList();
-//        String[] files = vo.getFileid();
+        // Spring legacy case
+        // List<ImageDTO> imageList = vo.getImageDTOList();
+        // String[] files = vo.getFileid();
 
-//        if (imageList != null && !imageList.isEmpty()) {
-//            HashMap<String, Object> map = new HashMap<String, Object>();
-//            List<HashMap<String, Object>> listMap = new ArrayList<HashMap<String,Object>>();
-//            int sno = vo.getSno();
-//
-//            for (ImageDTO idto : imageList) {
-//                HashMap<String, Object> data = new HashMap<String, Object>();
-//
-//                data.put("fileName", "/" + idto.getPath() + "/" +idto.getImgName());
-//                data.put("sno", sno);
-//                listMap.add(data);
-//            }
-//            map.put("listMap", listMap);
-//            subscribeMapper.subscribeAttach(map);
-//        }
+        // if (imageList != null && !imageList.isEmpty()) {
+        // HashMap<String, Object> map = new HashMap<String, Object>();
+        // List<HashMap<String, Object>> listMap = new
+        // ArrayList<HashMap<String,Object>>();
+        // int sno = vo.getSno();
+        //
+        // for (ImageDTO idto : imageList) {
+        // HashMap<String, Object> data = new HashMap<String, Object>();
+        //
+        // data.put("fileName", "/" + idto.getPath() + "/" +idto.getImgName());
+        // data.put("sno", sno);
+        // listMap.add(data);
+        // }
+        // map.put("listMap", listMap);
+        // subscribeMapper.subscribeAttach(map);
+        // }
     }
 
     /**
@@ -176,9 +184,9 @@ public class SubscribeService {
 
             for (ImageDTO imageDTO : imageUpList) {
                 String imgName = imageDTO.getThumbnailURL();
-                String imgURL  = imageDTO.getImageURL();
-                String uuid    = imageDTO.getUuid();
-                String path    = imageDTO.getPath();
+                String imgURL = imageDTO.getImageURL();
+                String uuid = imageDTO.getUuid();
+                String path = imageDTO.getPath();
                 String imgType = imageDTO.getImgType();
 
                 subscribeMapper.updateAttach(imgName, imgURL, uuid, path, imgType, sno);
@@ -205,6 +213,7 @@ public class SubscribeService {
      */
     public SubscribeVO selectSubscribeRead(int sno) throws Exception {
         subscribeMapper.updateSubscribeCount(sno);
+        logger.info("216 Line: SubscribeSerive Count ====> " + sno);
         return subscribeMapper.selectSubscribeRead(sno);
     }
 
