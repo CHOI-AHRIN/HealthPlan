@@ -29,17 +29,28 @@ public class SubscribeController {
     /*****************************************************************************************************************
      * subscribeList : 전문가구독 list
      *
+     * @param cri the cri
      * @return the map
      * @throws Exception the exception
      */
     @GetMapping("/subscribeList")
-    public Map<String, Object> list() throws Exception {
+    public Map<String, Object> list(@NotNull SearchCriteria cri) throws Exception {
         Map<String, Object> result = new HashMap<>();
 
-        List<SubscribeVO> list = subscribeService.selectSubscribeList();
-        log.info("subscribeList -> " + list.toString());
+        //전체검색 onchange x
+        if ("".equals(cri.getSearchType())) {
+            cri.setSearchType("total");
+        }
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCri(cri);
+        pageMaker.setTotalCount(subscribeService.selectSubscribeCount(cri));
 
+        List<SubscribeVO> list = subscribeService.selectSubscribeList(cri);
         result.put("list", list);
+        result.put("pageMaker", pageMaker);
+
+        log.info("cri	-> " + cri);
+        log.info("subscribeList result-> " + result);
         return result;
     }
 
@@ -52,10 +63,10 @@ public class SubscribeController {
      */
     @PostMapping("/subscribeInsert")
     public String insert(@RequestBody SubscribeVO subscribeVO) throws Exception {
+        log.info("subscribeInsert -> " + subscribeVO);
         subscribeService.subscribeInsert(subscribeVO);
-        log.info("subscribeInsert -> " + subscribeVO.toString());
 
-        return "redirect:/subscribe/subscribeList";
+        return "success";
     }
 
     /**
@@ -65,14 +76,19 @@ public class SubscribeController {
      * @return the map
      * @throws Exception the exception
      */
-    @GetMapping({"/subscribeRead/{sno}", "/subscribeModify/{sno}"})
-    public Map<String, Object> read(@PathVariable("sno") int sno) throws Exception {
-        Map<String, Object> result = new HashMap<>();
+    @GetMapping("/subscribeRead/{sno}")
+    public SubscribeVO read(@PathVariable("sno") int sno) throws Exception {
         SubscribeVO vo = subscribeService.selectSubscribeRead(sno);
-        log.info("subscribeRead -> " + vo.toString());
 
-        result.put("vo", vo);
-        return result;
+        log.info("sno -> " + sno);
+        log.info("subscribeRead result -> " + vo.toString());
+
+        //이미지 정보 가져오기
+        List<ImageDTO> imageDTOList = subscribeService.selectImageList(sno);
+        log.info("imageDTOList -> " + imageDTOList.toString());
+
+        vo.setImageDTOList(imageDTOList);
+        return vo;
     }
 
     /**
@@ -83,11 +99,11 @@ public class SubscribeController {
      * @throws Exception the exception
      */
     @PutMapping("/subscribeUpdate")
-    public String update(SubscribeVO subscribeVO) throws Exception {
-        subscribeService.subscribeUpdate(subscribeVO);
-        log.info("subscribeUpdate -> " + subscribeVO.toString());
+    public String update(@RequestBody SubscribeVO subscribeVO) throws Exception {
+        log.info("subscribeUpdate subscribeVO -> " + subscribeVO);
 
-        return "redirect:/subscribe/subscribeList";
+        subscribeService.selectSubscribeUpdate(subscribeVO);
+        return "success";
     }
 
     /**
@@ -99,10 +115,10 @@ public class SubscribeController {
      */
     @DeleteMapping("/subscribeDelete/{sno}")
     public String delete(@PathVariable("sno") int sno) throws Exception {
-        subscribeService.subscribeDelete(sno);
         log.info("subscribeDelete -> " + sno);
+        subscribeService.subscribeDelete(sno);
 
-        return "redirect:/subscribe/subscribeList";
+        return "success";
     }
 
     /*****************************************************************************************************************
@@ -120,7 +136,6 @@ public class SubscribeController {
         if ("".equals(cri.getSearchType())) {
             cri.setSearchType("total");
         }
-
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCri(cri);
         pageMaker.setTotalCount(subscribeService.selectSubscribeLessionCount(cri));
@@ -130,7 +145,7 @@ public class SubscribeController {
         result.put("pageMaker", pageMaker);
 
         log.info("cri	-> " + cri);
-        log.info("subscribeLessionList result-> " + result.toString());
+        log.info("subscribeLessionList result-> " + result);
         return result;
     }
 
