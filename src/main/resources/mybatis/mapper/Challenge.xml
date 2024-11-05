@@ -112,4 +112,121 @@
 
     </update>
 
+    <!-- 첨부파일 등록 -->
+	<insert id="subscribeAttach" parameterType="java.util.HashMap">
+
+		<foreach collection="listMap" item="item" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+
+			INTO SATTACHED(
+				  ANO
+				, BNO
+				, FILENAME
+				, IMGTYPE
+				, REGDATE
+			) VALUES(
+				  ANO_SEQ.NEXTVAL
+				, #{item.bno}
+				, #{item.fileName}
+				, 'A' <!--, #{item.imgtype}-->
+				, SYSDATE
+			)
+
+		</foreach>
+
+	</insert>
+
+
+	<!-- 첨부파일 등록 -->
+	<insert id="subscribeStringAttach" parameterType="java.lang.String">
+
+		INSERT INTO SATTACHED(
+			  ANO
+			, BNO
+			, FILENAME
+			, IMGTYPE
+			, REGDATE
+		) VALUES(
+			  ANO_SEQ.NEXTVAL
+			, #{csno}
+			, #{imgName}
+			, 'A'
+			, SYSDATE
+		)
+
+	</insert>
+
+
+	<!-- 첨부파일 insert -->
+	<insert id="addAttach" parameterType="java.lang.String">
+
+		INSERT INTO NATTACH (
+			  IMGNAME
+			, IMAGEURL
+			, UUID
+			, PATH
+			, IMGTYPE
+			, BNO
+			, ANO
+			, REGDATE
+		)
+		VALUES (
+			  #{imgName}
+			, #{imgURL}
+			, #{uuid}
+			, #{path}
+			, #{imgType}
+			, BNO_SEQ.CURRVAL
+			, ANO_SEQ.NEXTVAL
+			, SYSDATE
+		)
+
+	</insert>
+
+	<!-- 첨부파일 update -->
+	<insert id="updateAttach" parameterType="java.lang.String">
+
+		INSERT INTO NATTACH (
+			  IMGNAME
+			, IMAGEURL
+			, UUID
+			, PATH
+			, IMGTYPE
+			, BNO
+			, REGDATE
+		)
+		VALUES (
+			  #{imgName}
+			, #{imgURL}
+			, #{uuid}
+			, #{path}
+			, #{imgType}
+			, #{bno}
+			, SYSDATE
+		)
+
+	</insert>
+
+
+	<!-- 첨부파일 select -->
+	<select id="selectImageList" resultType="com.healthplan.work.vo.ImageDTO">
+
+		SELECT
+			  IMGNAME
+			, IMAGEURL
+			, UUID
+			, PATH
+		FROM  NATTACH
+		WHERE BNO = #{bno}
+		ORDER BY REGDATE
+
+	</select>
+
+
+	<!-- 첨부파일 삭제 -->
+	<delete id="deleteAttach">
+
+		DELETE FROM NATTACH WHERE BNO = #{bno}
+
+	</delete>
+
 </mapper>

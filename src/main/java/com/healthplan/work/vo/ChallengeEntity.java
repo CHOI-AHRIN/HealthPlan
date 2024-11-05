@@ -1,8 +1,17 @@
 package com.healthplan.work.vo;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ChallengeEntity {
     private int bno;           // 게시글 번호
     private int mno;           // 회원 번호 (작성자)
@@ -13,4 +22,7 @@ public class ChallengeEntity {
 
     // [아린] uuid 조회를 위한 추가
     private String uuid;
+
+    @Builder.Default
+    private List<ImageDTO> imageDTOList = new ArrayList<>();
 }
