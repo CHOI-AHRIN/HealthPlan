@@ -26,7 +26,11 @@ public class SubscribeVO {
     private String[] imgtype;
     private String titleimg;
     private String replycnt;
-    private int spoint;
+    private String spoint;
+
+
+    @Builder.Default
+    private List<ImageDTO> mainImage = new ArrayList<>();
 
     @Builder.Default
     private List<ImageDTO> imageDTOList = new ArrayList<>();
