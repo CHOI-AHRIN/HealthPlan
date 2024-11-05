@@ -67,7 +67,7 @@ public class CUploadController {
                 uploadFile.transferTo(savePath);
 
                 // 섬네일 생성
-                String thumbnailSaveName = uploadPath + File.separator + folderPath + File.separator + "s_" + uuid + "_"
+                String thumbnailSaveName = uploadPath + File.separator + folderPath + File.separator + "_" + uuid + "_"
                         + fileName;
                 log.info("thumbnailSaveName fileName: " + thumbnailSaveName);
 
