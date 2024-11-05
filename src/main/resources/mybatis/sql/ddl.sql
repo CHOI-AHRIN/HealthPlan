@@ -1,4 +1,5 @@
 -- Active: 1728281287544@@127.0.0.1@1521@XE@HEALTH
+-- 171 line: PasswordEncryptor.java 실행해서 터미널에 프린트 된 비밀번호를 UPW의 VALUE 값에다 삽입 후 전체 실행
 
 -- 회원 테이블
 CREATE TABLE Member (
@@ -167,7 +168,7 @@ CREATE SEQUENCE SNO_SEQ MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREME
 START WITH 1 NOCACHE;
 
 -- 기본 쿼리
--- 회원 등록
+-- PasswordEncryptor.java 실행해서 터미널에 프린트 된 비밀번호를 UPW의 VALUE 값에다 삽입 후 전체 실행
 INSERT INTO
     MEMBER (
         MNO,
@@ -180,13 +181,13 @@ INSERT INTO
         REGDATE
     )
 VALUES (
-        MNO_SEQ.NEXTVAL,
-        'user001',
-        'qwerqwer1!',
+        0,
+        'admin',
+        '$2a$10$Qa1F9kP3SNJy0sk8JruEqeq2BXU1KO.Ej/b73oCft.5.chE4cIW0O',
         '01012345678',
-        '유저001',
-        'M',
-        'user001@example.com',
+        '운영자',
+        'a',
+        'admin@example.com',
         SYSDATE
     );
 -- 초기 포인트 등록
