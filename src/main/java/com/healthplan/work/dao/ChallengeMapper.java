@@ -1,9 +1,11 @@
 package com.healthplan.work.dao;
 
 import com.healthplan.work.vo.ChallengeEntity;
+import com.healthplan.work.vo.ImageDTO;
 import com.healthplan.work.vo.SearchCriteria;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Mapper
@@ -21,6 +23,13 @@ public interface ChallengeMapper {
     void deleteChallenge(int bno) throws Exception;
 
     public void updateChallengeCount(int bno) throws Exception;
+
+
+    public void challengeAttach(HashMap<String, Object> map) throws Exception;
+
+    public void challengeStringAttach(String csno, String imgName) throws Exception;
+
+    public List<ImageDTO> selectImageList(int sno) throws Exception;
 
     public void addAttach(String imgName, String imgURL, String uuid, String path, String imgType) throws Exception;
 

@@ -40,6 +40,7 @@ public class ChallengeService {
         challengeMapper.insertChallenge(vo);
 
         List<ImageDTO> imageDTOList = vo.getImageDTOList();
+        challengeMapper.deleteAttach(vo.getSno());
 
         if (imageDTOList != null && !imageDTOList.isEmpty()) {
             for (ImageDTO imageDTO : imageDTOList) {
@@ -48,7 +49,7 @@ public class ChallengeService {
                 String uuid = imageDTO.getUuid();
                 String path = imageDTO.getPath();
                 String imgType = imageDTO.getImgType();
-
+                
                 challengeMapper.addAttach(imgName, imgURL, uuid, path, imgType);
             }
         }
@@ -57,6 +58,23 @@ public class ChallengeService {
     // 챌린지 수정
     public void challengeUpdate(ChallengeEntity vo) throws Exception {
         challengeMapper.updateChallenge(vo);
+
+        List<ImageDTO> imageUpList = vo.getImageDTOList();
+        challengeMapper.deleteAttach(vo.getSno());
+
+        if (imageUpList != null && !imageUpList.isEmpty()) {
+            String sno = String.valueOf(vo.getSno());
+
+            for (ImageDTO imageDTO : imageUpList) {
+                String imgName = imageDTO.getThumbnailURL();
+                String imgURL = imageDTO.getImageURL();
+                String uuid = imageDTO.getUuid();
+                String path = imageDTO.getPath();
+                String imgType = imageDTO.getImgType();
+
+                challengeMapper.updateAttach(imgName, imgURL, uuid, path, imgType, sno);
+            }
+        }
     }
 
     // 챌린지 삭제
