@@ -22,7 +22,7 @@
 				, FILEID
 				, REPLYCNT
 				, (SELECT IMGNAME FROM NATTACH WHERE IMGTYPE = 'M' AND SNO = S.SNO) AS TITLEIMG
-				, SPOINT
+				, TO_CHAR(SPOINT, 'FM999,999,999,999') AS SPOINT
 			FROM  SUBSCRIBE S
 			WHERE 1=1
 			AND STYPE = 'T'
@@ -111,7 +111,7 @@
 			, COUNTS
 			, FILEID
 			, REPLYCNT
-			, SPOINT
+			, TO_CHAR(SPOINT, 'FM999,999,999,999') AS SPOINT
 		FROM  SUBSCRIBE
 		WHERE SNO = #{sno}
 
@@ -131,7 +131,7 @@
 			, COUNTS
 			, FILEID
 			, REPLYCNT
-			, SPOINT
+			, TO_CHAR(SPOINT, 'FM999,999,999,999') AS SPOINT
 		FROM  SUBSCRIBE
 		WHERE SNO = #{sno}
 
@@ -139,7 +139,7 @@
 
 
 	<!-- 구독 수정 -->
-	<update id="updateSubscribe">
+	<update id="updateSubscribe" >
 
 		UPDATE SUBSCRIBE
 		SET
@@ -348,6 +348,7 @@
 
 	</insert>
 
+
 	<!-- 첨부파일 update -->
 	<insert id="updateAttach" parameterType="java.lang.String">
 
@@ -377,15 +378,38 @@
 	<select id="selectImageList" resultType="com.healthplan.work.vo.ImageDTO">
 
 		SELECT
-			  IMGNAME
+			  SNO
+			, IMGNAME
 			, IMAGEURL
 			, UUID
 			, PATH
+			, IMGTYPE
 		FROM  NATTACH
-		WHERE SNO = #{sno}
+		WHERE 1=1
+		  AND SNO = #{sno}
+		  AND IMGTYPE = 'A'
 		ORDER BY REGDATE
 
 	</select>
+
+
+
+		<select id="selectMainImage" resultType="com.healthplan.work.vo.ImageDTO">
+
+		SELECT
+			  SNO
+			, IMGNAME
+			, IMAGEURL
+			, UUID
+			, PATH
+			, IMGTYPE
+		FROM  NATTACH
+		WHERE 1=1
+		  AND SNO = #{sno}
+		  AND IMGTYPE = 'M'
+
+	</select>
+
 
 
 	<!-- 첨부파일 삭제 -->
