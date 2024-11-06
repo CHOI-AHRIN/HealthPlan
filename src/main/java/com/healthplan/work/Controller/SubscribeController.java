@@ -181,9 +181,12 @@ public class SubscribeController {
         log.info("subscribeLessionRead result -> " + vo.toString());
 
         //이미지 정보 가져오기
+        List<ImageDTO> mainImageList = subscribeService.selectMainImage(sno);
         List<ImageDTO> imageDTOList = subscribeService.selectImageList(sno);
+        log.info("mainImage -> " + mainImageList.toString());
         log.info("imageDTOList -> " + imageDTOList.toString());
 
+        vo.setMainImage(mainImageList);
         vo.setImageDTOList(imageDTOList);
         return vo;
     }

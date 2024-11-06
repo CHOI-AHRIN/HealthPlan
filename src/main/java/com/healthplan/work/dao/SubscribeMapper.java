@@ -207,4 +207,6 @@ public interface SubscribeMapper {
      * @throws Exception the exception
      */
     public SubscribeVO selectSubscribeRead(int sno) throws Exception;
+
+    public List<ImageDTO> selectMainImage(int sno) throws Exception;
 }
