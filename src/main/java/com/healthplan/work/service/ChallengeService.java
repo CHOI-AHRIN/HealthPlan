@@ -83,6 +83,60 @@ public class ChallengeService {
     }
 
 
+    //챌린지 공지게시판 ㅡㅡㅡ
+    //공지 읽기
+    public ChallengeEntity selectChallengeRead(int bno) throws Exception {
+        challengeMapper.updateChallengeCount(bno);
+        // logger.info("29 Line: SubscribeSerive Lession Count ====> " + bno);
+        return challengeMapper.selectChallengeRead(bno);
+    }
+
+    // 공지 작성
+    public void challengeInsert(ChallengeEntity vo) throws Exception {
+        challengeMapper.insertChallenge(vo);
+
+        List<ImageDTO> imageDTOList = vo.getImageDTOList();
+        challengeMapper.deleteAttach(vo.getSno());
+
+        if (imageDTOList != null && !imageDTOList.isEmpty()) {
+            for (ImageDTO imageDTO : imageDTOList) {
+                String imgName = imageDTO.getThumbnailURL();
+                String imgURL = imageDTO.getImageURL();
+                String uuid = imageDTO.getUuid();
+                String path = imageDTO.getPath();
+                String imgType = imageDTO.getImgType();
+                
+                challengeMapper.addAttach(imgName, imgURL, uuid, path, imgType);
+            }
+        }
+    }
+    
+    // 공지 수정
+    public void cnUpdate(ChallengeEntity vo) throws Exception {
+        challengeMapper.cnupdate(vo);
+
+        List<ImageDTO> imageUpList = vo.getImageDTOList();
+        challengeMapper.deleteAttach(vo.getSno());
+
+        if (imageUpList != null && !imageUpList.isEmpty()) {
+            String sno = String.valueOf(vo.getSno());
+
+            for (ImageDTO imageDTO : imageUpList) {
+                String imgName = imageDTO.getThumbnailURL();
+                String imgURL = imageDTO.getImageURL();
+                String uuid = imageDTO.getUuid();
+                String path = imageDTO.getPath();
+                String imgType = imageDTO.getImgType();
+
+                challengeMapper.updateAttach(imgName, imgURL, uuid, path, imgType, sno);
+            }
+        }
+    }
+
+    // 공지 삭제
+    public void cnDelete(int bno) throws Exception {
+        challengeMapper.cndelete(bno);
+    }
 
 
 
