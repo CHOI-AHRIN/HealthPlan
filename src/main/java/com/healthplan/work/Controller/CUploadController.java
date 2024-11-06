@@ -30,7 +30,7 @@ import java.util.UUID;
 
 @RestController
 @Log4j2
-@RequestMapping("/api/challenge")
+@RequestMapping("/api/cupload")
 public class CUploadController {
 
     @Value("${com.healthplan.upload.path}")
@@ -108,7 +108,7 @@ public class CUploadController {
             File file = new File(uploadPath + File.separator + srcFileName);
             boolean result = file.delete();
 
-            File thumbnail = new File(file.getParent(), "s_" + file.getName());
+            File thumbnail = new File(file.getParent(), "c_" + file.getName());
             result = thumbnail.delete();
 
             return new ResponseEntity<>(result, HttpStatus.OK);
@@ -128,7 +128,7 @@ public class CUploadController {
 
         try {
             String srcFileName = URLDecoder.decode(fileName, "UTF-8");
-            log.info("src fileName: " + srcFileName);
+            log.info("cupload src fileName: " + srcFileName);
 
             File file = new File(uploadPath + File.separator + srcFileName);
             log.info("file 1: " + file);
