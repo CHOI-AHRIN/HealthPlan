@@ -24,7 +24,7 @@ public interface ChallengeMapper {
 
     public void addAttach(String imgName, String imgURL, String uuid, String path, String imgType) throws Exception;
 
-    public void deleteAttach(int bno) throws Exception;
+    public void deleteAttach(int sno) throws Exception;
 
     public void updateAttach(String imgName, String imgURL, String uuid, String path, String imgType, String sno) throws Exception;
 

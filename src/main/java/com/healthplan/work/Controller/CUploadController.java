@@ -30,7 +30,7 @@ import java.util.UUID;
 
 @RestController
 @Log4j2
-@RequestMapping("/api/challenge")
+@RequestMapping("/api/cupload")
 public class CUploadController {
 
     @Value("${com.healthplan.upload.path}")
