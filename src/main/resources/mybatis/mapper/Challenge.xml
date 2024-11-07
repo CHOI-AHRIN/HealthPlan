@@ -38,10 +38,10 @@
         LEFT JOIN MEMBER m ON b.mno = m.mno
         WHERE 1=1
         <include refid="search"/>
-        ORDER BY b.bno
+        ORDER BY b.bno DESC
         )
-        WHERE RNUM BETWEEN #{pageStart} AND #{pageEnd}
-        ORDER BY RNUM DESC
+  
+        ORDER BY RNUM
     </select>
 
     <!-- 챌린지 총 개수 조회 -->
