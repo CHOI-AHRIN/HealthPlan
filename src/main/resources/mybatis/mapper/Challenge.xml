@@ -111,7 +111,160 @@
         WHERE BNO = #{bno} AND cnotice = 0
     </update>
 
-    <!-- 공지 게시판 목록 조회 -->
+	<!-- 첨부파일 등록 -->
+	<insert id="subscribeAttach" parameterType="java.util.HashMap">
+
+		<foreach collection="listMap" item="item" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+
+			INTO NATTACH(
+				  ANO
+				, BNO
+				, FILENAME
+				, IMGTYPE
+				, REGDATE
+			) VALUES(
+				  ANO_SEQ.NEXTVAL
+				, #{item.bno}
+				, #{item.fileName}
+				, 'A' <!--, #{item.imgtype}-->
+				, SYSDATE
+			)
+
+		</foreach>
+
+	</insert>
+
+
+	<!-- 첨부파일 등록 -->
+	<insert id="subscribeStringAttach" parameterType="java.lang.String">
+
+		INSERT INTO NATTACH(
+			  ANO
+			, BNO
+			, FILENAME
+			, IMGTYPE
+			, REGDATE
+		) VALUES(
+			  ANO_SEQ.NEXTVAL
+			, #{csno}
+			, #{imgName}
+			, 'A'
+			, SYSDATE
+		)
+
+	</insert>
+
+
+	<!-- 첨부파일 insert -->
+	<insert id="addAttach" parameterType="java.lang.String">
+
+		INSERT INTO NATTACH (
+			  IMGNAME
+			, IMAGEURL
+			, UUID
+			, PATH
+			, IMGTYPE
+			, BNO
+			, ANO
+			, REGDATE
+		)
+		VALUES (
+			  #{imgName}
+			, #{imgURL}
+			, #{uuid}
+			, #{path}
+			, #{imgType}
+			, BNO_SEQ.CURRVAL
+			, ANO_SEQ.NEXTVAL
+			, SYSDATE
+		)
+
+	</insert>
+
+
+	<!-- 첨부파일 update -->
+	<insert id="updateAttach" parameterType="java.lang.String">
+
+		INSERT INTO NATTACH (
+			  IMGNAME
+			, IMAGEURL
+			, UUID
+			, PATH
+			, IMGTYPE
+			, BNO
+			, REGDATE
+		)
+		VALUES (
+			  #{imgName}
+			, #{imgURL}
+			, #{uuid}
+			, #{path}
+			, #{imgType}
+			, #{bno}
+			, SYSDATE
+		)
+
+	</insert>
+
+
+	<!-- 첨부파일 select -->
+	<select id="selectImageList" resultType="com.healthplan.work.vo.ImageDTO">
+
+		SELECT
+			  BNO
+			, IMGNAME
+			, IMAGEURL
+			, UUID
+			, PATH
+			, IMGTYPE
+		FROM  NATTACH
+		WHERE 1=1
+		  AND BNO = #{bno}
+		  AND IMGTYPE = 'A'
+		ORDER BY REGDATE
+
+	</select>
+
+
+
+		<select id="selectMainImage" resultType="com.healthplan.work.vo.ImageDTO">
+
+		SELECT
+			  BNO
+			, IMGNAME
+			, IMAGEURL
+			, UUID
+			, PATH
+			, IMGTYPE
+		FROM  NATTACH
+		WHERE 1=1
+		  AND BNO = #{bno}
+		  AND IMGTYPE = 'M'
+
+	</select>
+
+
+
+	<!-- 첨부파일 삭제 -->
+	<delete id="deleteAttach">
+
+		DELETE FROM NATTACH WHERE BNO = #{bno}
+
+	</delete>
+
+        <!-- 포인트 적립 -->
+    <update id="addPoint" >
+        UPDATE POINT 
+        SET 
+        PCOUNT = PCOUNT + #{pcount}
+        , PSOURCE = #{psource}
+        , PDATE = SYSDATE
+        WHERE MNO = #{mno}
+    </update>
+
+    </mapper>
+
+    <!-- 공지 게시판 목록 조회
     <select id="selectNoticeList" parameterType="com.healthplan.work.vo.SearchCriteria"
             resultType="com.healthplan.work.vo.ChallengeEntity">
         SELECT *
@@ -135,7 +288,7 @@
         ORDER BY RNUM DESC
     </select>
 
-    <!-- 공지 게시판 글 개수 조회 -->
+    공지 게시판 글 개수 조회
     <select id="selectNoticeCount" parameterType="com.healthplan.work.vo.SearchCriteria" resultType="int">
         SELECT COUNT(*)
         FROM BOARD b
@@ -143,7 +296,7 @@
         <include refid="search"/>
     </select>
 
-    <!-- 공지 게시글 상세 조회 -->
+    공지 게시글 상세 조회
     <select id="selectNoticeRead" parameterType="int" resultType="com.healthplan.work.vo.ChallengeEntity">
         SELECT
         b.bno,
@@ -156,7 +309,7 @@
         WHERE b.bno = #{bno} AND b.cnotice = 1
     </select>
 
-    <!-- 공지 게시글 등록 -->
+    공지 게시글 등록
     <insert id="insertNotice">
         INSERT INTO BOARD (
         bno,
@@ -181,7 +334,7 @@
         </selectKey>
     </insert>
 
-    <!-- 공지 게시글 수정 -->
+    공지 게시글 수정
     <update id="updateNotice" parameterType="com.healthplan.work.vo.ChallengeEntity">
         UPDATE BOARD
         SET
@@ -190,28 +343,14 @@
         WHERE bno = #{bno} AND cnotice = 1
     </update>
 
-    <!-- 공지 게시글 삭제 -->
+    공지 게시글 삭제
     <delete id="deleteNotice" parameterType="int">
         DELETE FROM BOARD WHERE bno = #{bno} AND cnotice = 1
     </delete>
 
-    <!-- 공지 게시글 조회수 증가 -->
+    공지 게시글 조회수 증가
     <update id="updateNoticeCount">
         UPDATE BOARD
         SET BCOUNTS = BCOUNTS + 1
         WHERE BNO = #{bno} AND cnotice = 1
-    </update>
-
-
-
-    <!-- 포인트 적립 -->
-    <update id="addPoint" >
-        UPDATE POINT 
-        SET 
-        PCOUNT = PCOUNT + #{pcount}
-        , PSOURCE = #{psource}
-        , PDATE = SYSDATE
-        WHERE MNO = #{mno}
-    </update>
-
-    </mapper>
+    </update> -->

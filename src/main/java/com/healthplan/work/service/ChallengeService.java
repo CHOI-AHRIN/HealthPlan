@@ -41,7 +41,7 @@ public class ChallengeService {
         challengeMapper.insertChallenge(vo);
 
         List<ImageDTO> imageDTOList = vo.getImageDTOList();
-        challengeMapper.deleteAttach(vo.getSno());
+        challengeMapper.deleteAttach(vo.getBno());
 
         if (imageDTOList != null && !imageDTOList.isEmpty()) {
             for (ImageDTO imageDTO : imageDTOList) {
@@ -61,10 +61,10 @@ public class ChallengeService {
         challengeMapper.updateChallenge(vo);
 
         List<ImageDTO> imageUpList = vo.getImageDTOList();
-        challengeMapper.deleteAttach(vo.getSno());
+        challengeMapper.deleteAttach(vo.getBno());
 
         if (imageUpList != null && !imageUpList.isEmpty()) {
-            String sno = String.valueOf(vo.getSno());
+            String bno = String.valueOf(vo.getBno());
 
             for (ImageDTO imageDTO : imageUpList) {
                 String imgName = imageDTO.getThumbnailURL();
@@ -73,7 +73,7 @@ public class ChallengeService {
                 String path = imageDTO.getPath();
                 String imgType = imageDTO.getImgType();
 
-                challengeMapper.updateAttach(imgName, imgURL, uuid, path, imgType, sno);
+                challengeMapper.updateAttach(imgName, imgURL, uuid, path, imgType, bno);
             }
         }
     }
@@ -83,75 +83,75 @@ public class ChallengeService {
         challengeMapper.deleteChallenge(bno);
     }
 
-
-      // ----------------------------------- 챌린지 공지 게시판 -----------------------------------
-
-    // 공지 게시판 목록 조회
-    public List<ChallengeEntity> selectNoticeList(SearchCriteria cri) throws Exception {
-        return challengeMapper.selectNoticeList(cri);
+        // 포인트 적립
+        public void addPoint(PointDTO point) throws Exception {
+            challengeMapper.addPoint(point);
+        }
     }
+    
 
-    // 공지 게시판 글 개수 조회
-    public int selectNoticeCount(SearchCriteria cri) throws Exception {
-        return challengeMapper.selectNoticeCount(cri);
-    }
 
-    // 공지 게시글 상세 조회
-    public ChallengeEntity selectNoticeRead(int bno) throws Exception {
-        challengeMapper.updateNoticeCount(bno);
-        return challengeMapper.selectNoticeRead(bno);
-    }
+    //   // ----------------------------------- 챌린지 공지 게시판 -----------------------------------
 
-    // 공지 게시글 작성
-    public void cnInsert(ChallengeEntity vo) throws Exception {
-        challengeMapper.insertNotice(vo);
+    // // 공지 게시판 목록 조회
+    // public List<ChallengeEntity> selectNoticeList(SearchCriteria cri) throws Exception {
+    //     return challengeMapper.selectNoticeList(cri);
+    // }
 
-        List<ImageDTO> imageDTOList = vo.getImageDTOList();
-        challengeMapper.deleteAttach(vo.getSno());
+    // // 공지 게시판 글 개수 조회
+    // public int selectNoticeCount(SearchCriteria cri) throws Exception {
+    //     return challengeMapper.selectNoticeCount(cri);
+    // }
 
-        if (imageDTOList != null && !imageDTOList.isEmpty()) {
-            for (ImageDTO imageDTO : imageDTOList) {
-                String imgName = imageDTO.getThumbnailURL();
-                String imgURL = imageDTO.getImageURL();
-                String uuid = imageDTO.getUuid();
-                String path = imageDTO.getPath();
-                String imgType = imageDTO.getImgType();
+    // // 공지 게시글 상세 조회
+    // public ChallengeEntity selectNoticeRead(int bno) throws Exception {
+    //     challengeMapper.updateNoticeCount(bno);
+    //     return challengeMapper.selectNoticeRead(bno);
+    // }
+
+    // // 공지 게시글 작성
+    // public void cnInsert(ChallengeEntity vo) throws Exception {
+    //     challengeMapper.insertNotice(vo);
+
+    //     List<ImageDTO> imageDTOList = vo.getImageDTOList();
+    //     challengeMapper.deleteAttach(vo.getSno());
+
+    //     if (imageDTOList != null && !imageDTOList.isEmpty()) {
+    //         for (ImageDTO imageDTO : imageDTOList) {
+    //             String imgName = imageDTO.getThumbnailURL();
+    //             String imgURL = imageDTO.getImageURL();
+    //             String uuid = imageDTO.getUuid();
+    //             String path = imageDTO.getPath();
+    //             String imgType = imageDTO.getImgType();
                 
-                challengeMapper.addAttach(imgName, imgURL, uuid, path, imgType);
-            }
-        }
-    }
+    //             challengeMapper.addAttach(imgName, imgURL, uuid, path, imgType);
+    //         }
+    //     }
+    // }
 
-    // 공지 게시글 수정
-    public void cnUpdate(ChallengeEntity vo) throws Exception {
-        challengeMapper.updateNotice(vo);
+    // // 공지 게시글 수정
+    // public void cnUpdate(ChallengeEntity vo) throws Exception {
+    //     challengeMapper.updateNotice(vo);
 
-        List<ImageDTO> imageUpList = vo.getImageDTOList();
-        challengeMapper.deleteAttach(vo.getSno());
+    //     List<ImageDTO> imageUpList = vo.getImageDTOList();
+    //     challengeMapper.deleteAttach(vo.getSno());
 
-        if (imageUpList != null && !imageUpList.isEmpty()) {
-            String sno = String.valueOf(vo.getSno());
+    //     if (imageUpList != null && !imageUpList.isEmpty()) {
+    //         String sno = String.valueOf(vo.getSno());
 
-            for (ImageDTO imageDTO : imageUpList) {
-                String imgName = imageDTO.getThumbnailURL();
-                String imgURL = imageDTO.getImageURL();
-                String uuid = imageDTO.getUuid();
-                String path = imageDTO.getPath();
-                String imgType = imageDTO.getImgType();
+    //         for (ImageDTO imageDTO : imageUpList) {
+    //             String imgName = imageDTO.getThumbnailURL();
+    //             String imgURL = imageDTO.getImageURL();
+    //             String uuid = imageDTO.getUuid();
+    //             String path = imageDTO.getPath();
+    //             String imgType = imageDTO.getImgType();
 
-                challengeMapper.updateAttach(imgName, imgURL, uuid, path, imgType, sno);
-            }
-        }
-    }
+    //             challengeMapper.updateAttach(imgName, imgURL, uuid, path, imgType, sno);
+    //         }
+    //     }
+    // }
 
-    // 공지 게시글 삭제
-    public void cnDelete(int bno) throws Exception {
-        challengeMapper.deleteNotice(bno);
-    }
-
-
-    // 포인트 적립
-    public void addPoint(PointDTO point) throws Exception {
-        challengeMapper.addPoint(point);
-    }
-}
+    // // 공지 게시글 삭제
+    // public void cnDelete(int bno) throws Exception {
+    //     challengeMapper.deleteNotice(bno);
+    // }
