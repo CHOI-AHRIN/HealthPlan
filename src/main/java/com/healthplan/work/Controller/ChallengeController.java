@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +21,7 @@ import com.healthplan.work.service.ChallengeService;
 import com.healthplan.work.vo.ChallengeEntity;
 import com.healthplan.work.vo.MemberEntity;
 import com.healthplan.work.vo.PageMaker;
+import com.healthplan.work.vo.PointDTO;
 import com.healthplan.work.vo.SearchCriteria;
 
 import lombok.extern.log4j.Log4j2;
@@ -70,7 +72,7 @@ public class ChallengeController {
         logger.info("1. /******************************* 챌린지 리스트 돈다 ");
         Map<String, Object> result = new HashMap<>();
 
-        //전체검색 onchange x
+        // 전체검색 onchange x
         if ("".equals(cri.getSearchType())) {
             cri.setSearchType("total");
         }
@@ -102,11 +104,11 @@ public class ChallengeController {
         challengeService.challengeInsert(challengeEntity);
 
         return "success";
-        //return "redirect:/challenge/challengeList";
+        // return "redirect:/challenge/challengeList";
     }
 
     // 챌린지 상세 조회 및 수정 페이지 이동
-    @GetMapping({"/challengeRead/{bno}", "/challengeModify/{bno}"})
+    @GetMapping({ "/challengeRead/{bno}", "/challengeModify/{bno}" })
     public ChallengeEntity challengeRead(@PathVariable("bno") int bno) throws Exception {
         // Map<String, Object> result = new HashMap<>();
         ChallengeEntity vo = challengeService.selectChallengeRead(bno);
@@ -124,7 +126,7 @@ public class ChallengeController {
         challengeService.challengeUpdate(challengeEntity);
         log.info("challengeUpdate -> " + challengeEntity.toString());
         return "success";
-        //return "redirect:/challenge/challengeList";
+        // return "redirect:/challenge/challengeList";
     }
 
     // 챌린지 글 삭제
@@ -134,10 +136,11 @@ public class ChallengeController {
         challengeService.challengeDelete(bno);
 
         return "success";
-        //return "redirect:/challenge/challengeList";
+        // return "redirect:/challenge/challengeList";
     }
 
-    // ----------------------------------- 챌린지 공지 게시판 -----------------------------------
+    // ----------------------------------- 챌린지 공지 게시판
+    // -----------------------------------
 
     // 챌린지 공지 게시판 목록 표시
     @GetMapping("/cnlist")
@@ -145,7 +148,7 @@ public class ChallengeController {
         logger.info("1. /******************************* 챌린지 공지 돈다 ");
         Map<String, Object> result = new HashMap<>();
 
-        //전체검색 onchange x
+        // 전체검색 onchange x
         if ("".equals(cri.getSearchType())) {
             cri.setSearchType("total");
         }
@@ -180,7 +183,7 @@ public class ChallengeController {
     }
 
     // 챌린지 공지 상세 조회 및 수정 페이지 이동
-    @GetMapping({"/cnRead/{bno}", "/cnModify/{bno}"})
+    @GetMapping({ "/cnRead/{bno}", "/cnModify/{bno}" })
     public ChallengeEntity cnRead(@PathVariable("bno") int bno) throws Exception {
         ChallengeEntity vo = challengeService.selectNoticeRead(bno);
 
@@ -205,5 +208,16 @@ public class ChallengeController {
         challengeService.cnDelete(bno);
 
         return "success";
+    }
+
+    // 포인트 적립
+    // JSON 데이터를 PointDTO로 변환할 수 있게 @RequestBody 추가
+    @PostMapping("/addPoint")
+    public String addPoint(@RequestBody PointDTO point) throws Exception {
+        log.info("1. /api/challenge/addPoint --> Controller :  " + point);
+        challengeService.addPoint(point);
+        log.info("2. /api/challenge/addPoint --> Controller result :  " + point);
+        return "SUCCESS";
+
     }
 }

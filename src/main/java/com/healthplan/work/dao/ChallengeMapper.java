@@ -2,6 +2,7 @@ package com.healthplan.work.dao;
 
 import com.healthplan.work.vo.ChallengeEntity;
 import com.healthplan.work.vo.ImageDTO;
+import com.healthplan.work.vo.PointDTO;
 import com.healthplan.work.vo.SearchCriteria;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -63,6 +64,10 @@ public interface ChallengeMapper {
 
     // 공지 게시글 조회수 증가
     void updateNoticeCount(int bno) throws Exception;
+
+
+    // 포인트 적립
+    public void addPoint(PointDTO point) throws Exception;
 }
 
 
