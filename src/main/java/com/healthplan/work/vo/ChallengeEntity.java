@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChallengeEntity {
-    private int sno;
+    // private int sno;
 
     private int bno;           // 게시글 번호
     private int mno;           // 회원 번호 (작성자)
