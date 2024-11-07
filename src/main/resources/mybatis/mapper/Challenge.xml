@@ -36,7 +36,7 @@
         m.uuid
         FROM BOARD b
         LEFT JOIN MEMBER m ON b.mno = m.mno
-        WHERE 1=1
+        WHERE b.is_notice = 0
         <include refid="search"/>
         ORDER BY b.bno
         )
@@ -48,7 +48,7 @@
     <select id="selectChallengeCount" parameterType="com.healthplan.work.vo.SearchCriteria" resultType="int">
         SELECT COUNT(*)
         FROM BOARD b
-        WHERE 1=1
+        WHERE b.is_notice = 0
         <include refid="search"/>
     </select>
 
@@ -62,7 +62,7 @@
         TO_CHAR(b.wdate, 'YYYY-MM-DD') AS wdate,
         b.bcounts
         FROM BOARD b
-        WHERE b.bno = #{bno}
+        WHERE b.bno = #{bno} AND b.is_notice = 0
     </select>
 
     <!-- 챌린지 등록 -->
@@ -73,13 +73,15 @@
         title,
         bcontents,
         wdate,
-        bcounts
+        bcounts,
+        is_notice
         ) VALUES (
         BOARD_SEQ.NEXTVAL,
         #{mno},
         #{title},
         #{bcontents},
         SYSDATE,
+        0,
         0
         )
 
@@ -94,143 +96,20 @@
         SET
         title = #{title},
         bcontents = #{bcontents}
-        WHERE bno = #{bno}
+        WHERE bno = #{bno} AND is_notice = 0
     </update>
 
     <!-- 챌린지 삭제 -->
     <delete id="deleteChallenge" parameterType="int">
-        DELETE FROM BOARD WHERE bno = #{bno}
+        DELETE FROM BOARD WHERE bno = #{bno} AND is_notice = 0
     </delete>
 
-    <!--  조회수 -->
+    <!-- 조회수 증가 -->
     <update id="updateChallengeCount">
-
         UPDATE BOARD
-        SET
-        BCOUNTS = BCOUNTS + 1
-        WHERE BNO = #{bno}
-
+        SET BCOUNTS = BCOUNTS + 1
+        WHERE BNO = #{bno} AND is_notice = 0
     </update>
-    <!-- ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
-    <!-- 첨부파일 등록 -->
-	<insert id="challengeAttach" parameterType="java.util.HashMap">
-
-		<foreach collection="listMap" item="item" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
-
-			INTO NATTACH(
-				  ANO
-				, SNO
-				, FILENAME
-				, IMGTYPE
-				, REGDATE
-			) VALUES(
-				  ANO_SEQ.NEXTVAL
-				, #{item.sno}
-				, #{item.fileName}
-				, 'A' <!--, #{item.imgtype}-->
-				, SYSDATE
-			)
-
-		</foreach>
-
-	</insert>
-
-
-	<!-- 첨부파일 등록 -->
-	<insert id="challengeStringAttach" parameterType="java.lang.String">
-
-		INSERT INTO NATTACH(
-			  ANO
-			, SNO
-			, FILENAME
-			, IMGTYPE
-			, REGDATE
-		) VALUES(
-			  ANO_SEQ.NEXTVAL
-			, #{csno}
-			, #{imgName}
-			, 'A'
-			, SYSDATE
-		)
-
-	</insert>
-
-
-	<!-- 첨부파일 insert -->
-	<insert id="addAttach" parameterType="java.lang.String">
-
-		INSERT INTO NATTACH (
-			  IMGNAME
-			, IMAGEURL
-			, UUID
-			, PATH
-			, IMGTYPE
-			, SNO
-			, ANO
-			, REGDATE
-		)
-		VALUES (
-			  #{imgName}
-			, #{imgURL}
-			, #{uuid}
-			, #{path}
-			, #{imgType}
-			, SNO_SEQ.CURRVAL
-			, ANO_SEQ.NEXTVAL
-			, SYSDATE
-		)
-
-	</insert>
-
-	<!-- 첨부파일 update -->
-	<insert id="updateAttach" parameterType="java.lang.String">
-
-		INSERT INTO NATTACH (
-			  IMGNAME
-			, IMAGEURL
-			, UUID
-			, PATH
-			, IMGTYPE
-			, SNO
-			, REGDATE
-		)
-		VALUES (
-			  #{imgName}
-			, #{imgURL}
-			, #{uuid}
-			, #{path}
-			, #{imgType}
-			, #{sno}
-			, SYSDATE
-		)
-
-	</insert>
-
-
-	<!-- 첨부파일 select -->
-	<select id="selectImageList" resultType="com.healthplan.work.vo.ImageDTO">
-
-		SELECT
-			  IMGNAME
-			, IMAGEURL
-			, UUID
-			, PATH
-		FROM  NATTACH
-		WHERE SNO = #{sno}
-		ORDER BY REGDATE
-
-	</select>
-
-
-	<!-- 첨부파일 삭제 -->
-	<delete id="deleteAttach">
-
-		DELETE FROM NATTACH WHERE SNO = #{sno}
-
-	</delete>
-
-
-<!--  ㅡㅡㅡ챌린지 공지 게시판ㅡㅡㅡ  -->
 
     <!-- 공지 게시판 목록 조회 -->
     <select id="selectNoticeList" parameterType="com.healthplan.work.vo.SearchCriteria"
@@ -239,18 +118,18 @@
         FROM (
         SELECT
         ROWNUM AS RNUM,
-        n.bno,
-        n.mno,
-        n.title,
-        n.bcontents,
-        TO_CHAR(n.wdate, 'YYYY-MM-DD') AS wdate,
-        n.bcounts,
+        b.bno,
+        b.mno,
+        b.title,
+        b.bcontents,
+        TO_CHAR(b.wdate, 'YYYY-MM-DD') AS wdate,
+        b.bcounts,
         m.uuid
-        FROM NOTICE_BOARD n
-        LEFT JOIN MEMBER m ON n.mno = m.mno
-        WHERE 1=1
+        FROM BOARD b
+        LEFT JOIN MEMBER m ON b.mno = m.mno
+        WHERE b.is_notice = 1
         <include refid="search"/>
-        ORDER BY n.bno
+        ORDER BY b.bno
         )
         WHERE RNUM BETWEEN #{pageStart} AND #{pageEnd}
         ORDER BY RNUM DESC
@@ -259,66 +138,68 @@
     <!-- 공지 게시판 글 개수 조회 -->
     <select id="selectNoticeCount" parameterType="com.healthplan.work.vo.SearchCriteria" resultType="int">
         SELECT COUNT(*)
-        FROM NOTICE_BOARD n
-        WHERE 1=1
+        FROM BOARD b
+        WHERE b.is_notice = 1
         <include refid="search"/>
     </select>
 
     <!-- 공지 게시글 상세 조회 -->
     <select id="selectNoticeRead" parameterType="int" resultType="com.healthplan.work.vo.ChallengeEntity">
         SELECT
-        n.bno,
-        n.mno,
-        n.title,
-        n.bcontents,
-        TO_CHAR(n.wdate, 'YYYY-MM-DD') AS wdate,
-        n.bcounts
-        FROM NOTICE_BOARD n
-        WHERE n.bno = #{bno}
+        b.bno,
+        b.mno,
+        b.title,
+        b.bcontents,
+        TO_CHAR(b.wdate, 'YYYY-MM-DD') AS wdate,
+        b.bcounts
+        FROM BOARD b
+        WHERE b.bno = #{bno} AND b.is_notice = 1
     </select>
 
     <!-- 공지 게시글 등록 -->
     <insert id="insertNotice">
-        INSERT INTO NOTICE_BOARD (
+        INSERT INTO BOARD (
         bno,
         mno,
         title,
         bcontents,
         wdate,
-        bcounts
+        bcounts,
+        is_notice
         ) VALUES (
-        NOTICE_BOARD_SEQ.NEXTVAL,
+        BOARD_SEQ.NEXTVAL,
         #{mno},
         #{title},
         #{bcontents},
         SYSDATE,
-        0
+        0,
+        1
         )
 
         <selectKey keyProperty="bno" resultType="int" order="AFTER">
-            SELECT NOTICE_BOARD_SEQ.CURRVAL FROM DUAL
+            SELECT BOARD_SEQ.CURRVAL FROM DUAL
         </selectKey>
     </insert>
 
     <!-- 공지 게시글 수정 -->
     <update id="updateNotice" parameterType="com.healthplan.work.vo.ChallengeEntity">
-        UPDATE NOTICE_BOARD
+        UPDATE BOARD
         SET
         title = #{title},
         bcontents = #{bcontents}
-        WHERE bno = #{bno}
+        WHERE bno = #{bno} AND is_notice = 1
     </update>
 
     <!-- 공지 게시글 삭제 -->
     <delete id="deleteNotice" parameterType="int">
-        DELETE FROM NOTICE_BOARD WHERE bno = #{bno}
+        DELETE FROM BOARD WHERE bno = #{bno} AND is_notice = 1
     </delete>
 
     <!-- 공지 게시글 조회수 증가 -->
     <update id="updateNoticeCount">
-        UPDATE NOTICE_BOARD
+        UPDATE BOARD
         SET BCOUNTS = BCOUNTS + 1
-        WHERE BNO = #{bno}
+        WHERE BNO = #{bno} AND is_notice = 1
     </update>
 
 </mapper>

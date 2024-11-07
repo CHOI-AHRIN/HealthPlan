@@ -283,7 +283,7 @@
 
 		<foreach collection="listMap" item="item" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
 
-			INTO SATTACHED(
+			INTO NATTACH(
 				  ANO
 				, SNO
 				, FILENAME
@@ -305,7 +305,7 @@
 	<!-- 첨부파일 등록 -->
 	<insert id="subscribeStringAttach" parameterType="java.lang.String">
 
-		INSERT INTO SATTACHED(
+		INSERT INTO NATTACH(
 			  ANO
 			, SNO
 			, FILENAME
