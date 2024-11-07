@@ -83,17 +83,27 @@ public class ChallengeService {
     }
 
 
-    //챌린지 공지게시판 ㅡㅡㅡ
-    //공지 읽기
-    public ChallengeEntity selectChallengeRead(int bno) throws Exception {
-        challengeMapper.updateChallengeCount(bno);
-        // logger.info("29 Line: SubscribeSerive Lession Count ====> " + bno);
-        return challengeMapper.selectChallengeRead(bno);
+      // ----------------------------------- 챌린지 공지 게시판 -----------------------------------
+
+    // 공지 게시판 목록 조회
+    public List<ChallengeEntity> selectNoticeList(SearchCriteria cri) throws Exception {
+        return challengeMapper.selectNoticeList(cri);
     }
 
-    // 공지 작성
-    public void challengeInsert(ChallengeEntity vo) throws Exception {
-        challengeMapper.insertChallenge(vo);
+    // 공지 게시판 글 개수 조회
+    public int selectNoticeCount(SearchCriteria cri) throws Exception {
+        return challengeMapper.selectNoticeCount(cri);
+    }
+
+    // 공지 게시글 상세 조회
+    public ChallengeEntity selectNoticeRead(int bno) throws Exception {
+        challengeMapper.updateNoticeCount(bno);
+        return challengeMapper.selectNoticeRead(bno);
+    }
+
+    // 공지 게시글 작성
+    public void cnInsert(ChallengeEntity vo) throws Exception {
+        challengeMapper.insertNotice(vo);
 
         List<ImageDTO> imageDTOList = vo.getImageDTOList();
         challengeMapper.deleteAttach(vo.getSno());
@@ -110,10 +120,10 @@ public class ChallengeService {
             }
         }
     }
-    
-    // 공지 수정
+
+    // 공지 게시글 수정
     public void cnUpdate(ChallengeEntity vo) throws Exception {
-        challengeMapper.cnupdate(vo);
+        challengeMapper.updateNotice(vo);
 
         List<ImageDTO> imageUpList = vo.getImageDTOList();
         challengeMapper.deleteAttach(vo.getSno());
@@ -133,11 +143,8 @@ public class ChallengeService {
         }
     }
 
-    // 공지 삭제
+    // 공지 게시글 삭제
     public void cnDelete(int bno) throws Exception {
-        challengeMapper.cndelete(bno);
+        challengeMapper.deleteNotice(bno);
     }
-
-
-
 }

@@ -229,4 +229,96 @@
 
 	</delete>
 
+
+<!--  ㅡㅡㅡ챌린지 공지 게시판ㅡㅡㅡ  -->
+
+    <!-- 공지 게시판 목록 조회 -->
+    <select id="selectNoticeList" parameterType="com.healthplan.work.vo.SearchCriteria"
+            resultType="com.healthplan.work.vo.ChallengeEntity">
+        SELECT *
+        FROM (
+        SELECT
+        ROWNUM AS RNUM,
+        n.bno,
+        n.mno,
+        n.title,
+        n.bcontents,
+        TO_CHAR(n.wdate, 'YYYY-MM-DD') AS wdate,
+        n.bcounts,
+        m.uuid
+        FROM NOTICE_BOARD n
+        LEFT JOIN MEMBER m ON n.mno = m.mno
+        WHERE 1=1
+        <include refid="search"/>
+        ORDER BY n.bno
+        )
+        WHERE RNUM BETWEEN #{pageStart} AND #{pageEnd}
+        ORDER BY RNUM DESC
+    </select>
+
+    <!-- 공지 게시판 글 개수 조회 -->
+    <select id="selectNoticeCount" parameterType="com.healthplan.work.vo.SearchCriteria" resultType="int">
+        SELECT COUNT(*)
+        FROM NOTICE_BOARD n
+        WHERE 1=1
+        <include refid="search"/>
+    </select>
+
+    <!-- 공지 게시글 상세 조회 -->
+    <select id="selectNoticeRead" parameterType="int" resultType="com.healthplan.work.vo.ChallengeEntity">
+        SELECT
+        n.bno,
+        n.mno,
+        n.title,
+        n.bcontents,
+        TO_CHAR(n.wdate, 'YYYY-MM-DD') AS wdate,
+        n.bcounts
+        FROM NOTICE_BOARD n
+        WHERE n.bno = #{bno}
+    </select>
+
+    <!-- 공지 게시글 등록 -->
+    <insert id="insertNotice">
+        INSERT INTO NOTICE_BOARD (
+        bno,
+        mno,
+        title,
+        bcontents,
+        wdate,
+        bcounts
+        ) VALUES (
+        NOTICE_BOARD_SEQ.NEXTVAL,
+        #{mno},
+        #{title},
+        #{bcontents},
+        SYSDATE,
+        0
+        )
+
+        <selectKey keyProperty="bno" resultType="int" order="AFTER">
+            SELECT NOTICE_BOARD_SEQ.CURRVAL FROM DUAL
+        </selectKey>
+    </insert>
+
+    <!-- 공지 게시글 수정 -->
+    <update id="updateNotice" parameterType="com.healthplan.work.vo.ChallengeEntity">
+        UPDATE NOTICE_BOARD
+        SET
+        title = #{title},
+        bcontents = #{bcontents}
+        WHERE bno = #{bno}
+    </update>
+
+    <!-- 공지 게시글 삭제 -->
+    <delete id="deleteNotice" parameterType="int">
+        DELETE FROM NOTICE_BOARD WHERE bno = #{bno}
+    </delete>
+
+    <!-- 공지 게시글 조회수 증가 -->
+    <update id="updateNoticeCount">
+        UPDATE NOTICE_BOARD
+        SET BCOUNTS = BCOUNTS + 1
+        WHERE BNO = #{bno}
+    </update>
+
 </mapper>
