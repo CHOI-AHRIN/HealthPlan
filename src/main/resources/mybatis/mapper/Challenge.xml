@@ -202,4 +202,16 @@
         WHERE BNO = #{bno} AND cnotice = 1
     </update>
 
-</mapper>
+
+
+    <!-- 포인트 적립 -->
+    <update id="addPoint" >
+        UPDATE POINT 
+        SET 
+        PCOUNT = PCOUNT + #{pcount}
+        , PSOURCE = #{psource}
+        , PDATE = SYSDATE
+        WHERE MNO = #{mno}
+    </update>
+
+    </mapper>

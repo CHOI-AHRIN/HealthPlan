@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.healthplan.work.dao.ChallengeMapper;
 import com.healthplan.work.vo.ChallengeEntity;
 import com.healthplan.work.vo.ImageDTO;
+import com.healthplan.work.vo.PointDTO;
 import com.healthplan.work.vo.SearchCriteria;
 
 import lombok.extern.log4j.Log4j2;
@@ -146,5 +147,11 @@ public class ChallengeService {
     // 공지 게시글 삭제
     public void cnDelete(int bno) throws Exception {
         challengeMapper.deleteNotice(bno);
+    }
+
+
+    // 포인트 적립
+    public void addPoint(PointDTO point) throws Exception {
+        challengeMapper.addPoint(point);
     }
 }
