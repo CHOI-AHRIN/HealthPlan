@@ -72,14 +72,14 @@
         title,
         bcontents,
         wdate,
-        bcounts,
+        bcounts
         ) VALUES (
         BOARD_SEQ.NEXTVAL,
         #{mno},
         #{title},
         #{bcontents},
         SYSDATE,
-        0,
+        0
         )
 
         <selectKey keyProperty="bno" resultType="int" order="AFTER">
