@@ -1,6 +1,7 @@
 package com.healthplan.work.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.healthplan.work.dao.ChallengeMapper;
 import com.healthplan.work.vo.ChallengeEntity;
 import com.healthplan.work.vo.ImageDTO;
+import com.healthplan.work.vo.MemberEntity;
 import com.healthplan.work.vo.PointDTO;
 import com.healthplan.work.vo.SearchCriteria;
 
@@ -24,12 +26,12 @@ public class ChallengeService {
         return challengeMapper.selectChallengeList(cri);
     }
 
-    //챌린지 Count
+    // 챌린지 Count
     public int selectChallengeCount(SearchCriteria cri) throws Exception {
         return challengeMapper.selectChallengeCount(cri);
     }
 
-    //챌린지 읽기
+    // 챌린지 읽기
     public ChallengeEntity selectChallengeRead(int bno) throws Exception {
         challengeMapper.updateChallengeCount(bno);
         // logger.info("29 Line: SubscribeSerive Lession Count ====> " + bno);
@@ -50,12 +52,12 @@ public class ChallengeService {
                 String uuid = imageDTO.getUuid();
                 String path = imageDTO.getPath();
                 String imgType = imageDTO.getImgType();
-                
+
                 challengeMapper.addAttach(imgName, imgURL, uuid, path, imgType);
             }
         }
     }
-    
+
     // 챌린지 수정
     public void challengeUpdate(ChallengeEntity vo) throws Exception {
         challengeMapper.updateChallenge(vo);
@@ -83,8 +85,8 @@ public class ChallengeService {
         challengeMapper.deleteChallenge(bno);
     }
 
-
-      // ----------------------------------- 챌린지 공지 게시판 -----------------------------------
+    // ----------------------------------- 챌린지 공지 게시판
+    // -----------------------------------
 
     // 공지 게시판 목록 조회
     public List<ChallengeEntity> selectNoticeList(SearchCriteria cri) throws Exception {
@@ -116,7 +118,7 @@ public class ChallengeService {
                 String uuid = imageDTO.getUuid();
                 String path = imageDTO.getPath();
                 String imgType = imageDTO.getImgType();
-                
+
                 challengeMapper.addAttach(imgName, imgURL, uuid, path, imgType);
             }
         }
@@ -149,9 +151,14 @@ public class ChallengeService {
         challengeMapper.deleteNotice(bno);
     }
 
-
     // 포인트 적립
     public void addPoint(PointDTO point) throws Exception {
         challengeMapper.addPoint(point);
+    }
+
+    // 랭킹
+    public List<MemberEntity> getChallengeRanking(MemberEntity mem) throws Exception {
+        // 상위 3명의 회원을 댓글 수가 많은 순으로 조회
+        return challengeMapper.cRank(mem);
     }
 }

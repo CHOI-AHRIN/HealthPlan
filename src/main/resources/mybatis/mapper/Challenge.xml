@@ -333,4 +333,26 @@
         WHERE MNO = #{mno}
     </update>
 
+    <!-- 챌린지 랭킹 -->
+<select id="cRank" resultType="map">
+  <![CDATA[
+SELECT *
+FROM (
+    SELECT 
+        m.mno AS mno, 
+        m.uuid AS uuid, 
+        m.name AS name, 
+        COUNT(r.bno) AS commentCount
+    FROM 
+        MEMBER m
+    JOIN 
+        BREPLY r ON m.mno = r.mno
+    GROUP BY 
+        m.mno, m.uuid, m.name
+    ORDER BY 
+        commentCount DESC
+)
+WHERE ROWNUM <= 3
+]]>
+</select>
     </mapper>

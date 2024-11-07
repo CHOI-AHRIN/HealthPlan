@@ -2,12 +2,14 @@ package com.healthplan.work.dao;
 
 import com.healthplan.work.vo.ChallengeEntity;
 import com.healthplan.work.vo.ImageDTO;
+import com.healthplan.work.vo.MemberEntity;
 import com.healthplan.work.vo.PointDTO;
 import com.healthplan.work.vo.SearchCriteria;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface ChallengeMapper {
@@ -68,6 +70,9 @@ public interface ChallengeMapper {
 
     // 포인트 적립
     public void addPoint(PointDTO point) throws Exception;
+
+    //랭킹
+    public List<MemberEntity> cRank(MemberEntity mem) throws Exception;
 }
 
 

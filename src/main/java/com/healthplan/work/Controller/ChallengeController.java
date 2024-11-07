@@ -220,4 +220,20 @@ public class ChallengeController {
         return "SUCCESS";
 
     }
+
+    // 랭킹
+/*     @GetMapping("/ranking")
+    public Map<String, Object> getChallengeRanking(MemberEntity mem) throws Exception {
+    log.info("1. /api/challenge/ranking " + mem);
+    Map<String, Object> result = new HashMap<>();
+    List<MemberEntity> list = challengeService.getChallengeRanking(mem);
+    result.put("list", list);
+    return result;
+    } */
+    @GetMapping("/ranking")
+    public List<MemberEntity> getChallengeRanking(MemberEntity mem) throws Exception {
+        log.info("1. /api/challenge/ranking" + mem);
+        // 댓글이 많은 순으로 상위 3명의 회원을 조회
+        return challengeService.getChallengeRanking(mem);
+    }
 }
