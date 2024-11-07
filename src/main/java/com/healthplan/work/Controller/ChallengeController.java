@@ -42,10 +42,31 @@ public class ChallengeController {
         return "redirect:/challenge/challengelist";
     }
 
+    // 챌린지 메인 화면: 공지 및 챌린지 게시판 목록 표시
+    @GetMapping("/main")
+    public Map<String, Object> main(SearchCriteria cri) throws Exception {
+        Map<String, Object> result = new HashMap<>();
+
+        // 공지 게시판 목록 조회
+        List<ChallengeEntity> cnlist = challengeService.selectNoticeList(cri);
+        result.put("cnlist", cnlist);
+
+        // 챌린지 게시판 목록 조회
+        List<ChallengeEntity> clist = challengeService.selectChallengeList(cri);
+        result.put("clist", clist);
+
+        // 페이지 정보 포함
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCri(cri);
+        pageMaker.setTotalCount(challengeService.selectChallengeCount(cri));
+        result.put("pageMaker", pageMaker);
+
+        return result;
+    }
+
     // 챌린지 목록 표시
     @GetMapping("/challengeList")
     public Map<String, Object> clist(SearchCriteria cri, MemberEntity mem) throws Exception {
-
         logger.info("1. /******************************* 챌린지 리스트 돈다 ");
         Map<String, Object> result = new HashMap<>();
 
@@ -72,7 +93,6 @@ public class ChallengeController {
     // 챌린지 글 등록
     @PostMapping("/challengeinsert")
     public String challengeInsert(ChallengeEntity challengeEntity) throws Exception {
-
         log.info("ChallengeEntity: mno=" + challengeEntity.getMno() +
                 ", title=" + challengeEntity.getTitle() +
                 ", bcontents=" + challengeEntity.getBcontents());
@@ -110,7 +130,6 @@ public class ChallengeController {
     // 챌린지 글 삭제
     @DeleteMapping("/challengedelete/{bno}")
     public String challengedelete(@PathVariable("bno") int bno) throws Exception {
-
         log.info("challengeDelete -> " + bno);
         challengeService.challengeDelete(bno);
 
@@ -118,84 +137,73 @@ public class ChallengeController {
         //return "redirect:/challenge/challengeList";
     }
 
-
     // ----------------------------------- 챌린지 공지 게시판 -----------------------------------
 
-    // // 챌린지 공지 게시판 목록 표시
-    // @GetMapping("/challengeList")
-    // public Map<String, Object> clist(SearchCriteria cri, MemberEntity mem) throws Exception {
+    // 챌린지 공지 게시판 목록 표시
+    @GetMapping("/cnlist")
+    public Map<String, Object> cnlist(SearchCriteria cri, MemberEntity mem) throws Exception {
+        logger.info("1. /******************************* 챌린지 공지 돈다 ");
+        Map<String, Object> result = new HashMap<>();
 
-    //     logger.info("1. /******************************* 챌린지 리스트 돈다 ");
-    //     Map<String, Object> result = new HashMap<>();
+        //전체검색 onchange x
+        if ("".equals(cri.getSearchType())) {
+            cri.setSearchType("total");
+        }
 
-    //     //전체검색 onchange x
-    //     if ("".equals(cri.getSearchType())) {
-    //         cri.setSearchType("total");
-    //     }
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCri(cri);
+        pageMaker.setTotalCount(challengeService.selectNoticeCount(cri));
 
-    //     PageMaker pageMaker = new PageMaker();
-    //     pageMaker.setCri(cri);
-    //     pageMaker.setTotalCount(challengeService.selectChallengeCount(cri));
+        List<ChallengeEntity> cnlist = challengeService.selectNoticeList(cri);
 
-    //     List<ChallengeEntity> clist = challengeService.selectChallengeList(cri);
+        result.put("cnlist", cnlist);
+        result.put("pageMaker", pageMaker);
 
-    //     result.put("clist", clist);
-    //     result.put("pageMaker", pageMaker);
+        log.info("2. cri -> " + cri);
+        log.info("3. NoticeList result -> " + result.toString());
 
-    //     log.info("2. cri	-> " + cri);
-    //     log.info("3. ChallengeList result-> " + result.toString());
+        return result;
+    }
 
-    //     return result;
-    // }
+    // 챌린지 공지 글 등록
+    @PostMapping("/cninsert")
+    public String cnInsert(ChallengeEntity challengeEntity) throws Exception {
+        log.info("ChallengeEntity: mno=" + challengeEntity.getMno() +
+                ", title=" + challengeEntity.getTitle() +
+                ", bcontents=" + challengeEntity.getBcontents());
+        log.info("Received ChallengeEntity: " + challengeEntity.toString());
 
-    // // 챌린지 글 등록
-    // @PostMapping("/challengeinsert")
-    // public String challengeInsert(ChallengeEntity challengeEntity) throws Exception {
+        log.info("cnInsert -> " + challengeEntity);
+        challengeService.cnInsert(challengeEntity);
 
-    //     log.info("ChallengeEntity: mno=" + challengeEntity.getMno() +
-    //             ", title=" + challengeEntity.getTitle() +
-    //             ", bcontents=" + challengeEntity.getBcontents());
-    //     log.info("Received ChallengeEntity: " + challengeEntity.toString());
+        return "success";
+    }
 
-    //     log.info("challengeInsert -> " + challengeEntity);
-    //     challengeService.challengeInsert(challengeEntity);
+    // 챌린지 공지 상세 조회 및 수정 페이지 이동
+    @GetMapping({"/cnRead/{bno}", "/cnModify/{bno}"})
+    public ChallengeEntity cnRead(@PathVariable("bno") int bno) throws Exception {
+        ChallengeEntity vo = challengeService.selectNoticeRead(bno);
 
-    //     return "success";
-    //     //return "redirect:/challenge/challengeList";
-    // }
+        log.info("bno -> " + bno);
+        log.info("subscribeLessionRead result -> " + vo.toString());
 
-    // // 챌린지 상세 조회 및 수정 페이지 이동
-    // @GetMapping({"/challengeRead/{bno}", "/challengeModify/{bno}"})
-    // public ChallengeEntity challengeRead(@PathVariable("bno") int bno) throws Exception {
-    //     // Map<String, Object> result = new HashMap<>();
-    //     ChallengeEntity vo = challengeService.selectChallengeRead(bno);
+        return vo;
+    }
 
-    //     log.info("bno -> " + bno);
-    //     log.info("subscribeLessionRead result -> " + vo.toString());
+    // 챌린지 공지 글 수정
+    @PutMapping("/cnupdate")
+    public String cnupdate(ChallengeEntity challengeEntity) throws Exception {
+        challengeService.cnUpdate(challengeEntity);
+        log.info("cnUpdate -> " + challengeEntity.toString());
+        return "success";
+    }
 
-    //     // result.put("vo", vo);
-    //     return vo;
-    // }
+    // 챌린지 공지 글 삭제
+    @DeleteMapping("/cndelete/{bno}")
+    public String cndelete(@PathVariable("bno") int bno) throws Exception {
+        log.info("cnDelete -> " + bno);
+        challengeService.cnDelete(bno);
 
-    // // 챌린지 글 수정
-    // @PutMapping("/challengeupdate")
-    // public String challengeupdate(ChallengeEntity challengeEntity) throws Exception {
-    //     challengeService.challengeUpdate(challengeEntity);
-    //     log.info("challengeUpdate -> " + challengeEntity.toString());
-    //     return "success";
-    //     //return "redirect:/challenge/challengeList";
-    // }
-
-    // // 챌린지 글 삭제
-    // @DeleteMapping("/challengedelete/{bno}")
-    // public String challengedelete(@PathVariable("bno") int bno) throws Exception {
-
-    //     log.info("challengeDelete -> " + bno);
-    //     challengeService.challengeDelete(bno);
-
-    //     return "success";
-    //     //return "redirect:/challenge/challengeList";
-    // }
-
-
+        return "success";
+    }
 }
