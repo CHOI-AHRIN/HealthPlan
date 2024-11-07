@@ -205,6 +205,7 @@ public class SubscribeService {
      */
     public SubscribeVO selectSubscribeRead(int sno) throws Exception {
         subscribeMapper.updateSubscribeCount(sno);
+        // 이미지 소스도 가져오기
         return subscribeMapper.selectSubscribeRead(sno);
     }
 
