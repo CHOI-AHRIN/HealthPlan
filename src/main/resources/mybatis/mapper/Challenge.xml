@@ -36,7 +36,6 @@
         m.uuid
         FROM BOARD b
         LEFT JOIN MEMBER m ON b.mno = m.mno
-        WHERE b.cnotice = 0
         <include refid="search"/>
         ORDER BY b.bno DESC
         )
@@ -48,7 +47,7 @@
     <select id="selectChallengeCount" parameterType="com.healthplan.work.vo.SearchCriteria" resultType="int">
         SELECT COUNT(*)
         FROM BOARD b
-        WHERE b.cnotice = 0
+        WHERE 1=1
         <include refid="search"/>
     </select>
 
@@ -62,7 +61,7 @@
         TO_CHAR(b.wdate, 'YYYY-MM-DD') AS wdate,
         b.bcounts
         FROM BOARD b
-        WHERE b.bno = #{bno} AND b.cnotice = 0
+        WHERE b.bno = #{bno}
     </select>
 
     <!-- 챌린지 등록 -->
@@ -74,7 +73,6 @@
         bcontents,
         wdate,
         bcounts,
-        cnotice
         ) VALUES (
         BOARD_SEQ.NEXTVAL,
         #{mno},
@@ -82,7 +80,6 @@
         #{bcontents},
         SYSDATE,
         0,
-        0
         )
 
         <selectKey keyProperty="bno" resultType="int" order="AFTER">
@@ -96,19 +93,19 @@
         SET
         title = #{title},
         bcontents = #{bcontents}
-        WHERE bno = #{bno} AND cnotice = 0
+        WHERE bno = #{bno}
     </update>
 
     <!-- 챌린지 삭제 -->
     <delete id="deleteChallenge" parameterType="int">
-        DELETE FROM BOARD WHERE bno = #{bno} AND cnotice = 0
+        DELETE FROM BOARD WHERE bno = #{bno}
     </delete>
 
     <!-- 조회수 증가 -->
     <update id="updateChallengeCount">
         UPDATE BOARD
         SET BCOUNTS = BCOUNTS + 1
-        WHERE BNO = #{bno} AND cnotice = 0
+        WHERE BNO = #{bno}
     </update>
 
 	<!-- 첨부파일 등록 -->
@@ -252,7 +249,7 @@
 
 	</delete>
 
-        <!-- 포인트 적립 -->
+    <!-- 포인트 적립 -->
     <update id="addPoint" >
         UPDATE POINT 
         SET 

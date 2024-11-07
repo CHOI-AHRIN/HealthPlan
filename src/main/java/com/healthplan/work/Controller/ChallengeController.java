@@ -139,77 +139,6 @@ public class ChallengeController {
         // return "redirect:/challenge/challengeList";
     }
 
-    // // ----------------------------------- 챌린지 공지 게시판
-    // // -----------------------------------
-
-    // // 챌린지 공지 게시판 목록 표시
-    // @GetMapping("/cnlist")
-    // public Map<String, Object> cnlist(SearchCriteria cri, MemberEntity mem) throws Exception {
-    //     logger.info("1. /******************************* 챌린지 공지 돈다 ");
-    //     Map<String, Object> result = new HashMap<>();
-
-    //     // 전체검색 onchange x
-    //     if ("".equals(cri.getSearchType())) {
-    //         cri.setSearchType("total");
-    //     }
-
-    //     PageMaker pageMaker = new PageMaker();
-    //     pageMaker.setCri(cri);
-    //     pageMaker.setTotalCount(challengeService.selectNoticeCount(cri));
-
-    //     List<ChallengeEntity> cnlist = challengeService.selectNoticeList(cri);
-
-    //     result.put("cnlist", cnlist);
-    //     result.put("pageMaker", pageMaker);
-
-    //     log.info("2. cri -> " + cri);
-    //     log.info("3. NoticeList result -> " + result.toString());
-
-    //     return result;
-    // }
-
-    // // 챌린지 공지 글 등록
-    // @PostMapping("/cninsert")
-    // public String cnInsert(ChallengeEntity challengeEntity) throws Exception {
-    //     log.info("ChallengeEntity: mno=" + challengeEntity.getMno() +
-    //             ", title=" + challengeEntity.getTitle() +
-    //             ", bcontents=" + challengeEntity.getBcontents());
-    //     log.info("Received ChallengeEntity: " + challengeEntity.toString());
-
-    //     log.info("cnInsert -> " + challengeEntity);
-    //     challengeService.cnInsert(challengeEntity);
-
-    //     return "success";
-    // }
-
-    // // 챌린지 공지 상세 조회 및 수정 페이지 이동
-    // @GetMapping({ "/cnRead/{bno}", "/cnModify/{bno}" })
-    // public ChallengeEntity cnRead(@PathVariable("bno") int bno) throws Exception {
-    //     ChallengeEntity vo = challengeService.selectNoticeRead(bno);
-
-    //     log.info("bno -> " + bno);
-    //     log.info("subscribeLessionRead result -> " + vo.toString());
-
-    //     return vo;
-    // }
-
-    // // 챌린지 공지 글 수정
-    // @PutMapping("/cnupdate")
-    // public String cnupdate(ChallengeEntity challengeEntity) throws Exception {
-    //     challengeService.cnUpdate(challengeEntity);
-    //     log.info("cnUpdate -> " + challengeEntity.toString());
-    //     return "success";
-    // }
-
-    // // 챌린지 공지 글 삭제
-    // @DeleteMapping("/cndelete/{bno}")
-    // public String cndelete(@PathVariable("bno") int bno) throws Exception {
-    //     log.info("cnDelete -> " + bno);
-    //     challengeService.cnDelete(bno);
-
-    //     return "success";
-    // }
-
     // 포인트 적립
     // JSON 데이터를 PointDTO로 변환할 수 있게 @RequestBody 추가
     @PostMapping("/addPoint")
@@ -230,6 +159,7 @@ public class ChallengeController {
     result.put("list", list);
     return result;
     } */
+   
     @GetMapping("/ranking")
     public List<MemberEntity> getChallengeRanking(MemberEntity mem) throws Exception {
         log.info("1. /api/challenge/ranking" + mem);

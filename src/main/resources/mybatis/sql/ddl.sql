@@ -30,10 +30,6 @@ CREATE TABLE Board (
     FOREIGN KEY (mNo) REFERENCES Member (mNo) ON DELETE CASCADE
 );
 
--- 챌린지 공지게시판 대비
--- ALTER TABLE BOARD
--- ADD is_notice NUMBER(1) DEFAULT 0;
-
 -- 보드 댓글 테이블
 CREATE TABLE BReply (
     rNo NUMBER NOT NULL, -- 댓글번호
