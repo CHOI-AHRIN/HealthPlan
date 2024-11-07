@@ -29,14 +29,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
-
 @RestController
 @RequestMapping("/api/member")
 
 public class MemberController {
-
 
     private final PasswordEncoder passwordEncoder;
     @Autowired
@@ -50,7 +46,7 @@ public class MemberController {
 
     private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
-     public MemberController(PasswordEncoder passwordEncoder) {
+    public MemberController(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -58,26 +54,29 @@ public class MemberController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public List<MemberEntity> selectList(Model model) throws Exception {
 
-        logger.info("//****************************** /member/list");
+        logger.info("1. //****************************** /api/member/list");
 
         List<MemberEntity> list = mapper.selectMemberList();
 
-        logger.info("// list.toString()=" + list.toString());
+        logger.info("2. // list.toString()=" + list.toString());
 
         return list;
     }
 
-/*    // mNo로 회원정보 조회
-    @RequestMapping(value = "/getUuidByMno", method = RequestMethod.POST)
-    public String getUuidByMno (@RequestBody MemberEntity mem) throws Exception {
-
-        logger.info("read post ...........");
-        logger.info(mem.toString());
-
-        String num =mapper.selectMno(mem);
-
-        return num;
-    }*/
+    /*
+     * // mNo로 회원정보 조회
+     * 
+     * @RequestMapping(value = "/getUuidByMno", method = RequestMethod.POST)
+     * public String getUuidByMno (@RequestBody MemberEntity mem) throws Exception {
+     * 
+     * logger.info("read post ...........");
+     * logger.info(mem.toString());
+     * 
+     * String num =mapper.selectMno(mem);
+     * 
+     * return num;
+     * }
+     */
 
     @RequestMapping(value = "/getUuidByMno", method = RequestMethod.POST)
     public ResponseEntity<Map<String, String>> getUuidByMno(@RequestBody MemberEntity mem) throws Exception {
@@ -99,13 +98,13 @@ public class MemberController {
         }
     }
 
-
-/*     @PostMapping("/getUuidsByMnos")
-    public Map<Integer, String> getUuidsByMnos(@RequestBody List<Integer> mnos) throws Exception {
-        return mapper.getUuidsByMnos(mnos);
-    }
- */
-
+    /*
+     * @PostMapping("/getUuidsByMnos")
+     * public Map<Integer, String> getUuidsByMnos(@RequestBody List<Integer> mnos)
+     * throws Exception {
+     * return mapper.getUuidsByMnos(mnos);
+     * }
+     */
 
     // 회원번호 조회
     @RequestMapping(value = "/readMno", method = RequestMethod.POST)
@@ -128,7 +127,6 @@ public class MemberController {
         }
     }
 
-
     /// 회원가입
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -149,14 +147,13 @@ public class MemberController {
 
         mapper.setpoint(pmno); // 기본 포인트 등록!
 
-        //return "success";
+        // return "success";
         return ResponseEntity.ok("success");
     }
 
-
     // 로그인
     @RequestMapping(value = "/loginPost", method = RequestMethod.POST)
-    public  ResponseEntity<?> loginPOST(@RequestBody LoginDTO dto) throws Exception {
+    public ResponseEntity<?> loginPOST(@RequestBody LoginDTO dto) throws Exception {
 
         logger.info("/******************************************** loginPost");
         logger.info(dto.toString());
@@ -205,12 +202,12 @@ public class MemberController {
 
     // 쿠키 관리
     @RequestMapping(value = "/loginCookie", method = RequestMethod.POST)
-    public  ResponseEntity<?> loginCookie(@RequestBody Map<String, String> requestData) throws Exception {
+    public ResponseEntity<?> loginCookie(@RequestBody Map<String, String> requestData) throws Exception {
 
         logger.info("/*************** /loginCookie 시작...");
-        //logger.info("/*************** dto 뭐 받았니"+dto.toString());
+        // logger.info("/*************** dto 뭐 받았니"+dto.toString());
 
-        String token = requestData.get("token");  // token 값 추출
+        String token = requestData.get("token"); // token 값 추출
         System.out.println("/***************  받은 토큰 보자!!! =" + token);
 
         if (token == null || token.isEmpty()) {
@@ -225,7 +222,7 @@ public class MemberController {
             if (jwtUtils.validateToken(token, uuid)) {
                 logger.info("/*************** token의 id 보여줘  " + uuid);
 
-                return ResponseEntity.ok(Map.of("uuid", uuid));  // 유효하면 uuid를 반환
+                return ResponseEntity.ok(Map.of("uuid", uuid)); // 유효하면 uuid를 반환
 
             } else {
                 return new ResponseEntity<>("유효하지 않은 토큰입니다.", HttpStatus.UNAUTHORIZED);
@@ -262,7 +259,7 @@ public class MemberController {
         return "success";
     }
 
-    //아이디 중복체크
+    // 아이디 중복체크
     @PostMapping("/uuidCk")
     public int uuidCk(@RequestBody Map<String, String> requestData) throws Exception {
 
@@ -274,17 +271,17 @@ public class MemberController {
         // 로그로 uuid 확인
         logger.info("2. 조회할 아이디 : " + uuid);
 
-        // logger.info("/******************** 포스트 돌겠습니다 !!! uuidCk post ..........."+ uuid);
-        logger.info("3. "+uuid.toString());
+        // logger.info("/******************** 포스트 돌겠습니다 !!! uuidCk post ..........."+
+        // uuid);
+        logger.info("3. " + uuid.toString());
 
         int result = mapper.uuidCk(uuid);
 
-        logger.info("4. result 값 확인: "+result);
+        logger.info("4. result 값 확인: " + result);
 
         return result;
 
     }
-
 
     // 이메일 중복체크
     @RequestMapping(value = "/emailCk", method = RequestMethod.POST)
@@ -296,8 +293,6 @@ public class MemberController {
 
         return result;
     }
-
-
 
     // 이름 조회
     @RequestMapping(value = "/readName", method = RequestMethod.POST)
@@ -320,7 +315,6 @@ public class MemberController {
         }
     }
 
-
     // 마이페이지 회원정보 조회
     @RequestMapping(value = "/read", method = RequestMethod.POST)
     public ResponseEntity<MemberEntity> selectMemId(@RequestBody Map<String, String> requestData) throws Exception {
@@ -341,6 +335,20 @@ public class MemberController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         // return mapper.selectUuid(mem.getUuid());
+    }
+
+    // 특정 회원 정보 조회
+    @RequestMapping(value = "/read/{uuid}", method = RequestMethod.GET)
+    public ResponseEntity<MemberEntity> selectMemberByUuid(@PathVariable("uuid") String uuid) throws Exception {
+        logger.info("조회할 아이디 : " + uuid);
+
+        MemberEntity memberInfo = mapper.selectUuid(uuid);
+
+        if (memberInfo != null) {
+            return ResponseEntity.ok(memberInfo);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     // 마이페이지 회원정보 수정
@@ -373,7 +381,7 @@ public class MemberController {
         logger.info("delete post ...........");
         logger.info(mem.toString());
 
-       mapper.delete(mem.getUuid());
+        mapper.delete(mem.getUuid());
 
         return "succ";
     }
