@@ -19,7 +19,8 @@ public class SReplyService {
 
     public void addReply(SReplyVO vo) throws Exception {
         sreplyMapper.addReply(vo);
-        subscribeMapper.updateReplyCnt(vo);
+        // subscribeMapper.selectReply(vo);
+        subscribeMapper.updateReplyCnt2(vo);
     }
 
     public List<SReplyVO> listReply(int sno) throws Exception {

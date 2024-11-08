@@ -32,6 +32,7 @@
         b.bcontents,
         TO_CHAR(b.wdate, 'YYYY-MM-DD') AS wdate,
         b.bcounts,
+        b.replycnt,
         m.uuid
         FROM BOARD b
         LEFT JOIN MEMBER m ON b.mno = m.mno
@@ -256,25 +257,38 @@
     </update>
 
     <!-- 챌린지 랭킹 -->
-<select id="cRank" resultType="map">
-  <![CDATA[
-SELECT *
-FROM (
-    SELECT 
-        m.mno AS mno, 
-        m.uuid AS uuid, 
-        m.name AS name, 
-        COUNT(r.bno) AS commentCount
-    FROM 
-        MEMBER m
-    JOIN 
-        BREPLY r ON m.mno = r.mno
-    GROUP BY 
-        m.mno, m.uuid, m.name
-    ORDER BY 
-        commentCount DESC
-)
-WHERE ROWNUM <= 3
-]]>
-</select>
+    <select id="cRank" resultType="map">
+        <![CDATA[
+            SELECT *
+            FROM
+                (
+                SELECT 
+                m.mno AS mno, 
+                m.uuid AS uuid, 
+                m.name AS name, 
+                COUNT(r.bno) AS commentCount
+                FROM 
+                MEMBER m
+                JOIN 
+                BREPLY r ON m.mno = r.mno
+                GROUP BY 
+                m.mno, m.uuid, m.name
+                ORDER BY 
+                commentCount DESC
+                )
+            WHERE ROWNUM <= 3
+        ]]>
+    </select>
+
+    <!-- 댓글수 더하기 -->
+	<update id="updateReplyCnt2">
+		UPDATE BOARD
+		SET
+		REPLYCNT = 
+        (SELECT COUNT(*)
+		FROM BREPLY
+		WHERE BNO = #{bno})
+		WHERE BNO = #{bno}
+	</update>
+
     </mapper>

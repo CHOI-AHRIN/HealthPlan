@@ -278,6 +278,27 @@
 
 	</update>
 
+	<!-- 댓글수 조회 -->
+	<select id="selectReply">
+		SELECT COUNT(*)
+		FROM SREPLY
+		WHERE SNO = #{sno}
+	</select>
+
+		<!-- 댓글수 더하기 -->
+	<update id="updateReplyCnt2">
+
+		UPDATE SUBSCRIBE
+		SET
+			REPLYCNT = (SELECT COUNT(*)
+		FROM SREPLY
+		WHERE SNO = #{sno})
+		WHERE SNO 	 = #{sno}
+
+	</update>
+
+
+
 	<!-- 첨부파일 등록 -->
 	<insert id="subscribeAttach" parameterType="java.util.HashMap">
 

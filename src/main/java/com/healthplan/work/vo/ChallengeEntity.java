@@ -23,6 +23,8 @@ public class ChallengeEntity {
     // [아린] uuid 조회를 위한 추가
     private String uuid;
 
+    private int replycnt;
+
     @Builder.Default
     private List<ImageDTO> mainImage = new ArrayList<>();
 
