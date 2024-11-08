@@ -295,4 +295,5 @@
 		WHERE BNO = #{bno}
 	</update>
 
+
     </mapper>

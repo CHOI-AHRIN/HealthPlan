@@ -338,9 +338,25 @@ public class MemberController {
     }
 
     // 특정 회원 정보 조회
-    @RequestMapping(value = "/read/{uuid}", method = RequestMethod.GET)
+    /*
+     * @RequestMapping(value = "/read/{uuid}", method = RequestMethod.GET)
+     * public ResponseEntity<MemberEntity> selectMemberByUuid(@PathVariable String
+     * uuid) throws Exception {
+     * logger.info("1. 조회할 아이디 : " + uuid);
+     * 
+     * MemberEntity memberInfo = mapper.selectUuid(uuid);
+     * 
+     * if (memberInfo != null) {
+     * return ResponseEntity.ok(memberInfo);
+     * } else {
+     * return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+     * }
+     * }
+     */
+    // 특정 회원 정보 조회
+    @GetMapping("/read/{uuid}")
     public ResponseEntity<MemberEntity> selectMemberByUuid(@PathVariable("uuid") String uuid) throws Exception {
-        logger.info("조회할 아이디 : " + uuid);
+        logger.info("1. 조회할 아이디 : " + uuid);
 
         MemberEntity memberInfo = mapper.selectUuid(uuid);
 
