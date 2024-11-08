@@ -1,7 +1,6 @@
 package com.healthplan.work.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,10 +30,10 @@ public class ChallengeService {
         return challengeMapper.selectChallengeCount(cri);
     }
 
-    //ImageDTO (MainImage)
-    public List<ImageDTO> selectMainImage(int bno) throws Exception {
-        return challengeMapper.selectMainImage(bno);
-    }
+    // //ImageDTO (MainImage)
+    // public List<ImageDTO> selectMainImage(int bno) throws Exception {
+    //     return challengeMapper.selectMainImage(bno);
+    // }
 
     //ImageDTO (ImageList)
     public List<ImageDTO> selectImageList(int bno) throws Exception {
@@ -50,9 +49,9 @@ public class ChallengeService {
     // 챌린지 작성
     public void challengeInsert(ChallengeEntity vo) throws Exception {
         challengeMapper.insertChallenge(vo);
+        int bno = vo.getBno();
 
         List<ImageDTO> imageDTOList = vo.getImageDTOList();
-        challengeMapper.deleteAttach(vo.getBno());
 
         if (imageDTOList != null && !imageDTOList.isEmpty()) {
             for (ImageDTO imageDTO : imageDTOList) {
@@ -62,7 +61,7 @@ public class ChallengeService {
                 String path = imageDTO.getPath();
                 String imgType = imageDTO.getImgType();
 
-                challengeMapper.addAttach(imgName, imgURL, uuid, path, imgType);
+                challengeMapper.addAttach(imgName, imgURL, uuid, path, imgType, bno);
             }
         }
     }

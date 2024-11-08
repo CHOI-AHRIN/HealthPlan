@@ -34,11 +34,11 @@ public interface ChallengeMapper {
 
     public void challengeStringAttach(String csno, String imgName) throws Exception;
 
-    public List<ImageDTO> selectMainImage(int bno) throws Exception;
+    // public List<ImageDTO> selectMainImage(int bno) throws Exception;
 
     public List<ImageDTO> selectImageList(int bno) throws Exception;
 
-    public void addAttach(String imgName, String imgURL, String uuid, String path, String imgType) throws Exception;
+    void addAttach(String imgName, String imgURL, String uuid, String path, String imgType, int bno);
 
     public void deleteAttach(int bno) throws Exception;
 

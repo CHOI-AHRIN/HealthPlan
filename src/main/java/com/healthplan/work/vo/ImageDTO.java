@@ -23,6 +23,10 @@ public class ImageDTO {
 
     private String thumbnailURL;
 
+    public void setThumbnailURL(String thumbnailURL) {
+        this.thumbnailURL = thumbnailURL;
+    }
+
     //    public String getImageURL(){
 //        try {
 //            return URLEncoder.encode(path+"/"+uuid+"_"+imgName,"UTF-8");
