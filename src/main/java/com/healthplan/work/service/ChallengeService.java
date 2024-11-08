@@ -31,10 +31,19 @@ public class ChallengeService {
         return challengeMapper.selectChallengeCount(cri);
     }
 
+    //ImageDTO (MainImage)
+    public List<ImageDTO> selectMainImage(int bno) throws Exception {
+        return challengeMapper.selectMainImage(bno);
+    }
+
+    //ImageDTO (ImageList)
+    public List<ImageDTO> selectImageList(int bno) throws Exception {
+        return challengeMapper.selectImageList(bno);
+    }
+
     // 챌린지 읽기
     public ChallengeEntity selectChallengeRead(int bno) throws Exception {
         challengeMapper.updateChallengeCount(bno);
-        // logger.info("29 Line: SubscribeSerive Lession Count ====> " + bno);
         return challengeMapper.selectChallengeRead(bno);
     }
 

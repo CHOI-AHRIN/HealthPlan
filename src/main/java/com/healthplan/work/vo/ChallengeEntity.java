@@ -13,8 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChallengeEntity {
-    // private int sno;
-
     private int bno;           // 게시글 번호
     private int mno;           // 회원 번호 (작성자)
     private String title;      // 챌린지 제목
@@ -24,6 +22,9 @@ public class ChallengeEntity {
 
     // [아린] uuid 조회를 위한 추가
     private String uuid;
+
+    @Builder.Default
+    private List<ImageDTO> mainImage = new ArrayList<>();
 
     @Builder.Default
     private List<ImageDTO> imageDTOList = new ArrayList<>();

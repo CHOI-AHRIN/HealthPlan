@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.healthplan.work.dao.MemberMapper;
 import com.healthplan.work.service.ChallengeService;
 import com.healthplan.work.vo.ChallengeEntity;
+import com.healthplan.work.vo.ImageDTO;
 import com.healthplan.work.vo.MemberEntity;
 import com.healthplan.work.vo.PageMaker;
 import com.healthplan.work.vo.PointDTO;
@@ -101,6 +102,13 @@ public class ChallengeController {
         log.info("Received ChallengeEntity: " + challengeEntity.toString());
 
         log.info("challengeInsert -> " + challengeEntity);
+        log.info("imageDTOList나오냐? -> " + challengeEntity.getImageDTOList());
+
+        // imageDTOList가 제대로 전달되는지 확인하기 위한 로그
+        log.info("ChallengeEntity - Images: " + challengeEntity.getImageDTOList());
+
+        log.info("Received ChallengeEntity: " + challengeEntity.toString());
+        log.info("challengeInsert -> " + challengeEntity);
         challengeService.challengeInsert(challengeEntity);
 
         return "success";
@@ -116,7 +124,14 @@ public class ChallengeController {
         log.info("bno -> " + bno);
         log.info("challengeRead result -> " + vo.toString());
 
-        // result.put("vo", vo);
+        //이미지 정보 가져오기
+        List<ImageDTO> mainImageList = challengeService.selectMainImage(bno);
+        List<ImageDTO> imageDTOList = challengeService.selectImageList(bno);
+        log.info("mainImage -> " + mainImageList.toString());
+        log.info("imageDTOList -> " + imageDTOList.toString());
+
+        vo.setMainImage(mainImageList);
+        vo.setImageDTOList(imageDTOList);
         return vo;
     }
 
