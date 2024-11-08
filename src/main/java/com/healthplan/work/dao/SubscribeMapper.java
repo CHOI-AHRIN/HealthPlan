@@ -123,6 +123,11 @@ public interface SubscribeMapper {
      */
     public void updateReplyCntSubtraction(int sno) throws Exception;
 
+    /* count reply */
+    public void selectReply(SReplyVO vo) throws Exception;
+    public void updateReplyCnt2(SReplyVO vo) throws Exception;
+
+
     /**
      * Subscribe attach.
      *

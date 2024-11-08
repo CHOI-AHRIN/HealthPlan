@@ -1,5 +1,6 @@
 package com.healthplan.work.dao;
 
+import com.healthplan.work.vo.BReplyEntity;
 import com.healthplan.work.vo.ChallengeEntity;
 import com.healthplan.work.vo.ImageDTO;
 import com.healthplan.work.vo.MemberEntity;
@@ -44,6 +45,9 @@ public interface ChallengeMapper {
     // 포인트 적립
     public void addPoint(PointDTO point) throws Exception;
 
-    //랭킹
+    // 랭킹
     public List<MemberEntity> cRank(MemberEntity mem) throws Exception;
+
+    // 댓글수
+    public void updateReplyCnt2(BReplyEntity vo) throws Exception;
 }

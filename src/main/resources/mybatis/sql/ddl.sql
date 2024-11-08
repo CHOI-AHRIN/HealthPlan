@@ -26,6 +26,7 @@ CREATE TABLE Board (
     bContents VARCHAR2(2000), -- 글내용
     wDate DATE, -- 작성일자
     bCounts NUMBER, -- 조회수
+    REPLYCNT NUMBER, -- 댓글수
     PRIMARY KEY (bNo),
     FOREIGN KEY (mNo) REFERENCES Member (mNo) ON DELETE CASCADE
 );
