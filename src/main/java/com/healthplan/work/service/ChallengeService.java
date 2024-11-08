@@ -49,10 +49,11 @@ public class ChallengeService {
 
     // 챌린지 작성
     public void challengeInsert(ChallengeEntity vo) throws Exception {
+        
         challengeMapper.insertChallenge(vo);
-
+        // int bno = vo.getBno();
         List<ImageDTO> imageDTOList = vo.getImageDTOList();
-        challengeMapper.deleteAttach(vo.getBno());
+        // challengeMapper.deleteAttach(vo.getBno());
 
         if (imageDTOList != null && !imageDTOList.isEmpty()) {
             for (ImageDTO imageDTO : imageDTOList) {
@@ -63,6 +64,7 @@ public class ChallengeService {
                 String imgType = imageDTO.getImgType();
 
                 challengeMapper.addAttach(imgName, imgURL, uuid, path, imgType);
+                //challengeMapper.challengeAttach(imgName, imgURL, uuid, path, imgType);
             }
         }
     }

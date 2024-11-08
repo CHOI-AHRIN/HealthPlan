@@ -72,13 +72,15 @@
             title,
             bcontents,
             wdate,
-            bcounts
+            bcounts,
+            replycnt
             ) VALUES (
             BOARD_SEQ.NEXTVAL,
             #{mno},
             #{title},
             #{bcontents},
             SYSDATE,
+            0,
             0
         )
 
@@ -109,7 +111,7 @@
     </update>
 
 	<!-- 첨부파일 등록 -->
-	<insert id="subscribeAttach" parameterType="java.util.HashMap">
+	<insert id="challengeAttach" parameterType="java.util.HashMap">
 
 		<foreach collection="listMap" item="item" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
 
@@ -163,6 +165,7 @@
 			, IMGTYPE
 			, BNO
 			, ANO
+            , SNO
 			, REGDATE
 		)
 		VALUES (
@@ -173,6 +176,7 @@
 			, #{imgType}
 			, BNO_SEQ.CURRVAL
 			, ANO_SEQ.NEXTVAL
+            , '0'
 			, SYSDATE
 		)
 
