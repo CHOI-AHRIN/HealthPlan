@@ -69,7 +69,7 @@ public class CUploadController {
                 uploadFile.transferTo(savePath);
 
                 // 섬네일 생성
-                String thumbnailSaveName = uploadPath + File.separator + folderPath + File.separator + "_" + uuid + "_"
+                String thumbnailSaveName = uploadPath + File.separator + folderPath + File.separator + "s_" + uuid + "_"
                         + fileName;
                 log.info("thumbnailSaveName fileName: " + thumbnailSaveName);
 
@@ -89,7 +89,7 @@ public class CUploadController {
 
     private @NotNull String makeFolder() {
         String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        String folderPath = str.replace("//", File.separator);
+        String folderPath = str.replace("/", File.separator);
 
         // make folder --------
         File uploadPathFolder = new File(uploadPath, folderPath);
