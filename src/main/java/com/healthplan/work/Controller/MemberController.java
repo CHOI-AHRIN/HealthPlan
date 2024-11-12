@@ -104,6 +104,22 @@ public class MemberController {
         }
     }
 
+    // mtype 조회
+    @PostMapping("/searchMtype")
+    public ResponseEntity<String> searchMtype(@RequestBody String uuid) {
+        try {
+            MemberEntity member = mapper.searchMtype(uuid);
+            if (member != null) {
+                return new ResponseEntity<>(member.getMtype(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     /// 회원가입
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)

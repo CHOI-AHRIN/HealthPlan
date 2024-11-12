@@ -28,6 +28,9 @@ public interface MemberMapper {
     // 현재 mno 조회
     public int currval() throws Exception;
 
+    // mtype 조회
+    public MemberEntity searchMtype(String uuid) throws Exception;
+
     // 포인트 등록
     public void setpoint(Integer mno) throws Exception;
 

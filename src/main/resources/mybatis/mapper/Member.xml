@@ -11,13 +11,6 @@
         ORDER BY mno DESC
     </select>
 
-<!--    &lt;!&ndash; mno로 회원정보 조회 &ndash;&gt;
-    <select id ="selectMno" resultType ="com.healthplan.work.vo.MemberEntity">
-        select *
-        from MEMBER
-        where mno = #{mno}
-    </select>-->
-
     <!--회원번호로 아이디 조회 (댓글)-->
     <select id="selectUuidByMno" resultType="java.lang.String" parameterType="int">
         SELECT uuid
@@ -35,6 +28,8 @@
             #{mno}
         </foreach>
     </select>
+
+    <!-- 아이디로 mtype 조회 -->
 
 
     <!-- 회원가입 -->
