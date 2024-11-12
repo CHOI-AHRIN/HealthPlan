@@ -155,4 +155,19 @@
     </delete>
 
 
+    <!-- 회원정보수정-->
+    <update id="modifyMem">
+        update member
+        set
+        upw=#{upw},
+        phone=#{phone},
+        email=#{email},
+        name=#{name},
+        sstype=#{sstype},
+        mtype=#{mtype}
+        where
+        uuid=#{uuid}
+    </update>
+
+
 </mapper>

@@ -63,21 +63,6 @@ public class MemberController {
         return list;
     }
 
-    /*
-     * // mNo로 회원정보 조회
-     * 
-     * @RequestMapping(value = "/getUuidByMno", method = RequestMethod.POST)
-     * public String getUuidByMno (@RequestBody MemberEntity mem) throws Exception {
-     * 
-     * logger.info("read post ...........");
-     * logger.info(mem.toString());
-     * 
-     * String num =mapper.selectMno(mem);
-     * 
-     * return num;
-     * }
-     */
-
     @RequestMapping(value = "/getUuidByMno", method = RequestMethod.POST)
     public ResponseEntity<Map<String, String>> getUuidByMno(@RequestBody MemberEntity mem) throws Exception {
         logger.info("회원정보 조회 요청 - mno: " + mem.getMno());
@@ -97,14 +82,6 @@ public class MemberController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-    /*
-     * @PostMapping("/getUuidsByMnos")
-     * public Map<Integer, String> getUuidsByMnos(@RequestBody List<Integer> mnos)
-     * throws Exception {
-     * return mapper.getUuidsByMnos(mnos);
-     * }
-     */
 
     // 회원번호 조회
     @RequestMapping(value = "/readMno", method = RequestMethod.POST)
@@ -338,22 +315,6 @@ public class MemberController {
     }
 
     // 특정 회원 정보 조회
-    /*
-     * @RequestMapping(value = "/read/{uuid}", method = RequestMethod.GET)
-     * public ResponseEntity<MemberEntity> selectMemberByUuid(@PathVariable String
-     * uuid) throws Exception {
-     * logger.info("1. 조회할 아이디 : " + uuid);
-     * 
-     * MemberEntity memberInfo = mapper.selectUuid(uuid);
-     * 
-     * if (memberInfo != null) {
-     * return ResponseEntity.ok(memberInfo);
-     * } else {
-     * return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-     * }
-     * }
-     */
-    // 특정 회원 정보 조회
     @GetMapping("/read/{uuid}")
     public ResponseEntity<MemberEntity> selectMemberByUuid(@PathVariable("uuid") String uuid) throws Exception {
         logger.info("1. 조회할 아이디 : " + uuid);
@@ -388,6 +349,14 @@ public class MemberController {
 
         return "SUCCESS";
 
+    }
+
+    // 회원정보수정
+    @PostMapping("/modifyMem")
+    public String modifyMem(@RequestBody MemberEntity mem) throws Exception {
+        logger.info("1. .modifyMem : " + mem);
+        mapper.modifyMem(mem);
+        return "SUCCESS";
     }
 
     // 회원탈퇴

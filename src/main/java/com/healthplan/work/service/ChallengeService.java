@@ -57,6 +57,7 @@ public class ChallengeService {
 
     // 챌린지 작성
     public void challengeInsert(ChallengeEntity vo) throws Exception {
+        
         challengeMapper.insertChallenge(vo);
         int bno = vo.getBno();
 

@@ -74,6 +74,8 @@
             wdate,
             bcounts,
             replycnt
+            bcounts,
+            replycnt
             ) VALUES (
             BOARD_SEQ.NEXTVAL,
             #{mno},
@@ -111,7 +113,7 @@
     </update>
 
 	<!-- 첨부파일 등록 -->
-	<insert id="subscribeAttach" parameterType="java.util.HashMap">
+	<insert id="challengeAttach" parameterType="java.util.HashMap">
 
 		<foreach collection="listMap" item="item" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
 

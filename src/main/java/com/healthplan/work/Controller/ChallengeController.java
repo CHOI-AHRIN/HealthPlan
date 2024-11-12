@@ -114,6 +114,31 @@ public Map<String, Object> clist(SearchCriteria cri, MemberEntity mem) throws Ex
 }
 
     // 챌린지 글 등록
+    /*
+     * @PostMapping("/challengeinsert")
+     * public String challengeInsert(ChallengeEntity challengeEntity) throws
+     * Exception {
+     * log.info("1. ChallengeEntity: mno=" + challengeEntity.getMno() +
+     * ", title=" + challengeEntity.getTitle() +
+     * ", bcontents=" + challengeEntity.getBcontents());
+     * log.info("2. Received ChallengeEntity: " + challengeEntity.toString());
+     * 
+     * log.info("3. challengeInsert -> " + challengeEntity);
+     * log.info("4. imageDTOList나오냐? -> " + challengeEntity.getImageDTOList());
+     * 
+     * // imageDTOList가 제대로 전달되는지 확인하기 위한 로그
+     * log.info("5. ChallengeEntity - Images: " +
+     * challengeEntity.getImageDTOList());
+     * 
+     * log.info("6. Received ChallengeEntity: " + challengeEntity.toString());
+     * log.info("7. challengeInsert -> " + challengeEntity);
+     * challengeService.challengeInsert(challengeEntity);
+     * 
+     * return "success";
+     * // return "redirect:/challenge/challengeList";
+     * }
+     */
+
     @PostMapping("/challengeinsert")
         public String challengeInsert(@RequestBody ChallengeEntity challengeEntity) throws Exception {
         log.info("ChallengeEntity: mno=" + challengeEntity.getMno() +
@@ -124,9 +149,7 @@ public Map<String, Object> clist(SearchCriteria cri, MemberEntity mem) throws Ex
         log.info("challengeInsert -> " + challengeEntity);
         log.info("imageDTOList나오냐? -> " + challengeEntity.getImageDTOList());
         challengeService.challengeInsert(challengeEntity);
-
         return "success";
-        // return "redirect:/challenge/challengeList";
     }
 
     // 챌린지 상세 조회 및 수정 페이지 이동
@@ -180,15 +203,18 @@ public Map<String, Object> clist(SearchCriteria cri, MemberEntity mem) throws Ex
     }
 
     // 랭킹
-/*     @GetMapping("/ranking")
-    public Map<String, Object> getChallengeRanking(MemberEntity mem) throws Exception {
-    log.info("1. /api/challenge/ranking " + mem);
-    Map<String, Object> result = new HashMap<>();
-    List<MemberEntity> list = challengeService.getChallengeRanking(mem);
-    result.put("list", list);
-    return result;
-    } */
-   
+    /*
+     * @GetMapping("/ranking")
+     * public Map<String, Object> getChallengeRanking(MemberEntity mem) throws
+     * Exception {
+     * log.info("1. /api/challenge/ranking " + mem);
+     * Map<String, Object> result = new HashMap<>();
+     * List<MemberEntity> list = challengeService.getChallengeRanking(mem);
+     * result.put("list", list);
+     * return result;
+     * }
+     */
+
     @GetMapping("/ranking")
     public List<MemberEntity> getChallengeRanking(MemberEntity mem) throws Exception {
         log.info("1. /api/challenge/ranking" + mem);
