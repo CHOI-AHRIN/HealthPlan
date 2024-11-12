@@ -31,13 +31,6 @@ public class ChallengeEntity {
     private int replycnt;
 
 
-
-    private String[] fileid;
-    private String[] imgtype;
-    private String titleimg;
-
-
-
     @Builder.Default
     private List<ImageDTO> mainImage = new ArrayList<>();
 

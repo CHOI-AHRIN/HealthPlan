@@ -30,33 +30,7 @@ public class ImageDTO {
     public void setThumbnailURL(String thumbnailURL) {
         this.thumbnailURL = thumbnailURL;
     }
-
-    //    public String getImageURL(){
-//        try {
-//            return URLEncoder.encode(path+"/"+uuid+"_"+imgName,"UTF-8");
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-//        return "";
-//    }
-//    public String getThumbnailURL(){
-//        try {
-//            return URLEncoder.encode(path+"/s_"+uuid+"_"+imgName,"UTF-8");
-//
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-//        return "";
-//    }
     public boolean isEmpty() {
         return false;
-    }
-
-    // Getter와 Setter
-    public void setCbno(int cbno) {
-        this.cbno = cbno;
-    }
-    public int getCbno() {
-        return cbno;
     }
 }
