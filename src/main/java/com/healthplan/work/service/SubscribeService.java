@@ -136,26 +136,6 @@ public class SubscribeService {
                 subscribeMapper.addAttach(imgName, imgURL, uuid, path, imgType);
             }
         }
-
-//        Spring legacy case
-//        List<ImageDTO> imageList = vo.getImageDTOList();
-//        String[] files = vo.getFileid();
-
-//        if (imageList != null && !imageList.isEmpty()) {
-//            HashMap<String, Object> map = new HashMap<String, Object>();
-//            List<HashMap<String, Object>> listMap = new ArrayList<HashMap<String,Object>>();
-//            int sno = vo.getSno();
-//
-//            for (ImageDTO idto : imageList) {
-//                HashMap<String, Object> data = new HashMap<String, Object>();
-//
-//                data.put("fileName", "/" + idto.getPath() + "/" +idto.getImgName());
-//                data.put("sno", sno);
-//                listMap.add(data);
-//            }
-//            map.put("listMap", listMap);
-//            subscribeMapper.subscribeAttach(map);
-//        }
     }
 
     /**
@@ -204,7 +184,7 @@ public class SubscribeService {
      */
     public SubscribeVO selectSubscribeRead(int sno) throws Exception {
         subscribeMapper.updateSubscribeCount(sno);
-        // 이미지 소스도 가져오기
+        // 이미지 소스 가져오기
         return subscribeMapper.selectSubscribeRead(sno);
     }
 

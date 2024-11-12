@@ -1,19 +1,17 @@
 package com.healthplan.work.service;
 
-import com.healthplan.work.dto.LoginDTO;
-import com.healthplan.work.vo.MemberEntity;
-
 import java.util.Date;
 import java.util.List;
+
+import com.healthplan.work.dto.LoginDTO;
+import com.healthplan.work.vo.MemberEntity;
 
 public interface MemberService {
 
     
     // 9/11 MemberEntity 타입에서 List 타입으로 변환함
     public List<MemberEntity> login(LoginDTO dto) throws Exception;
-
     public void keepLogin(String uuid, String sessionId, Date next)throws Exception;
-
     public MemberEntity checkLoginBefore(String value);
 
     // 회원가입
@@ -34,5 +32,4 @@ public interface MemberService {
     // 회원 탈퇴 시 비밀번호 체크
     public int upwcheck(MemberEntity vo)throws Exception;
 
-    
 }

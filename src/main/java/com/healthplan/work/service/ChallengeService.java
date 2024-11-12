@@ -30,11 +30,6 @@ public class ChallengeService {
         return challengeMapper.selectChallengeCount(cri);
     }
 
-    // //ImageDTO (MainImage)
-    // public List<ImageDTO> selectMainImage(int bno) throws Exception {
-    //     return challengeMapper.selectMainImage(bno);
-    // }
-
     //ImageDTO (ImageList)
     public List<ImageDTO> selectImageList(int bno) throws Exception {
         return challengeMapper.selectImageList(bno);
@@ -46,6 +41,7 @@ public class ChallengeService {
         return challengeMapper.selectChallengeRead(bno);
     }
 
+    //챌린지 첨부파일
     public List<ChallengeEntity> selectChallengeListWithImages(SearchCriteria cri) throws Exception {
         List<ChallengeEntity> clist = challengeMapper.selectChallengeList(cri);
         for (ChallengeEntity challenge : clist) {
