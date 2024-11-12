@@ -74,8 +74,6 @@
             wdate,
             bcounts,
             replycnt
-            bcounts,
-            replycnt
             ) VALUES (
             BOARD_SEQ.NEXTVAL,
             #{mno},
