@@ -67,18 +67,20 @@
     <!-- 챌린지 등록 -->
     <insert id="insertChallenge">
         INSERT INTO BOARD (
-            bno,
-            mno,
+            BNO,
+            MNO,
             title,
             bcontents,
             wdate,
-            bcounts
+            bcounts,
+            replycnt
             ) VALUES (
             BOARD_SEQ.NEXTVAL,
             #{mno},
             #{title},
             #{bcontents},
             SYSDATE,
+            0,
             0
         )
 
@@ -153,31 +155,31 @@
 
 
 	<!-- 첨부파일 insert -->
-	<insert id="addAttach" parameterType="java.lang.String">
+    <insert id="addAttach" parameterType="java.lang.String">
+    INSERT INTO NATTACH (
+        IMGNAME,
+        IMAGEURL,
+        UUID,
+        PATH,
+        IMGTYPE,
+        BNO,
+        ANO,
+        REGDATE
+    )
+    VALUES (
+        #{imgName},
+        #{imgURL},
+        #{uuid},
+        #{path},
+        #{imgType},
+        BOARD_SEQ.CURRVAL,
+        ANO_SEQ.NEXTVAL,
+        SYSDATE
+    )
+</insert>
 
-		INSERT INTO NATTACH (
-			  IMGNAME
-			, IMAGEURL
-			, UUID
-			, PATH
-			, IMGTYPE
-			, BNO
-			, ANO
-			, REGDATE
-		)
-		VALUES (
-			  #{imgName}
-			, #{imgURL}
-			, #{uuid}
-			, #{path}
-			, #{imgType}
-			, BNO_SEQ.CURRVAL
-			, ANO_SEQ.NEXTVAL
-			, SYSDATE
-		)
-
-	</insert>
-
+    <!-- #{imgType} A로 바꿔봄 -->
+    <!-- BOARD_SEQ.CURRVAL 밸류값을 #{bno}로 변경 -->
 
 	<!-- 첨부파일 update -->
 	<insert id="updateAttach" parameterType="java.lang.String">

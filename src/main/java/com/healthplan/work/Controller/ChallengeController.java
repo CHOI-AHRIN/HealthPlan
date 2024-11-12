@@ -24,6 +24,7 @@ import com.healthplan.work.vo.MemberEntity;
 import com.healthplan.work.vo.PageMaker;
 import com.healthplan.work.vo.PointDTO;
 import com.healthplan.work.vo.SearchCriteria;
+import com.healthplan.work.vo.UploadResultDTO;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -67,35 +68,54 @@ public class ChallengeController {
         return result;
     }
 
+
+    // UploadResultDTO에서 데이터를 가져와 ImageDTO를 생성할 때 thumbnailURL 설정
+    public ImageDTO convertToImageDTO(UploadResultDTO uploadResultDTO) {
+        ImageDTO imageDTO = new ImageDTO();
+        imageDTO.setUuid(uploadResultDTO.getUuid());
+        imageDTO.setImgName(uploadResultDTO.getFileName());
+        imageDTO.setPath(uploadResultDTO.getFolderPath());
+        imageDTO.setImageURL(uploadResultDTO.getImageURL());
+        imageDTO.setThumbnailURL(uploadResultDTO.getThumbnailURL()); // thumbnailURL 설정
+            return imageDTO;
+    }
+
     // 챌린지 목록 표시
     @GetMapping("/challengeList")
-    public Map<String, Object> clist(SearchCriteria cri, MemberEntity mem) throws Exception {
-        logger.info("1. /******************************* 챌린지 리스트 돈다 ");
-        Map<String, Object> result = new HashMap<>();
+public Map<String, Object> clist(SearchCriteria cri, MemberEntity mem) throws Exception {
+    logger.info("챌린지 리스트 조회 시작");
+    Map<String, Object> result = new HashMap<>();
 
-        // 전체검색 onchange x
-        if ("".equals(cri.getSearchType())) {
-            cri.setSearchType("total");
-        }
-
-        PageMaker pageMaker = new PageMaker();
-        pageMaker.setCri(cri);
-        pageMaker.setTotalCount(challengeService.selectChallengeCount(cri));
-
-        List<ChallengeEntity> clist = challengeService.selectChallengeList(cri);
-
-        result.put("clist", clist);
-        result.put("pageMaker", pageMaker);
-
-        log.info("2. cri	-> " + cri);
-        log.info("3. ChallengeList result-> " + result.toString());
-
-        return result;
+    // 전체검색 onchange x
+    if ("".equals(cri.getSearchType())) {
+        cri.setSearchType("total");
     }
+
+    PageMaker pageMaker = new PageMaker();
+    pageMaker.setCri(cri);
+    pageMaker.setTotalCount(challengeService.selectChallengeCount(cri));
+
+    // List<ChallengeEntity> clist = challengeService.selectChallengeList(cri);
+    // 이미지가 포함된 챌린지 리스트 조회
+    List<ChallengeEntity> clist = challengeService.selectChallengeListWithImages(cri);
+
+
+    // 이미지 리스트 확인
+    for (ChallengeEntity challenge : clist) {
+        logger.info("Challenge BNO: " + challenge.getBno() + ", ImageDTOList: " + challenge.getImageDTOList());
+    }
+
+    result.put("clist", clist);
+    result.put("pageMaker", pageMaker);
+
+    log.info("2. cri	-> " + cri);
+    log.info("ChallengeList 결과 -> " + result);
+    return result;
+}
 
     // 챌린지 글 등록
     @PostMapping("/challengeinsert")
-    public String challengeInsert(ChallengeEntity challengeEntity) throws Exception {
+        public String challengeInsert(@RequestBody ChallengeEntity challengeEntity) throws Exception {
         log.info("ChallengeEntity: mno=" + challengeEntity.getMno() +
                 ", title=" + challengeEntity.getTitle() +
                 ", bcontents=" + challengeEntity.getBcontents());
@@ -103,12 +123,6 @@ public class ChallengeController {
 
         log.info("challengeInsert -> " + challengeEntity);
         log.info("imageDTOList나오냐? -> " + challengeEntity.getImageDTOList());
-
-        // imageDTOList가 제대로 전달되는지 확인하기 위한 로그
-        log.info("ChallengeEntity - Images: " + challengeEntity.getImageDTOList());
-
-        log.info("Received ChallengeEntity: " + challengeEntity.toString());
-        log.info("challengeInsert -> " + challengeEntity);
         challengeService.challengeInsert(challengeEntity);
 
         return "success";
@@ -125,12 +139,12 @@ public class ChallengeController {
         log.info("challengeRead result -> " + vo.toString());
 
         //이미지 정보 가져오기
-        List<ImageDTO> mainImageList = challengeService.selectMainImage(bno);
+        // List<ImageDTO> mainImageList = challengeService.selectMainImage(bno); 대표이미지
         List<ImageDTO> imageDTOList = challengeService.selectImageList(bno);
-        log.info("mainImage -> " + mainImageList.toString());
+        // log.info("mainImage -> " + mainImageList.toString());
         log.info("imageDTOList -> " + imageDTOList.toString());
 
-        vo.setMainImage(mainImageList);
+        // vo.setMainImage(mainImageList);
         vo.setImageDTOList(imageDTOList);
         return vo;
     }
