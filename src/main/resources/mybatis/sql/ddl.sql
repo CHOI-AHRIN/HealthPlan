@@ -1,5 +1,5 @@
 -- Active: 1728281287544@@127.0.0.1@1521@XE@HEALTH
--- 171 line: PasswordEncryptor.java 실행해서 터미널에 프린트 된 비밀번호를 UPW의 VALUE 값에다 삽입 후 전체 실행
+-- 운영자 ID : admin / p.w : admin1234!
 
 -- 회원 테이블
 CREATE TABLE Member (
