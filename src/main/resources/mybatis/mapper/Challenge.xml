@@ -110,7 +110,7 @@
         WHERE BNO = #{bno}
     </update>
 
-	<!-- 첨부파일 등록 -->
+	<!-- 첨부파일 insert 1 -->
 	<insert id="challengeAttach" parameterType="java.util.HashMap">
 
 		<foreach collection="listMap" item="item" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
@@ -125,36 +125,16 @@
 				  ANO_SEQ.NEXTVAL
 				, #{item.bno}
 				, #{item.fileName}
-				, 'A' <!--, #{item.imgtype}-->
+				, 'A'
 				, SYSDATE
 			)
-
 		</foreach>
 
 	</insert>
 
-
-	<!-- 첨부파일 등록 -->
-	<insert id="subscribeStringAttach" parameterType="java.lang.String">
-
-		INSERT INTO NATTACH(
-			  ANO
-			, BNO
-			, FILENAME
-			, IMGTYPE
-			, REGDATE
-		) VALUES(
-			  ANO_SEQ.NEXTVAL
-			, #{csno}
-			, #{imgName}
-			, 'A'
-			, SYSDATE
-		)
-
-	</insert>
-
-
-	<!-- 첨부파일 insert -->
+	<!-- 첨부파일 insert 2 -->
+        <!-- #{imgType} A로 변경 -->
+        <!-- BOARD_SEQ.CURRVAL 밸류값을 #{bno}로 변경 -->
     <insert id="addAttach" parameterType="java.lang.String">
     INSERT INTO NATTACH (
         IMGNAME,
@@ -178,12 +158,9 @@
     )
 </insert>
 
-    <!-- #{imgType} A로 바꿔봄 -->
-    <!-- BOARD_SEQ.CURRVAL 밸류값을 #{bno}로 변경 -->
 
 	<!-- 첨부파일 update -->
 	<insert id="updateAttach" parameterType="java.lang.String">
-
 		INSERT INTO NATTACH (
 			  IMGNAME
 			, IMAGEURL
@@ -202,7 +179,6 @@
 			, #{bno}
 			, SYSDATE
 		)
-
 	</insert>
 
 
@@ -292,6 +268,5 @@
 		WHERE BNO = #{bno})
 		WHERE BNO = #{bno}
 	</update>
-
-
-    </mapper>
+    
+</mapper>

@@ -26,7 +26,7 @@ public class SubscribeController {
     @Autowired
     private SubscribeService subscribeService;
 
-    /*****************************************************************************************************************
+    /**
      * subscribeList : 전문가구독 list
      *
      * @param cri the cri
@@ -121,7 +121,7 @@ public class SubscribeController {
         return "success";
     }
 
-    /*****************************************************************************************************************
+    /**
      * subscribeLessionList : 강의수강 select list
      *
      * @param cri the cri

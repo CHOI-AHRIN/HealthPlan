@@ -1,12 +1,12 @@
 package com.healthplan.work.dao;
 
-import com.healthplan.work.dto.LoginDTO;
-import com.healthplan.work.vo.MemberEntity;
-import com.healthplan.work.vo.SearchCriteria;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import com.healthplan.work.dto.LoginDTO;
+import com.healthplan.work.vo.MemberEntity;
+import com.healthplan.work.vo.SearchCriteria;
 
 public interface MemberMapper {
 
@@ -66,11 +66,5 @@ public interface MemberMapper {
 
     // 회원정보수정
     public void modifyMem(MemberEntity mem) throws Exception;
-
-/*
-    // 회원 탈퇴 시 비밀번호 체크
-    public int upwcheck(MemberEntity vo) throws Exception;
-*/
-
 
 }

@@ -51,10 +51,6 @@ public class ChallengeController {
     public Map<String, Object> main(SearchCriteria cri) throws Exception {
         Map<String, Object> result = new HashMap<>();
 
-        // // 공지 게시판 목록 조회
-        // List<ChallengeEntity> cnlist = challengeService.selectNoticeList(cri);
-        // result.put("cnlist", cnlist);
-
         // 챌린지 게시판 목록 조회
         List<ChallengeEntity> clist = challengeService.selectChallengeList(cri);
         result.put("clist", clist);
@@ -95,7 +91,6 @@ public Map<String, Object> clist(SearchCriteria cri, MemberEntity mem) throws Ex
     pageMaker.setCri(cri);
     pageMaker.setTotalCount(challengeService.selectChallengeCount(cri));
 
-    // List<ChallengeEntity> clist = challengeService.selectChallengeList(cri);
     // 이미지가 포함된 챌린지 리스트 조회
     List<ChallengeEntity> clist = challengeService.selectChallengeListWithImages(cri);
 
@@ -112,32 +107,6 @@ public Map<String, Object> clist(SearchCriteria cri, MemberEntity mem) throws Ex
     log.info("ChallengeList 결과 -> " + result);
     return result;
 }
-
-    // 챌린지 글 등록
-    /*
-     * @PostMapping("/challengeinsert")
-     * public String challengeInsert(ChallengeEntity challengeEntity) throws
-     * Exception {
-     * log.info("1. ChallengeEntity: mno=" + challengeEntity.getMno() +
-     * ", title=" + challengeEntity.getTitle() +
-     * ", bcontents=" + challengeEntity.getBcontents());
-     * log.info("2. Received ChallengeEntity: " + challengeEntity.toString());
-     * 
-     * log.info("3. challengeInsert -> " + challengeEntity);
-     * log.info("4. imageDTOList나오냐? -> " + challengeEntity.getImageDTOList());
-     * 
-     * // imageDTOList가 제대로 전달되는지 확인하기 위한 로그
-     * log.info("5. ChallengeEntity - Images: " +
-     * challengeEntity.getImageDTOList());
-     * 
-     * log.info("6. Received ChallengeEntity: " + challengeEntity.toString());
-     * log.info("7. challengeInsert -> " + challengeEntity);
-     * challengeService.challengeInsert(challengeEntity);
-     * 
-     * return "success";
-     * // return "redirect:/challenge/challengeList";
-     * }
-     */
 
     @PostMapping("/challengeinsert")
         public String challengeInsert(@RequestBody ChallengeEntity challengeEntity) throws Exception {
@@ -162,9 +131,7 @@ public Map<String, Object> clist(SearchCriteria cri, MemberEntity mem) throws Ex
         log.info("challengeRead result -> " + vo.toString());
 
         //이미지 정보 가져오기
-        // List<ImageDTO> mainImageList = challengeService.selectMainImage(bno); 대표이미지
         List<ImageDTO> imageDTOList = challengeService.selectImageList(bno);
-        // log.info("mainImage -> " + mainImageList.toString());
         log.info("imageDTOList -> " + imageDTOList.toString());
 
         // vo.setMainImage(mainImageList);
@@ -203,18 +170,6 @@ public Map<String, Object> clist(SearchCriteria cri, MemberEntity mem) throws Ex
     }
 
     // 랭킹
-    /*
-     * @GetMapping("/ranking")
-     * public Map<String, Object> getChallengeRanking(MemberEntity mem) throws
-     * Exception {
-     * log.info("1. /api/challenge/ranking " + mem);
-     * Map<String, Object> result = new HashMap<>();
-     * List<MemberEntity> list = challengeService.getChallengeRanking(mem);
-     * result.put("list", list);
-     * return result;
-     * }
-     */
-
     @GetMapping("/ranking")
     public List<MemberEntity> getChallengeRanking(MemberEntity mem) throws Exception {
         log.info("1. /api/challenge/ranking" + mem);

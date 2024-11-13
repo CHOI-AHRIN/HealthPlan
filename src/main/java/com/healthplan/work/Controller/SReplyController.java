@@ -23,7 +23,7 @@ public class SReplyController {
     @Autowired
     private SReplyService sreplyService;
 
-    /*****************************************************************************************************************
+    /**
      * sReplyList : 구독/강의 댓글 select list
      *
      * List response entity.
