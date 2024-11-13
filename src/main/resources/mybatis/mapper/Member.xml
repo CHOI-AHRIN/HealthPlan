@@ -30,6 +30,11 @@
     </select>
 
     <!-- 아이디로 mtype 조회 -->
+    <select id="searchMtype">
+        SELECT mtype
+        FROM MEMBER
+        WHERE UUID = #{uuid}
+    </select>
 
 
     <!-- 회원가입 -->

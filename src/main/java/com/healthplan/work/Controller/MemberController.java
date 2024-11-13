@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
@@ -111,17 +112,18 @@ public class MemberController {
 
     // mtype 조회
     @PostMapping("/searchMtype")
-    public ResponseEntity<String> searchMtype(@RequestBody String uuid) {
+    public ResponseEntity<String> searchMtype(@RequestBody Map<String, String> requestBody) {
+        String uuid = requestBody.get("uuid");
         try {
             MemberEntity member = mapper.searchMtype(uuid);
             if (member != null) {
-                return new ResponseEntity<>(member.getMtype(), HttpStatus.OK);
+                return ResponseEntity.ok(member.getMtype());
             } else {
-                return new ResponseEntity<>("Not Found", HttpStatus.NOT_FOUND);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not Found");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
