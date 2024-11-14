@@ -152,7 +152,8 @@ VALUES (
         '01012345678',
         '운영자',
         'a',
-        'S' 'admin@example.com',
+        'S', 
+        'admin@example.com',
         SYSDATE
     );
 
@@ -170,13 +171,14 @@ INSERT INTO
         REGDATE
     )
 VALUES (
-        MNO_SEQ_NEXTVAL,
+        MNO_SEQ.NEXTVAL,
         'teacher1',
         '$2a$10$LghDEbloMx7njgBlIq6LlOf7z9LCOkt9Ndpyz2YVFTeIydJ7k8ssC',
         '01012345678',
         '전문가1',
         't',
-        'N' 'teacher1@naver.com',
+        'N',
+        'teacher1@naver.com',
         SYSDATE
     );
 

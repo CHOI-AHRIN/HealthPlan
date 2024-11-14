@@ -64,6 +64,8 @@ public class CUploadController {
             Path savePath = Paths.get(saveName);
 
             log.info("Save fileName: " + saveName);
+            log.info("Save path: " + savePath);
+
 
             try {// 원본 파일 저장
                 uploadFile.transferTo(savePath);
@@ -75,6 +77,7 @@ public class CUploadController {
 
                 // 섬네일 파일 이름은 중간에 s_로 시작하도록
                 File thumbnailFile = new File(thumbnailSaveName);
+                log.info("Thumbnail path: " + thumbnailFile);
 
                 // 섬네일 생성
                 Thumbnailator.createThumbnail(savePath.toFile(), thumbnailFile, 100, 100);
@@ -110,7 +113,7 @@ public class CUploadController {
             File file = new File(uploadPath + File.separator + srcFileName);
             boolean result = file.delete();
 
-            File thumbnail = new File(file.getParent(), "c_" + file.getName());
+            File thumbnail = new File(file.getParent(), "s_" + file.getName());
             result = thumbnail.delete();
 
             return new ResponseEntity<>(result, HttpStatus.OK);

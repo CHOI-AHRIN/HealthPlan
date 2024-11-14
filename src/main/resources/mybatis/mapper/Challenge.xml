@@ -22,8 +22,7 @@
 
     <!-- 챌린지 목록 조회 -->
     <select id="selectChallengeList" parameterType="com.healthplan.work.vo.SearchCriteria" resultType="com.healthplan.work.vo.ChallengeEntity">
-        SELECT *
-        FROM (
+
         SELECT
         ROWNUM AS RNUM,
         b.bno,
@@ -37,10 +36,8 @@
         FROM BOARD b
         LEFT JOIN MEMBER m ON b.mno = m.mno
         <include refid="search"/>
-        ORDER BY b.bno DESC
-        )
-  
-        ORDER BY RNUM
+        ORDER BY b.wdate DESC
+
     </select>
 
     <!-- 챌린지 총 개수 조회 -->
