@@ -7,12 +7,22 @@ if [ ! -d "$VOLUME_PATH" ]; then
   echo "볼륨 경로가 생성되었습니다: $VOLUME_PATH"
 fi
 
-# Docker 이미지 빌드 및 푸시
-# docker build -t localhost:8443/app/health .
-# docker push localhost:8443/app/health
-
-docker build --no-cache -t localhost:8443/hp-app .
-docker push localhost:8443/hp-app
+# 개발환경
+# docker build --no-cache -t localhost:8443/hp-app .
+# docker push localhost:8443/hp-app
 
 # docker-compose 실행
-docker-compose up -d
+# docker-compose up -d
+
+# ---------------------------------------------------
+
+# 운영환경
+# Docker 이미지 빌드 및 푸시
+docker build --no-cache -t 192.168.1.10:8443/hp-app .
+docker push 192.168.1.10:8443/hp-app
+
+# deployment 생성 / 이미지 이름 확인하기
+# kubectl apply -f deployment.yaml
+
+# service 생성
+# kubectl apply -f service.yaml
