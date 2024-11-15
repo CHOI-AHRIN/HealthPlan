@@ -24,21 +24,24 @@
     <select id="selectChallengeList" parameterType="com.healthplan.work.vo.SearchCriteria" resultType="com.healthplan.work.vo.ChallengeEntity">
         SELECT *
         FROM (
-        SELECT
-        ROWNUM AS RNUM,
-        b.bno,
-        b.mno,
-        b.title,
-        b.bcontents,
-        TO_CHAR(b.wdate, 'YYYY-MM-DD') AS wdate,
-        b.bcounts,
-        b.replycnt,
-        m.uuid
-        FROM BOARD b
-        LEFT JOIN MEMBER m ON b.mno = m.mno
-        <include refid="search"/>
-        ORDER BY b.wdate DESC
-        )
+            SELECT 
+            ROWNUM AS RNUM,
+            data.*
+            FROM (
+                SELECT 
+                b.bno,
+                b.mno,
+                b.title,
+                b.bcontents,
+                TO_CHAR(b.wdate, 'YYYY-MM-DD HH24:MI:SS') AS wdate,
+                b.bcounts,
+                b.replycnt,
+                m.uuid
+                FROM BOARD b
+                LEFT JOIN MEMBER m ON b.mno = m.mno
+                ORDER BY b.wdate DESC
+                ) data
+            ) 
         ORDER BY RNUM
     </select>
 
