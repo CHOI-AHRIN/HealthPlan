@@ -18,8 +18,8 @@
         , #{mno}
         , #{sno}
         , #{rcomment}
-        , SYSDATE
-        , SYSDATE
+        , CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul'
+        , CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul'
         )
 
     </insert>
@@ -54,7 +54,7 @@
         UPDATE SREPLY
         SET
         RCOMMENT = #{rcomment},
-        UREGDATE = SYSDATE
+        UREGDATE = CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul'
         WHERE RNO    = #{rno}
 
     </update>

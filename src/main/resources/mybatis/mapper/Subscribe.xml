@@ -5,36 +5,42 @@
 
 	<!-- 전문가구독 list -->
 	<select id="selectSubscribeList" resultType="com.healthplan.work.vo.SubscribeVO">
+    SELECT
+          ROWNUM AS RNUM
+        , S.SNO
+        , S.MNO
+        , S.UUID
+        , S.STYPE
+        , S.TITLE
+        , S.CONTENTS
+        , S.COUNTS
+        , S.FILEID
+        , S.REPLYCNT
+        , S.TITLEIMG
+        , S.SPOINT
+        , S.WDATE_FORMATTED AS WDATE
+    FROM (
+        SELECT
+              SNO
+            , MNO
+            , UUID
+            , STYPE
+            , TITLE
+            , CONTENTS
+            , TO_CHAR(WDATE, 'YYYY.MM.DD') AS WDATE_FORMATTED
+            , COUNTS
+            , FILEID
+            , REPLYCNT
+            , (SELECT IMGNAME FROM NATTACH WHERE IMGTYPE = 'M' AND SNO = S.SNO) AS TITLEIMG
+            , TO_CHAR(SPOINT, 'FM999,999,999,999') AS SPOINT
+        FROM SUBSCRIBE S
+        WHERE 1=1
+        AND STYPE = 'T'
+        <include refid="search"></include>
+        ORDER BY WDATE DESC
+    ) S
+</select>
 
-		SELECT *
-		FROM
-		(
-			SELECT
-				  ROWNUM AS RNUM
-				, SNO
-				, MNO
-				, UUID
-				, STYPE
-				, TITLE
-				, CONTENTS
-				, TO_CHAR(WDATE, 'YYYY-MM-DD') AS WDATE
-				, COUNTS
-				, FILEID
-				, REPLYCNT
-				, (SELECT IMGNAME FROM NATTACH WHERE IMGTYPE = 'M' AND SNO = S.SNO) AS TITLEIMG
-				, TO_CHAR(SPOINT, 'FM999,999,999,999') AS SPOINT
-			FROM  SUBSCRIBE S
-			WHERE 1=1
-			AND STYPE = 'T'
-
-			<include refid="search"></include>
-
-			ORDER BY SNO DESC
-		)
-		WHERE RNUM BETWEEN #{pageStart} AND #{pageEnd}
-		ORDER BY RNUM
-
-	</select>
 
 
 	<!-- 구독 등록 -->
@@ -58,7 +64,7 @@
 			, #{title}
 			, #{contents}
 			, #{spoint}
-			, SYSDATE
+			, CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul'
 			, 0
 		)
 
@@ -86,7 +92,7 @@
 			, #{title}
 			, #{contents}
 			, #{spoint}
-			, SYSDATE
+			, CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul'
 			, 0
 		)
 
@@ -139,7 +145,7 @@
 
 
 	<!-- 구독 수정 -->
-	<update id="updateSubscribe" >
+	<update id="updateSubscribe" parameterType="com.healthplan.work.vo.SubscribeVO" >
 
 		UPDATE SUBSCRIBE
 		SET
@@ -151,7 +157,7 @@
 	</update>
 
 	<!-- 강의 수정 -->
-	<update id="updateSubscribeLession">
+	<update id="updateSubscribeLession" >
 
 		UPDATE SUBSCRIBE
 		SET
@@ -180,35 +186,40 @@
 
 	<!-- 강의 list -->
 	<select id="selectSubscribeLessionList" resultType="com.healthplan.work.vo.SubscribeVO">
-
-		SELECT *
-		FROM
-		(
-			SELECT
-				  ROWNUM AS RNUM
-				, SNO
-				, MNO
-				, UUID
-				, STYPE
-				, TITLE
-				, CONTENTS
-				, TO_CHAR(WDATE, 'YYYY.MM.DD') AS WDATE
-				, COUNTS
-				, FILEID
-				, REPLYCNT
-				, (SELECT IMGNAME FROM NATTACH WHERE IMGTYPE = 'M' AND SNO = S.SNO) AS TITLEIMG
-				, TO_CHAR(SPOINT, 'FM999,999,999,999') AS SPOINT
-			FROM  SUBSCRIBE S
-			WHERE 1=1
-			AND STYPE = 'L'
-
-			<include refid="search"></include>
-
-			ORDER BY SNO DESC
-		)
-		WHERE RNUM BETWEEN #{pageStart} AND #{pageEnd}
-		ORDER BY RNUM
-
+    SELECT
+          ROWNUM AS RNUM
+        , S.SNO
+        , S.MNO
+        , S.UUID
+        , S.STYPE
+        , S.TITLE
+        , S.CONTENTS
+        , S.COUNTS
+        , S.FILEID
+        , S.REPLYCNT
+        , S.TITLEIMG
+        , S.SPOINT
+        , S.WDATE_FORMATTED AS WDATE
+    FROM (
+        SELECT
+              SNO
+            , MNO
+            , UUID
+            , STYPE
+            , TITLE
+            , CONTENTS
+            , TO_CHAR(WDATE, 'YYYY.MM.DD') AS WDATE_FORMATTED
+            , COUNTS
+            , FILEID
+            , REPLYCNT
+            , (SELECT IMGNAME FROM NATTACH WHERE IMGTYPE = 'M' AND SNO = S.SNO) AS TITLEIMG
+            , TO_CHAR(SPOINT, 'FM999,999,999,999') AS SPOINT
+        FROM SUBSCRIBE S
+        WHERE 1=1
+        AND STYPE = 'L'
+        <include refid="search"></include>
+        ORDER BY WDATE DESC
+    ) S
 	</select>
 
 	<!-- 강의 list count -->
@@ -315,7 +326,7 @@
 				, #{item.sno}
 				, #{item.fileName}
 				, 'A' <!--, #{item.imgtype}-->
-				, SYSDATE
+				, CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul'
 			)
 
 		</foreach>
@@ -337,7 +348,7 @@
 			, #{csno}
 			, #{imgName}
 			, 'A'
-			, SYSDATE
+			, CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul'
 		)
 
 	</insert>
@@ -364,7 +375,7 @@
 			, #{imgType}
 			, SNO_SEQ.CURRVAL
 			, ANO_SEQ.NEXTVAL
-			, SYSDATE
+			, CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul'
 		)
 
 	</insert>
@@ -389,7 +400,7 @@
 			, #{path}
 			, #{imgType}
 			, #{sno}
-			, SYSDATE
+			, CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul'
 		)
 
 	</insert>

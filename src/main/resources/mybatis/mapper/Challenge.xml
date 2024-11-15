@@ -81,7 +81,7 @@
             #{mno},
             #{title},
             #{bcontents},
-            SYSDATE,
+            CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul',
             0,
             0
         )
@@ -128,7 +128,7 @@
 				, #{item.bno}
 				, #{item.fileName}
 				, 'A'
-				, SYSDATE
+				, CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul'
 			)
 		</foreach>
 
@@ -156,7 +156,7 @@
         #{imgType},
         BOARD_SEQ.CURRVAL,
         ANO_SEQ.NEXTVAL,
-        SYSDATE
+        CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul'
     )
 </insert>
 
@@ -179,7 +179,7 @@
 			, #{path}
 			, #{imgType}
 			, #{bno}
-			, SYSDATE
+			, CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul'
 		)
 	</insert>
 
@@ -232,7 +232,7 @@
         SET 
         PCOUNT = PCOUNT + #{pcount}
         , PSOURCE = #{psource}
-        , PDATE = SYSDATE
+        , PDATE = CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul'
         WHERE MNO = #{mno}
     </update>
 

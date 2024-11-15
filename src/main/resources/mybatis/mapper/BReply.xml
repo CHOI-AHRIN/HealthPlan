@@ -34,7 +34,7 @@
         #{bno},
         #{mno},
         #{rcomment},
-        SYSDATE
+        CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Seoul'
         )
     </insert>
 

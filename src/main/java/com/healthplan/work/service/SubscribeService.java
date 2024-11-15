@@ -145,7 +145,7 @@ public class SubscribeService {
      * @throws Exception the exception
      */
     public void selectSubscribeUpdate(SubscribeVO vo) throws Exception {
-        subscribeMapper.updateSubscribeLession(vo);
+        subscribeMapper.updateSubscribe(vo);
 
         List<ImageDTO> imageUpList = vo.getImageDTOList();
         subscribeMapper.deleteAttach(vo.getSno());
