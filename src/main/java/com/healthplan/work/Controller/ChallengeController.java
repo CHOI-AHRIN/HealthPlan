@@ -141,9 +141,10 @@ public Map<String, Object> clist(SearchCriteria cri, MemberEntity mem) throws Ex
 
     // 챌린지 글 수정
     @PutMapping("/challengeupdate")
-    public String challengeupdate(ChallengeEntity challengeEntity) throws Exception {
+    public String challengeupdate(@RequestBody ChallengeEntity challengeEntity) throws Exception {
+        log.info("/*** challengeUpdate put");
+        log.info("challengeEntity = " + challengeEntity.toString());
         challengeService.challengeUpdate(challengeEntity);
-        log.info("challengeUpdate -> " + challengeEntity.toString());
         return "success";
         // return "redirect:/challenge/challengeList";
     }
