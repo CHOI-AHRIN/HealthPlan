@@ -16,3 +16,29 @@
 
 ### 2. 전문가회원
 - 구독 게시판을 통해 본인의 정보와 강의를 업로드하고, 이를 바탕으로 수익을 창출할 수 있습니다.
+
+<br />
+
+## 🛠️ 프레임워크 / 언어 / 개발환경
+
+### [FE]
+   - React / JavaScript / VSCode
+
+### [BE]
+   - Spring Boot / Java / IntelliJ / VSCode
+
+### [DB]
+   - Oracle DB
+
+### [OS]
+   - Linux / Ubuntu
+
+<br />
+
+## 🤝 협업툴
+
+- Git/GitHub
+
+<br />
+
+## 🌼 개요
