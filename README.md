@@ -1,4 +1,4 @@
-# 🦾HEALTHPLAN
+# 🦾 HEALTHPLAN
 
 - **수행기간**: 2024.06 ~ 2024.11
 - **수행인원**: 총 3명 (김호성, 오세헌, 최아린)
@@ -21,17 +21,13 @@
 
 ## 🛠️ 프레임워크 / 언어 / 개발환경
 
-### [FE]
-   - React / JavaScript / VSCode
+### [FE] React / JavaScript / VSCode
 
-### [BE]
-   - Spring Boot / Java / IntelliJ / VSCode
+### [BE] Spring Boot / Java / IntelliJ / VSCode
 
-### [DB]
-   - Oracle DB
+### [DB] Oracle DB
 
-### [OS]
-   - Linux / Ubuntu
+### [OS] Linux / Ubuntu
 
 <br />
 
