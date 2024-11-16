@@ -39,4 +39,4 @@
 
 ## 🌼 개요
 ### 1. 주제선정배경
-![주제선정배경](.me/4차 수행보고서_v2_4.jpg)
+![주제선정배경](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/4%EC%B0%A8%20%EC%88%98%ED%96%89%EB%B3%B4%EA%B3%A0%EC%84%9C_v2_4.jpg)
