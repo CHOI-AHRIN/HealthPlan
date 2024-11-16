@@ -21,13 +21,13 @@
 
 ## 🛠️ 프레임워크 / 언어 / 개발환경
 
-### [FE] React / JavaScript / VSCode
+- **[FE]** React / JavaScript / VSCode
 
-### [BE] Spring Boot / Java / IntelliJ / VSCode
+- **[BE]** Spring Boot / Java / IntelliJ / VSCode
 
-### [DB] Oracle DB
+- **[DB]** Oracle DB
 
-### [OS] Linux / Ubuntu
+- **[OS]** Linux / Ubuntu
 
 <br />
 
