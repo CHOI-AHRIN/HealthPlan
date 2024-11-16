@@ -40,3 +40,27 @@
 ## 🌼 개요
 ### 1. 주제선정배경
 ![주제선정배경](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/4%EC%B0%A8%20%EC%88%98%ED%96%89%EB%B3%B4%EA%B3%A0%EC%84%9C_v2_4.jpg)
+
+### 2. 기획의도
+![기획의도](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/4%EC%B0%A8%20%EC%88%98%ED%96%89%EB%B3%B4%EA%B3%A0%EC%84%9C_v2_5.jpg)
+
+### 3. 프로젝트 내용
+![프로젝트설명](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/4%EC%B0%A8%20%EC%88%98%ED%96%89%EB%B3%B4%EA%B3%A0%EC%84%9C_v2_6.jpg)
+![프로젝트설명](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/4%EC%B0%A8%20%EC%88%98%ED%96%89%EB%B3%B4%EA%B3%A0%EC%84%9C_v2_7.jpg)
+![프로젝트설명](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/4%EC%B0%A8%20%EC%88%98%ED%96%89%EB%B3%B4%EA%B3%A0%EC%84%9C_v2_8.jpg)
+![프로젝트설명](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/4%EC%B0%A8%20%EC%88%98%ED%96%89%EB%B3%B4%EA%B3%A0%EC%84%9C_v2_9.jpg)
+![프로젝트설명](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/4%EC%B0%A8%20%EC%88%98%ED%96%89%EB%B3%B4%EA%B3%A0%EC%84%9C_v2_10.jpg)
+![프로젝트설명](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/4%EC%B0%A8%20%EC%88%98%ED%96%89%EB%B3%B4%EA%B3%A0%EC%84%9C_v2_11.jpg)
+![프로젝트설명](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/4%EC%B0%A8%20%EC%88%98%ED%96%89%EB%B3%B4%EA%B3%A0%EC%84%9C_v2_12.jpg)
+![프로젝트설명](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/4%EC%B0%A8%20%EC%88%98%ED%96%89%EB%B3%B4%EA%B3%A0%EC%84%9C_v2_13.jpg)
+
+### 4. 활용장비
+![활용장비](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/4%EC%B0%A8%20%EC%88%98%ED%96%89%EB%B3%B4%EA%B3%A0%EC%84%9C_v2_14.jpg)
+
+### 5. 
+
+### 6. 프로젝트 구성도
+![활용장비](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/4%EC%B0%A8%20%EC%88%98%ED%96%89%EB%B3%B4%EA%B3%A0%EC%84%9C_v2_16.jpg)
+
+### 7. 활용방안
+![활용방안](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/4%EC%B0%A8%20%EC%88%98%ED%96%89%EB%B3%B4%EA%B3%A0%EC%84%9C_v2_17.jpg)
