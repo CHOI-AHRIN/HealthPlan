@@ -6,20 +6,34 @@
 <mapper namespace="com.healthplan.work.dao.ChallengeMapper">
 
     <!-- 검색 조건 -->
-	<sql id="search">
-		<if test="searchType != null and searchType != ''">
-			<if test="searchType == 'total'">
-				AND (
-				TITLE LIKE '%'||#{keyword}||'%'
-				OR CONTENTS LIKE '%'||#{keyword}||'%'
-				OR UUID LIKE '%'||#{keyword}||'%'
-				)
-			</if>
-			<if test="searchType != 'total'">
-				AND ${searchType} LIKE '%'||#{keyword}||'%'
-			</if>
-		</if>
-	</sql>
+<!--     <sql id="search">
+        <if test="searchType != null and searchType != ''">
+            <if test="searchType == 'total'">
+                AND (
+                title LIKE '%' || #{keyword} || '%'
+                OR bcontents LIKE '%' || #{keyword} || '%'
+                )
+            </if>
+            <if test="searchType != 'total'">
+                AND ${searchType} LIKE '%' || #{keyword} || '%'
+            </if>
+        </if>
+    </sql> -->
+
+    <sql id="search">
+        <if test="searchType != null and searchType != ''">
+            <if test="searchType == 'total'">
+                AND (
+                TITLE LIKE '%' || #{keyword} || '%'
+                OR bcontents LIKE '%' || #{keyword} || '%'
+                )
+            </if>
+            <if test="searchType != 'total'">
+                AND ${searchType} LIKE '%' || #{keyword} || '%'
+            </if>
+        </if>
+    </sql>
+
 
 
     <!-- 챌린지 목록 조회 -->
