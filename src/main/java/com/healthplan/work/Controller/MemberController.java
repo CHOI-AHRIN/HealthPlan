@@ -152,7 +152,8 @@ public class MemberController {
     }
 
     // 로그인
-    @RequestMapping(value = "/loginPost", method = RequestMethod.POST)
+    // @RequestMapping(value = "/loginPost", method = RequestMethod.POST)
+    @PostMapping("loginPost")
     public ResponseEntity<?> loginPOST(@RequestBody LoginDTO dto) throws Exception {
 
         logger.info("/******************************************** loginPost");
@@ -201,14 +202,13 @@ public class MemberController {
     }
 
     // 쿠키 관리
-    @RequestMapping(value = "/loginCookie", method = RequestMethod.POST)
+    @PostMapping("/loginCookie")
     public ResponseEntity<?> loginCookie(@RequestBody Map<String, String> requestData) throws Exception {
 
-        logger.info("/*************** /loginCookie 시작...");
-        // logger.info("/*************** dto 뭐 받았니"+dto.toString());
+        logger.info("1. loginCookie Controller");
 
         String token = requestData.get("token"); // token 값 추출
-        System.out.println("/***************  받은 토큰 보자!!! =" + token);
+        System.out.println("2. 받은 토큰 확인 : ㅣ" + token);
 
         if (token == null || token.isEmpty()) {
             return new ResponseEntity<>("토큰이 없습니다.", HttpStatus.UNAUTHORIZED);
@@ -220,7 +220,7 @@ public class MemberController {
 
             // 토큰이 유효한지 확인
             if (jwtUtils.validateToken(token, uuid)) {
-                logger.info("/*************** token의 id 보여줘  " + uuid);
+                logger.info("3. token의 id : " + uuid);
 
                 return ResponseEntity.ok(Map.of("uuid", uuid)); // 유효하면 uuid를 반환
 
