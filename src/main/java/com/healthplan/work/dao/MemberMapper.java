@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Select;
+
 import com.healthplan.work.dto.LoginDTO;
 import com.healthplan.work.vo.MemberEntity;
 import com.healthplan.work.vo.SearchCriteria;
@@ -56,7 +58,7 @@ public interface MemberMapper {
     public void update(MemberEntity member) throws Exception;
 
     // 회원탈퇴
-    public MemberEntity delete(String uuid) throws Exception;
+    public int delete(String uuid) throws Exception;
 
     // 이름 조회
     public MemberEntity selectName(String uuid) throws Exception;
@@ -66,5 +68,6 @@ public interface MemberMapper {
 
     // 회원정보수정
     public void modifyMem(MemberEntity mem) throws Exception;
+
 
 }

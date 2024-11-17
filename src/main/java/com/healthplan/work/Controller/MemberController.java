@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +40,6 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/api/member")
 
 public class MemberController {
-
     private final PasswordEncoder passwordEncoder;
     @Autowired
     MemberMapper mapper;
@@ -48,7 +48,6 @@ public class MemberController {
     private JwtUtils jwtUtils = new JwtUtils();
 
     @Autowired
-    // private PasswordEncoder passwordEncoder;
 
     private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
@@ -383,15 +382,15 @@ public class MemberController {
     }
 
     // 회원탈퇴
-    @RequestMapping(value = "/remove", method = RequestMethod.POST)
-    public String delete(@RequestBody MemberEntity mem) throws Exception {
-
-        logger.info("delete post ...........");
-        logger.info(mem.toString());
-
-        mapper.delete(mem.getUuid());
-
-        return "succ";
+    @DeleteMapping("/remove")
+    public ResponseEntity<String> delete(@RequestBody Map<String, String> request) throws Exception {
+        String uuid = request.get("uuid");
+        int rowsAffected = mapper.delete(uuid);
+        if (rowsAffected > 0) { // 삭제후 반환되는 결과값에 따라 해당 문자열 반환
+            return ResponseEntity.ok("success");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("failure");
+        }
     }
 
 }

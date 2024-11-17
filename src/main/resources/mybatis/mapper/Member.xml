@@ -149,7 +149,7 @@
     </update>
 
     <!-- 회원탈퇴 -->
-    <delete id="delete">
+    <delete id="delete" parameterType="String">
         delete from member
         where uuid = #{uuid}
     </delete>
