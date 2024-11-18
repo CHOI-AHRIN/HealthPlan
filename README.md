@@ -48,7 +48,7 @@
 ![프로젝트설명](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/3.png)
 ![프로젝트설명](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/4.png)
 ![프로젝트설명](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/5.png)
-![프로젝트설명](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/9.png)
+![프로젝트설명](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/6.png)
 ![프로젝트설명](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/7.png)
 ![프로젝트설명](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/8.png)
 ![프로젝트설명](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/9.png)
