@@ -16,6 +16,7 @@ fi
 
 # ---------------------------------------------------
 
+
 # 운영환경
 # Docker 이미지 빌드 및 푸시
 docker build --no-cache -t 192.168.1.10:8443/hp-app .
@@ -26,3 +27,8 @@ docker push 192.168.1.10:8443/hp-app
 
 # service 생성
 # kubectl apply -f service.yaml
+
+
+
+
+

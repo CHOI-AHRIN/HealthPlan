@@ -56,7 +56,7 @@ public class MemberController {
     }
 
     // 회원리스트
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @GetMapping("/list")
     public List<MemberEntity> selectList(Model model) throws Exception {
 
         logger.info("1. //****************************** /api/member/list");
@@ -68,7 +68,8 @@ public class MemberController {
         return list;
     }
 
-    @RequestMapping(value = "/getUuidByMno", method = RequestMethod.POST)
+    // 회원번호로 아이디 조회
+    @PostMapping("/getUuidByMno")
     public ResponseEntity<Map<String, String>> getUuidByMno(@RequestBody MemberEntity mem) throws Exception {
         logger.info("회원정보 조회 요청 - mno: " + mem.getMno());
 
@@ -89,7 +90,7 @@ public class MemberController {
     }
 
     // 회원번호 조회
-    @RequestMapping(value = "/readMno", method = RequestMethod.POST)
+    @PostMapping("/readMno")
     public ResponseEntity<MemberEntity> selectMno(@RequestBody Map<String, String> requestData) throws Exception {
 
         // Map에서 "uuid" 값 추출
@@ -126,9 +127,8 @@ public class MemberController {
         }
     }
 
-    /// 회원가입
-
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    // 회원가입
+    @PostMapping("/register")
     public ResponseEntity<String> insertMemPOST(@RequestBody MemberEntity mem) throws Exception {
 
         logger.info("/*********************** 회원가입!! regist post ...........");
@@ -151,7 +151,6 @@ public class MemberController {
     }
 
     // 로그인
-    // @RequestMapping(value = "/loginPost", method = RequestMethod.POST)
     @PostMapping("loginPost")
     public ResponseEntity<?> loginPOST(@RequestBody LoginDTO dto) throws Exception {
 
@@ -234,7 +233,11 @@ public class MemberController {
     }
 
     // 로그아웃
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @GetMapping("/logout")
+    public String getMethodName(@RequestParam String param) {
+        return new String();
+    }
+    
     public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session)
             throws Exception {
 
@@ -283,7 +286,7 @@ public class MemberController {
     }
 
     // 이메일 중복체크
-    @RequestMapping(value = "/emailCk", method = RequestMethod.POST)
+    @PostMapping("/emailCk")
     public int emailCk(@RequestBody String email) throws Exception {
         logger.info("/******************** 포스트 돌겠습니다 !! emailCk post ...........");
         logger.info(email.toString());
@@ -294,7 +297,7 @@ public class MemberController {
     }
 
     // 이름 조회
-    @RequestMapping(value = "/readName", method = RequestMethod.POST)
+    @PostMapping("/readName")
     public ResponseEntity<MemberEntity> selectName(@RequestBody Map<String, String> requestData) throws Exception {
 
         // Map에서 "uuid" 값 추출
@@ -315,7 +318,7 @@ public class MemberController {
     }
 
     // 마이페이지 회원정보 조회
-    @RequestMapping(value = "/read", method = RequestMethod.POST)
+    @PostMapping("/read")
     public ResponseEntity<MemberEntity> selectMemId(@RequestBody Map<String, String> requestData) throws Exception {
 
         // Map에서 "uuid" 값 추출
@@ -333,7 +336,6 @@ public class MemberController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        // return mapper.selectUuid(mem.getUuid());
     }
 
     // 특정 회원 정보 조회
@@ -351,7 +353,7 @@ public class MemberController {
     }
 
     // 마이페이지 회원정보 수정
-    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    @PostMapping("/modify")
     public String updatePOST(@RequestBody MemberEntity mem, RedirectAttributes rttr) throws Exception {
 
         logger.info(mem.toString());
