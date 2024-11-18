@@ -71,12 +71,12 @@
 ### 8. 기대효과
 ![기대효과](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/17.png)
 
-
+<br />
 ## 🌼 프로젝트 구성 및 역할
 ### 1. 프로젝트 구성 및 역할
 ![프로젝트구성및역할](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/18.png)
 
-
+<br />
 ## 🌼 프로젝트 수행절차
 ### 1. 수행방법
 ![수행방법](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/19.png)
@@ -84,6 +84,7 @@
 ### 2. 수행절차
 ![수행절차](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/20.png)
 
+<br />
 ## 🌼 프로젝트 수행경과
 ### 1. 계획
 ![계획](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/21.png)
