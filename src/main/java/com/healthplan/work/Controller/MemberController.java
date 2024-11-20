@@ -265,7 +265,7 @@ public class MemberController {
     @PostMapping("/uuidCk")
     public int uuidCk(@RequestBody Map<String, String> requestData) throws Exception {
 
-        logger.info("1. /******************** 포스트 돌겠습니다 !!! uuidCk post ...........");
+        logger.info("1. uuidCk post");
 
         // Map에서 "uuid" 값 추출
         String uuid = requestData.get("uuid");
@@ -273,8 +273,6 @@ public class MemberController {
         // 로그로 uuid 확인
         logger.info("2. 조회할 아이디 : " + uuid);
 
-        // logger.info("/******************** 포스트 돌겠습니다 !!! uuidCk post ..........."+
-        // uuid);
         logger.info("3. " + uuid.toString());
 
         int result = mapper.uuidCk(uuid);
