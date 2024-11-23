@@ -113,8 +113,8 @@
 ![로그아웃](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/23.%20%EB%A1%9C%EA%B7%B8%EC%95%84%EC%9B%83.png)
 
 ### 2. 회원가입
-![아이디중복체크(1)](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/24.%20%EC%95%84%EC%9D%B4%EB%94%94%20%EC%A4%91%EB%B3%B5%EC%B2%B4%ED%81%AC(1).png)
-![회원정보저장](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/25.%20%EC%95%84%EC%9D%B4%EB%94%94%20%EC%A4%91%EB%B3%B5%EC%B2%B4%ED%81%AC(2).png)
+![아이디중복체크](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/24.%20%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85%20-%20%EC%95%84%EC%9D%B4%EB%94%94%20%EC%A4%91%EB%B3%B5%EC%B2%B4%ED%81%AC.png)
+![회원정보저장](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/25.%20%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85%20-%20%ED%9A%8C%EC%9B%90%EC%A0%95%EB%B3%B4%EC%A0%80%EC%9E%A5.png)
 
 ### 3. 메인페이지 -![image](https://github.com/user-attachments/assets/90d376b5-7978-46e8-bf32-7c35e7e21fa6) 쿠키관리
 ![쿠키관리](https://github.com/CHOI-AHRIN/HealthPlan/blob/master/me/26.%20%EC%BF%A0%ED%82%A4%EA%B4%80%EB%A6%AC.png)
