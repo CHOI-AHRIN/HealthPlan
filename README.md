@@ -39,11 +39,21 @@
 
 - **[OS]** Linux / Ubuntu
 
+- **[DevOps]** Docker / Kubernetes / Jenkins
+
 <br />
 
 ## 🤝 협업툴
 
 - Git/GitHub
+
+<br />
+
+## 📽️ 시연동영상
+
+- [ 프로토타입 ](https://www.youtube.com/watch?v=MoTTK05v9Lo&feature=youtu.be "프로토타입")
+- [ HealthPlan Project ](https://www.youtube.com/watch?v=8H7hkPAbook "리눅스 환경 기반의 React와 SpringBoot 프로젝트")
+
 
 <br />
 
