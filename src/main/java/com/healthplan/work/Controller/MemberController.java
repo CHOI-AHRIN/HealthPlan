@@ -203,7 +203,7 @@ public class MemberController {
     @PostMapping("/loginCookie")
     public ResponseEntity<?> loginCookie(@RequestBody Map<String, String> requestData) throws Exception {
 
-        logger.info("1. loginCookie Controller");
+        logger.info("1. loginCookie Controller");   
 
         String token = requestData.get("token"); // token 값 추출
         System.out.println("2. 받은 토큰 확인 : ㅣ" + token);
@@ -232,12 +232,14 @@ public class MemberController {
 
     }
 
-    // 로그아웃
-    @GetMapping("/logout")
+   
     public String getMethodName(@RequestParam String param) {
         return new String();
     }
+
     
+     // 로그아웃
+     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response, HttpSession session)
             throws Exception {
 
