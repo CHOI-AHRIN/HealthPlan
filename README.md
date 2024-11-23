@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/90d376b5-7978-46e8-bf32-7c35e7e21fa6)# 🦾 HEALTHPLAN
+# 🦾 HEALTHPLAN
 
 - **수행기간**: 2024.06 ~ 2024.11
 - **수행인원**: 총 3명 (김호성, 오세헌, 최아린)
